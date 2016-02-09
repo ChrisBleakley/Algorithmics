@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 
 public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 
@@ -76,6 +77,14 @@ public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 	}
 
 	public void createUserInputDialog() {
+		userInputPanel = new JPanel();
+		userInputPanel.setLayout(new BorderLayout());
+		userInputPanel.setPreferredSize(new Dimension(100, 50));
+		userInputPanel.setMinimumSize(new Dimension(100, 50));
+
+		userInputPanel.add(new JLabel("User Input Dialog:"), BorderLayout.NORTH);
+		userInputPanel.setBackground(Color.yellow);
+		userInputPanel.add(new JTextArea(), BorderLayout.CENTER);
 
 	}
 
