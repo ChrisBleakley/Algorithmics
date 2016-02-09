@@ -1,9 +1,11 @@
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
-
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
@@ -29,8 +31,7 @@ public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 
 		createTextDisplay();// Calling the function to create Text Display Panel
 		createGraphPanel();// Calling the function that creates the Graph Panel
-		createUserInputDialog();// Calling the function that creates the
-								// UserInput Panel
+		createUserInputDialog();// Calling the function that creates UserInput Panel
 		/*
 		 * The following code creates the split in the frame creates the
 		 * horizontal and the vertical split
@@ -49,9 +50,8 @@ public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 		 * sets the vertical split while passing the textpanel into the left
 		 * most panel of frame
 		 */
-		//
-		horizontalSplit.setLeftComponent(textPanel);// sets the vertical split
-													// while passing the
+		
+		horizontalSplit.setLeftComponent(textPanel);
 		/*
 		 * sets the vertical split while passing the graphpanel into the right
 		 * most panel of frame
@@ -66,6 +66,12 @@ public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 	}
 
 	public void createGraphPanel() {
+		graphPanel = new JPanel();
+		graphPanel.setLayout(new FlowLayout());
+		graphPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));// size of graph area
+																				
+		graphPanel.add(new JLabel("Insert Graph Here:"), BorderLayout.NORTH);
+		graphPanel.setBackground(Color.white);
 
 	}
 
