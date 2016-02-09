@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
@@ -63,6 +64,18 @@ public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 	}
 
 	public void createTextDisplay() {
+		textPanel = new JPanel();
+
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 441, 21);
+		menuBar.add(new JLabel("Text Display Area"));
+		textPanel.add(menuBar, BorderLayout.NORTH);
+
+		textPanel.setLayout(new BorderLayout());
+		textPanel.setPreferredSize(new Dimension(200, 100));
+
+		textPanel.setBackground(Color.white);
+
 
 	}
 
