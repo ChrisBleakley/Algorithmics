@@ -8,10 +8,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 
-public class CreateSplitFrameGUI extends JFrame implements UserInterface {
+@SuppressWarnings("serial")
+public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 
 	private JSplitPane verticalSplit;
 	private JSplitPane horizontalSplit;
@@ -66,10 +68,10 @@ public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 	public void createTextDisplay() {
 		textPanel = new JPanel();
 
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 441, 21);
-		menuBar.add(new JLabel("Text Display Area"));
-		textPanel.add(menuBar, BorderLayout.NORTH);
+		JScrollBar menuBar = new JScrollBar();
+		menuBar.setBounds(0, 0, 30, 30);
+		//menuBar.add(new JLabel("Text Display Area"));
+		textPanel.add(menuBar, BorderLayout.EAST);//menubar added
 
 		textPanel.setLayout(new BorderLayout());
 		textPanel.setPreferredSize(new Dimension(200, 100));
