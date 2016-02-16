@@ -16,12 +16,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JSplitPane;
-
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 
@@ -40,26 +41,24 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 	private String play1 = "Player1";
 	private String play2 = "Player2";
 
-	public CreateSplitFrameGUI() {// constructor
+	public CreateSplitFrameGUI() {
 		setTitle("WELCOME TO RISK");
 		setBackground(Color.yellow);
 
-		JPanel upperPanel = new JPanel();// create instance of JPanel
-		upperPanel.setLayout(new BorderLayout());// setting the layout to Border
-		/* gets the container for the content and add the JPanel */
+		JPanel upperPanel = new JPanel();
+		upperPanel.setLayout(new BorderLayout());
+		
 		getContentPane().add(upperPanel);
 
-		createTextDisplay();// Calling the function to create Text Display Panel
-		createGraphPanel();// Calling the function that creates the Graph Panel
-		createUserInputDialog();// Calling the function that creates UserInput Panel
+		createTextDisplay();
+		createGraphPanel();
+		createUserInputDialog();
 
-		/*
-		 * The following code creates the split in the frame creates the
-		 * horizontal and the vertical split
-		 */
+		
 
 		verticalSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		horizontalSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+             
 
 		/*
 		 * adds the split to the container and sets the layout to border and
@@ -67,32 +66,39 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 		 */
 
 		upperPanel.add(verticalSplit, BorderLayout.CENTER);
-		/*
-		 * sets the vertical split while passing the textpanel into the left
-		 * most panel of frame
-		 */
-
+		
 		horizontalSplit.setLeftComponent(textPanel);
-		/*
-		 * sets the vertical split while passing the graphpanel into the right
-		 * most panel of frame
-		 */
+		
 		horizontalSplit.setRightComponent(graphPanel);
 		verticalSplit.setLeftComponent(horizontalSplit);
-		verticalSplit.setRightComponent(userInputPanel);// sets the userInput panel as the horizontal split
+		verticalSplit.setRightComponent(userInputPanel);
 	}
 
 	public void createTextDisplay() {
 		textPanel = new JPanel();
 
-		JScrollBar menuBar = new JScrollBar();
-		menuBar.setBounds(0, 0, 30, 30);
-		//menuBar.add(new JLabel("Text Display Area"));
-		textPanel.add(menuBar, BorderLayout.EAST);//menubar added
-
+		JScrollBar scrollBar = new JScrollBar();
+		JTextArea displayArea = new JTextArea();
+		JMenuBar menuBar= new JMenuBar();
+		JMenu gameMenu= new JMenu("Game");
+		
+		menuBar.add(gameMenu);
+		setJMenuBar(menuBar);
+		
+		JMenu gameMenu1 = new JMenu("Play Game");
+		gameMenu.add( gameMenu1);
+		JMenu gameMenu2 = new JMenu("Help");
+		gameMenu.add( gameMenu2);
+		JMenu gameMenu3 = new JMenu("ScoreBoard");
+		gameMenu.add( gameMenu3);
+		JMenu gameMenu4 = new JMenu("Exit Game");	
+		gameMenu.add( gameMenu4);
+		
 		textPanel.setLayout(new BorderLayout());
+		textPanel.add(scrollBar, BorderLayout.EAST);
+		textPanel.add(displayArea, BorderLayout.CENTER);
+		textPanel.add(menuBar, BorderLayout.NORTH);
 		textPanel.setPreferredSize(new Dimension(200, 100));
-
 		textPanel.setBackground(Color.white);
 
 
@@ -101,8 +107,7 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 	public void createGraphPanel() {
 		graphPanel = new JPanel();
 		graphPanel.setLayout(new FlowLayout());
-		graphPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));// size of graph area
-
+		graphPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		graphPanel.add(new JLabel("Insert Graph Here:"), BorderLayout.NORTH);
 		graphPanel.setBackground(Color.white);
 
