@@ -3,13 +3,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
+
 
 public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 
@@ -21,7 +26,7 @@ public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 
 	private static final int FRAME_WIDTH = 1000; // must be even
 	private static final int FRAME_HEIGHT = 600;
-
+			
 	public CreateSplitFrameGUI() {// constructor
 		setTitle("WELCOME TO RISK");
 		setBackground(Color.yellow);
@@ -61,6 +66,15 @@ public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 		horizontalSplit.setRightComponent(graphPanel);
 		verticalSplit.setLeftComponent(horizontalSplit);
 		verticalSplit.setRightComponent(userInputPanel);// sets the userInput panel as the horizontal split
+		
+		addWindowListener(
+				new WindowAdapter(){
+					public void windowClosing(WindowEvent e){
+						System.exit(0);
+					}
+				}
+
+			);
 	}
 
 	public void createTextDisplay() {
@@ -80,15 +94,28 @@ public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 	}
 
 	public void createGraphPanel() {
-		graphPanel = new JPanel();
+		graphPanel = new Map();
 		graphPanel.setLayout(new FlowLayout());
 		graphPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));// size of graph area
-																				
-		graphPanel.add(new JLabel("Insert Graph Here:"), BorderLayout.NORTH);
+		/*
+		JLabel label = new JLabel();
+		label.setText("Welcome to School Management Project");
+		label.setIcon(new ImageIcon("C:\\Users\\Jonathan\\Desktop\\AH3rB1M2.png"));
+		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		graphPanel.add(label);
+		*/
+	//	ImageIcon image = new ImageIcon("C:\\Users\\Jonathan\\Desktop\\AH3rB1M.jpg");																		
+	//	graphPanel.setBackground(new JLabel("Insert Graph Here:"), BorderLayout.NORTH);
+		/*	graphPanel.add(new JLabel("Insert Graph Here:"), BorderLayout.NORTH);
 		graphPanel.setBackground(Color.white);
 
-	}
+		JLabel imagelabel = new JLabel(image, JLabel.CENTER);
+		graphPanel.setBackground(imagelabel);
+	*/	
 
+	}
+	
+	
 	public void createUserInputDialog() {
 		userInputPanel = new JPanel();
 		userInputPanel.setLayout(new BorderLayout());
