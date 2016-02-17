@@ -9,18 +9,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-<<<<<<< HEAD
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
-=======
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
 import javax.swing.JButton;
->>>>>>> origin/HEAD
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -34,12 +34,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 
-<<<<<<< HEAD
-public class CreateSplitFrameGUI extends JFrame implements UserInterface {
-=======
+
+
+
 @SuppressWarnings("serial")
 public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
->>>>>>> origin/HEAD
+
 
 	private JSplitPane verticalSplit;
 	private JSplitPane horizontalSplit;
@@ -49,16 +49,14 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 
 	private static final int FRAME_WIDTH = 1000; // must be even
 	private static final int FRAME_HEIGHT = 600;
-<<<<<<< HEAD
-			
-	public CreateSplitFrameGUI() {// constructor
-=======
 
+			
+	
 	private String play1 = "Player1";
 	private String play2 = "Player2";
 
 	public CreateSplitFrameGUI() {
->>>>>>> origin/HEAD
+
 		setTitle("WELCOME TO RISK");
 		setBackground(Color.yellow);
 
@@ -88,7 +86,7 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 		
 		horizontalSplit.setRightComponent(graphPanel);
 		verticalSplit.setLeftComponent(horizontalSplit);
-<<<<<<< HEAD
+
 		verticalSplit.setRightComponent(userInputPanel);// sets the userInput panel as the horizontal split
 		
 		addWindowListener(
@@ -99,9 +97,8 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 				}
 
 			);
-=======
+
 		verticalSplit.setRightComponent(userInputPanel);
->>>>>>> origin/HEAD
 	}
 
 	public void createTextDisplay() {
@@ -137,7 +134,7 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 	public void createGraphPanel() {
 		graphPanel = new Map();
 		graphPanel.setLayout(new FlowLayout());
-<<<<<<< HEAD
+
 		graphPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));// size of graph area
 		/*
 		JLabel label = new JLabel();
@@ -159,12 +156,12 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 		graphPanel.setBackground(imagelabel);
 	*/	
 
-<<<<<<< HEAD
+
 	}
 	
 	
-=======
-	public void assignName(String name, int i) {
+
+public void assignName(String name, int i) {
 
 		if (i==0){
 			play1=name;
@@ -175,7 +172,6 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 	}
 
 
->>>>>>> origin/HEAD
 	public void createUserInputDialog() {
 
 		userInputPanel = new JPanel();
