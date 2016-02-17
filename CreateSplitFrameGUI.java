@@ -12,7 +12,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -94,8 +93,6 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 		textPanel.setPreferredSize(new Dimension(200, 100));
 
 		textPanel.setBackground(Color.white);
-
-
 	}
 
 	public void createGraphPanel() {
@@ -146,9 +143,6 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 		});      
 	}
 
-
-
-
 	public static void main(String[] args) {
 		CreateSplitFrameGUI interfaceFrame = new CreateSplitFrameGUI();
 		interfaceFrame.pack();
@@ -163,5 +157,4 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 	public static int getFrameWidth() {//getter for the frame width
 		return FRAME_WIDTH;
 	}
-
 }
