@@ -1,22 +1,44 @@
-
+/*
+ * Algorithmics
+ * 14708689 Orla Cullen
+ * 05641349 Gavin Keaveney
+ * 14343826 Jonathan Sweeney
+ * 
+ */
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+<<<<<<< HEAD
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
+=======
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+import javax.swing.JButton;
+>>>>>>> origin/HEAD
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 
+<<<<<<< HEAD
 public class CreateSplitFrameGUI extends JFrame implements UserInterface {
+=======
+@SuppressWarnings("serial")
+public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
+>>>>>>> origin/HEAD
 
 	private JSplitPane verticalSplit;
 	private JSplitPane horizontalSplit;
@@ -26,26 +48,33 @@ public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 
 	private static final int FRAME_WIDTH = 1000; // must be even
 	private static final int FRAME_HEIGHT = 600;
+<<<<<<< HEAD
 			
 	public CreateSplitFrameGUI() {// constructor
+=======
+
+	private String play1 = "Player1";
+	private String play2 = "Player2";
+
+	public CreateSplitFrameGUI() {
+>>>>>>> origin/HEAD
 		setTitle("WELCOME TO RISK");
 		setBackground(Color.yellow);
 
-		JPanel upperPanel = new JPanel();// create instance of JPanel
-		upperPanel.setLayout(new BorderLayout());// setting the layout to Border
-		/* gets the container for the content and add the JPanel */
+		JPanel upperPanel = new JPanel();
+		upperPanel.setLayout(new BorderLayout());
+		
 		getContentPane().add(upperPanel);
 
-		createTextDisplay();// Calling the function to create Text Display Panel
-		createGraphPanel();// Calling the function that creates the Graph Panel
-		createUserInputDialog();// Calling the function that creates UserInput Panel
-		/*
-		 * The following code creates the split in the frame creates the
-		 * horizontal and the vertical split
-		 */
+		createTextDisplay();
+		createGraphPanel();
+		createUserInputDialog();
+
+		
 
 		verticalSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		horizontalSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+             
 
 		/*
 		 * adds the split to the container and sets the layout to border and
@@ -53,18 +82,12 @@ public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 		 */
 
 		upperPanel.add(verticalSplit, BorderLayout.CENTER);
-		/*
-		 * sets the vertical split while passing the textpanel into the left
-		 * most panel of frame
-		 */
 		
 		horizontalSplit.setLeftComponent(textPanel);
-		/*
-		 * sets the vertical split while passing the graphpanel into the right
-		 * most panel of frame
-		 */
+		
 		horizontalSplit.setRightComponent(graphPanel);
 		verticalSplit.setLeftComponent(horizontalSplit);
+<<<<<<< HEAD
 		verticalSplit.setRightComponent(userInputPanel);// sets the userInput panel as the horizontal split
 		
 		addWindowListener(
@@ -75,19 +98,36 @@ public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 				}
 
 			);
+=======
+		verticalSplit.setRightComponent(userInputPanel);
+>>>>>>> origin/HEAD
 	}
 
 	public void createTextDisplay() {
 		textPanel = new JPanel();
 
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 441, 21);
-		menuBar.add(new JLabel("Text Display Area"));
-		textPanel.add(menuBar, BorderLayout.NORTH);
-
+		JScrollBar scrollBar = new JScrollBar();
+		JTextArea displayArea = new JTextArea();
+		JMenuBar menuBar= new JMenuBar();
+		JMenu gameMenu= new JMenu("Game");
+		
+		menuBar.add(gameMenu);
+		setJMenuBar(menuBar);
+		
+		JMenu gameMenu1 = new JMenu("Play Game");
+		gameMenu.add( gameMenu1);
+		JMenu gameMenu2 = new JMenu("Help");
+		gameMenu.add( gameMenu2);
+		JMenu gameMenu3 = new JMenu("ScoreBoard");
+		gameMenu.add( gameMenu3);
+		JMenu gameMenu4 = new JMenu("Exit Game");	
+		gameMenu.add( gameMenu4);
+		
 		textPanel.setLayout(new BorderLayout());
+		textPanel.add(scrollBar, BorderLayout.EAST);
+		textPanel.add(displayArea, BorderLayout.CENTER);
+		textPanel.add(menuBar, BorderLayout.NORTH);
 		textPanel.setPreferredSize(new Dimension(200, 100));
-
 		textPanel.setBackground(Color.white);
 
 
@@ -96,6 +136,7 @@ public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 	public void createGraphPanel() {
 		graphPanel = new Map();
 		graphPanel.setLayout(new FlowLayout());
+<<<<<<< HEAD
 		graphPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));// size of graph area
 		/*
 		JLabel label = new JLabel();
@@ -107,26 +148,62 @@ public class CreateSplitFrameGUI extends JFrame implements UserInterface {
 	//	ImageIcon image = new ImageIcon("C:\\Users\\Jonathan\\Desktop\\AH3rB1M.jpg");																		
 	//	graphPanel.setBackground(new JLabel("Insert Graph Here:"), BorderLayout.NORTH);
 		/*	graphPanel.add(new JLabel("Insert Graph Here:"), BorderLayout.NORTH);
+=======
+		graphPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+		graphPanel.add(new JLabel("Insert Graph Here:"), BorderLayout.NORTH);
+>>>>>>> origin/HEAD
 		graphPanel.setBackground(Color.white);
 
 		JLabel imagelabel = new JLabel(image, JLabel.CENTER);
 		graphPanel.setBackground(imagelabel);
 	*/	
 
+<<<<<<< HEAD
 	}
 	
 	
+=======
+	public void assignName(String name, int i) {
+
+		if (i==0){
+			play1=name;
+		}
+		else if (i==1){
+			play2=name;
+		}
+	}
+
+
+>>>>>>> origin/HEAD
 	public void createUserInputDialog() {
+
 		userInputPanel = new JPanel();
 		userInputPanel.setLayout(new BorderLayout());
 		userInputPanel.setPreferredSize(new Dimension(100, 50));
 		userInputPanel.setMinimumSize(new Dimension(100, 50));
 
-		userInputPanel.add(new JLabel("User Input Dialog:"), BorderLayout.NORTH);
+		JLabel label = new JLabel("Welcome to Risk");
+		userInputPanel.add(label, BorderLayout.NORTH);
 		userInputPanel.setBackground(Color.yellow);
-		userInputPanel.add(new JTextArea(), BorderLayout.CENTER);
 
+		JTextField textArea = new JTextField();
+		userInputPanel.add(textArea, BorderLayout.CENTER);
+		JButton button = new JButton("Enter Player Names");
+		userInputPanel.add(button, BorderLayout.WEST);
+
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				play1 = JOptionPane.showInputDialog(null, "Enter Player 1 Name", "Risk", JOptionPane.INFORMATION_MESSAGE);
+				play2 = JOptionPane.showInputDialog(null, "Enter Player 2 Name", "Risk", JOptionPane.INFORMATION_MESSAGE);
+				button.setText("Submit");
+				label.setText("Welcome to Risk " + play1 + " & " + play2);
+			}
+		});      
 	}
+
+
+
 
 	public static void main(String[] args) {
 		CreateSplitFrameGUI interfaceFrame = new CreateSplitFrameGUI();
