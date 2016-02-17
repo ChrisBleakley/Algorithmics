@@ -3,9 +3,15 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import javax.swing.JPanel;
 
@@ -113,10 +119,20 @@ public class Map extends JPanel{
 				{547,432},        // 40
 				{586,545}
 			};
-		
+		private BufferedImage image;
 		public void paintComponent(Graphics grphcs) {
+			
 			super.paintComponent(grphcs);
 				Graphics2D g2d = (Graphics2D) grphcs;
+				 try {
+			            image = ImageIO.read(new File("src\\risk.jpg"));
+			            
+
+			        } catch (IOException ioe) {
+			            System.out.println("Could not read in the pic");
+			            //System.exit(0);
+			        }
+				g2d.drawImage(image,0,0,this);
 				paintNodes(g2d);
 				paintConnectingLines(g2d);
 				showCountryNames(g2d);
@@ -131,11 +147,11 @@ public class Map extends JPanel{
 	                     break;
 	            case 2:  g2d.setColor(Color.green);
 	                     break;
-	            case 3:  g2d.setColor(Color.orange);
+	            case 3:  g2d.setColor(Color.magenta);
 	                     break;
 	            case 4:  g2d.setColor(Color.red);
 	                     break;
-	            case 5:  g2d.setColor(Color.MAGENTA);
+	            case 5:  g2d.setColor(Color.cyan);
 	                     break;
 			}
 					g2d.fillOval(COUNTRY_COORD[i][0] - 10,COUNTRY_COORD[i][1] - 10,20,20);
@@ -180,6 +196,7 @@ public class Map extends JPanel{
 			}
 			
 		}
+		
 
 }
 
