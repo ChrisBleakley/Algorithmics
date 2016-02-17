@@ -3,15 +3,9 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import javax.swing.JPanel;
 
@@ -73,7 +67,6 @@ public class Map extends JPanel{
 			{11,18,40,37},
 			{39,18,41,38,36,37},  //40
 			{38,40}
-<<<<<<< HEAD
 	};
 
 	private static final int[][] COUNTRY_COORD = {
@@ -144,88 +137,6 @@ public class Map extends JPanel{
 			break;
 			case 5:  g2d.setColor(Color.MAGENTA);
 			break;
-=======
-		};
-		
-		private static final int[][] COUNTRY_COORD = {
-				{191,150},     // 0
-				{255,161},
-				{146,86},
-				{123,144},
-				{314,61},
-				{205,235},
-				{135,219},
-				{140,299},
-				{45,89},
-				{370,199},
-				{398,280},      // 10
-				{465,270},
-				{547,180},
-				{460,200},
-				{393,127},
-				{463,122},
-				{628,227},
-				{679,332},
-				{572,338},
-				{861,213},
-				{645,152},      // 20
-				{763,70},
-				{827,94},
-				{751,360},
-				{750,140},
-				{695,108},
-				{760,216},
-				{735,277},
-				{889,537},
-				{850,429},
-				{813,526},       // 30
-				{771,454},
-				{213,352},
-				{221,426},
-				{289,415},
-				{233,523},
-				{496,462},
-				{440,393},
-				{510,532},
-				{499,354},
-				{547,432},        // 40
-				{586,545}
-			};
-		private BufferedImage image;
-		public void paintComponent(Graphics grphcs) {
-			
-			super.paintComponent(grphcs);
-				Graphics2D g2d = (Graphics2D) grphcs;
-				 try {
-			            image = ImageIO.read(new File("src\\risk.jpg"));
-			            
-
-			        } catch (IOException ioe) {
-			            System.out.println("Could not read in the pic");
-			            //System.exit(0);
-			        }
-				g2d.drawImage(image,0,0,this);
-				paintNodes(g2d);
-				paintConnectingLines(g2d);
-				showCountryNames(g2d);
-		}
-		
-		public void paintNodes(Graphics2D g2d){
-			for(int i=0;i<42;i++){	
-				switch (CONTINENT_IDS[i]) {
-				case 0:  g2d.setColor(Color.yellow);
-                		 break;
-	            case 1:  g2d.setColor(Color.blue);
-	                     break;
-	            case 2:  g2d.setColor(Color.green);
-	                     break;
-	            case 3:  g2d.setColor(Color.magenta);
-	                     break;
-	            case 4:  g2d.setColor(Color.red);
-	                     break;
-	            case 5:  g2d.setColor(Color.cyan);
-	                     break;
->>>>>>> f058503e1a8838eb5d72c062804cfd0e565ff20d
 			}
 			g2d.fillOval(COUNTRY_COORD[i][0] - 10,COUNTRY_COORD[i][1] - 10,20,20);
 		}	
@@ -268,7 +179,6 @@ public class Map extends JPanel{
 
 			
 		}
-		
 
 	}
 
