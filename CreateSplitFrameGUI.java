@@ -21,6 +21,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -130,7 +131,7 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 		userInputPanel.setLayout(new BorderLayout());
 		userInputPanel.setPreferredSize(new Dimension(100, 50));
 		userInputPanel.setMinimumSize(new Dimension(100, 50));
-
+		 
 		JLabel label = new JLabel("Welcome to Risk");
 		userInputPanel.add(label, BorderLayout.NORTH);
 		userInputPanel.setBackground(Color.yellow);
