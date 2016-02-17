@@ -49,8 +49,8 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 	private static final int FRAME_WIDTH = 1000; // must be even
 	private static final int FRAME_HEIGHT = 600;
 
-			
-	
+
+
 	private String play1 = "Player1";
 	private String play2 = "Player2";
 
@@ -61,18 +61,18 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 
 		JPanel upperPanel = new JPanel();
 		upperPanel.setLayout(new BorderLayout());
-		
+
 		getContentPane().add(upperPanel);
 
 		createTextDisplay();
 		createGraphPanel();
 		createUserInputDialog();
 
-		
+
 
 		verticalSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		horizontalSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-             
+
 
 		/*
 		 * adds the split to the container and sets the layout to border and
@@ -80,14 +80,14 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 		 */
 
 		upperPanel.add(verticalSplit, BorderLayout.CENTER);
-		
+
 		horizontalSplit.setLeftComponent(textPanel);
-		
+
 		horizontalSplit.setRightComponent(graphPanel);
 		verticalSplit.setLeftComponent(horizontalSplit);
 
 		verticalSplit.setRightComponent(userInputPanel);// sets the userInput panel as the horizontal split
-		
+
 		addWindowListener(
 				new WindowAdapter(){
 					public void windowClosing(WindowEvent e){
@@ -95,7 +95,7 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 					}
 				}
 
-			);
+				);
 
 		verticalSplit.setRightComponent(userInputPanel);
 	}
@@ -107,10 +107,10 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 		JTextArea displayArea = new JTextArea();
 		JMenuBar menuBar= new JMenuBar();
 		JMenu gameMenu= new JMenu("Game");
-		
+
 		menuBar.add(gameMenu);
 		setJMenuBar(menuBar);
-		
+
 		JMenu gameMenu1 = new JMenu("Play Game");
 		gameMenu.add( gameMenu1);
 		JMenu gameMenu2 = new JMenu("Help");
@@ -119,7 +119,7 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 		gameMenu.add( gameMenu3);
 		JMenu gameMenu4 = new JMenu("Exit Game");	
 		gameMenu.add( gameMenu4);
-		
+
 		textPanel.setLayout(new BorderLayout());
 		textPanel.add(scrollBar, BorderLayout.EAST);
 		textPanel.add(displayArea, BorderLayout.CENTER);
@@ -133,39 +133,9 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 		graphPanel.setLayout(new FlowLayout());
 
 		graphPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));// size of graph area
-		/*
-		JLabel label = new JLabel();
-		label.setText("Welcome to School Management Project");
-		label.setIcon(new ImageIcon("C:\\Users\\Jonathan\\Desktop\\AH3rB1M2.png"));
-		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		graphPanel.add(label);
-		*/
-	//	ImageIcon image = new ImageIcon("C:\\Users\\Jonathan\\Desktop\\AH3rB1M.jpg");																		
-	//	graphPanel.setBackground(new JLabel("Insert Graph Here:"), BorderLayout.NORTH);
-		/*	graphPanel.add(new JLabel("Insert Graph Here:"), BorderLayout.NORTH);
-=======
-		graphPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
-		graphPanel.add(new JLabel("Insert Graph Here:"), BorderLayout.NORTH);
->>>>>>> origin/HEAD
-		graphPanel.setBackground(Color.white);
-
-		JLabel imagelabel = new JLabel(image, JLabel.CENTER);
-		graphPanel.setBackground(imagelabel);
-	*/	
 
 
-	}
-	
-	
 
-public void assignName(String name, int i) {
-
-		if (i==0){
-			play1=name;
-		}
-		else if (i==1){
-			play2=name;
-		}
 	}
 
 
@@ -175,7 +145,7 @@ public void assignName(String name, int i) {
 		userInputPanel.setLayout(new BorderLayout());
 		userInputPanel.setPreferredSize(new Dimension(100, 50));
 		userInputPanel.setMinimumSize(new Dimension(100, 50));
-		 
+
 		JLabel label = new JLabel("Welcome to Risk");
 		userInputPanel.add(label, BorderLayout.NORTH);
 		userInputPanel.setBackground(Color.yellow);
@@ -195,7 +165,7 @@ public void assignName(String name, int i) {
 			}
 		});      
 	}
-
+	
 	public static void main(String[] args) {
 		CreateSplitFrameGUI interfaceFrame = new CreateSplitFrameGUI();
 		interfaceFrame.pack();
