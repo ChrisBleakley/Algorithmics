@@ -12,14 +12,10 @@ import java.awt.FlowLayout;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-import javax.swing.ImageIcon;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -165,7 +161,7 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 			}
 		});      
 	}
-	
+
 	public static void main(String[] args) {
 		CreateSplitFrameGUI interfaceFrame = new CreateSplitFrameGUI();
 		interfaceFrame.pack();
