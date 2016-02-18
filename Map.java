@@ -1,18 +1,13 @@
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
-
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Map extends JPanel{
@@ -24,7 +19,7 @@ public class Map extends JPanel{
 	
 	public static final String[] COUNTRY_NAMES = {
 			"Ontario","Quebec","NW Territory","Alberta","Greenland","E United States","W United States","Central America","Alaska",
-			"Great Britain","W Europe","S Europe","Ukraine","N Europe","Iceland","Scandinavia",
+			"Ireland","W Europe","S Europe","Ukraine","N Europe","Iceland","Scandinavia",
 			"Afghanistan","India","Middle East","Japan","Ural","Yakutsk","Kamchatka","Siam","Irkutsk","Siberia","Mongolia","China",
 			"E Australia","New Guinea","W Australia","Indonesia",
 			"Venezuela","Peru","Brazil","Argentina",
@@ -119,23 +114,21 @@ public class Map extends JPanel{
 				{547,432},        // 40
 				{586,545}
 			};
-		private BufferedImage image;
+		
 		public void paintComponent(Graphics grphcs) {
 			
 			super.paintComponent(grphcs);
 				Graphics2D g2d = (Graphics2D) grphcs;
-				 try {
-			            image = ImageIO.read(new File("src/risk.jpg"));
-			            
-
-			        } catch (IOException ioe) {
-			            System.out.println("Could not read in the pic");
-			            //System.exit(0);
-			        }
-				g2d.drawImage(image,0,0,this);
+			/*	JLabel label = new JLabel();
+				label.setIcon(new ImageIcon("C:\\Users\\Jonathan\\Desktop\\AH3rB1M2.png"));
+				label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+				g2d.add(label);
+//	
+					bg = ImageIO.read(new File()) */
 				paintNodes(g2d);
 				paintConnectingLines(g2d);
 				showCountryNames(g2d);
+				buildTerritories(g2d);
 		}
 		
 		public void paintNodes(Graphics2D g2d){
@@ -147,15 +140,15 @@ public class Map extends JPanel{
 	                     break;
 	            case 2:  g2d.setColor(Color.green);
 	                     break;
-	            case 3:  g2d.setColor(Color.magenta);
+	            case 3:  g2d.setColor(Color.orange);
 	                     break;
 	            case 4:  g2d.setColor(Color.red);
 	                     break;
-	            case 5:  g2d.setColor(Color.cyan);
+	            case 5:  g2d.setColor(Color.MAGENTA);
 	                     break;
-			}
+				}
 					g2d.fillOval(COUNTRY_COORD[i][0] - 10,COUNTRY_COORD[i][1] - 10,20,20);
-				}	
+			}	
 		}
 		
 		
@@ -190,14 +183,58 @@ public class Map extends JPanel{
 			}
 		}
 		
-		public void showArmyNumber(Graphics2D g2d){
+		public List<Territory> buildTerritories(Graphics2D g2d){
+			List<Territory> student_list= new ArrayList<Territory>();
+			int current_player = 0;
 			for(int i=0;i<42;i++){
+				Territory current_territory = new Territory(i);
+				current_territory.setArmies(1);
 				
+				switch (i) {
+				case 0:  current_player = 0;
+                		 break;
+	            case 9:  current_player = 1;
+	                     break;
+	            case 18: current_player = 2;
+                		 break;
+	            case 24: current_player = 3;
+                		 break;
+	            case 30: current_player = 4;
+	                     break;
+	            case 36: current_player = 5; 
+	                     break;
+				}
+				current_territory.setPlayer(current_player);
+				showArmyNumber(g2d, current_territory);
+					
+		        student_list.add(current_territory);
 			}
-			
+			 return student_list;
 		}
+	        
 		
-
+		
+		public void showArmyNumber(Graphics2D g2d, Territory input_territory){
+			Font font = new Font("Serif", Font.BOLD, 16);
+			g2d.setFont(font);
+			switch (input_territory.getPlayer()) {
+			case 0:  g2d.setColor(Color.pink);
+            		 break;
+            case 1:  g2d.setColor(Color.cyan);
+                     break;
+            case 2:  g2d.setColor(Color.gray);
+                     break;
+            case 3:  g2d.setColor(Color.black);
+                     break;
+            case 4:  g2d.setColor(Color.darkGray);
+                     break;
+            case 5:  g2d.setColor(Color.WHITE);
+                     break;
+			}
+			String current_armies = Integer.toString(input_territory.getArmies());
+			g2d.drawString(current_armies ,COUNTRY_COORD[input_territory.getNode()][0] -3 ,COUNTRY_COORD[input_territory.getNode()][1] + 25 );	
+		
+		}
 }
 
 	
