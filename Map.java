@@ -2,14 +2,17 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class Map extends JPanel{
 	Map(){
 		
@@ -114,17 +117,18 @@ public class Map extends JPanel{
 				{547,432},        // 40
 				{586,545}
 			};
-		
+		BufferedImage image;
 		public void paintComponent(Graphics grphcs) {
 			
 			super.paintComponent(grphcs);
 				Graphics2D g2d = (Graphics2D) grphcs;
-			/*	JLabel label = new JLabel();
-				label.setIcon(new ImageIcon("C:\\Users\\Jonathan\\Desktop\\AH3rB1M2.png"));
-				label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-				g2d.add(label);
-//	
-					bg = ImageIO.read(new File()) */
+				try {
+					image = ImageIO.read(new File("risk.jpg"));
+
+
+				} catch (IOException ioe) {
+					System.out.println("Could not read in the pic");
+				}
 				paintNodes(g2d);
 				paintConnectingLines(g2d);
 				showCountryNames(g2d);
