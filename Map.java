@@ -123,7 +123,7 @@ public class Map extends JPanel{
 			super.paintComponent(grphcs);
 				Graphics2D g2d = (Graphics2D) grphcs;
 				try {
-					image = ImageIO.read(new File("risk.jpg"));
+					image = ImageIO.read(new File("scr/risk.jpg"));
 
 
 				} catch (IOException ioe) {
