@@ -38,7 +38,7 @@ import javax.swing.JTextField;
 
 
 @SuppressWarnings("serial")
-public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
+public class SplitFrameGUI extends JFrame  implements UserInterface {
 
 
 	private JSplitPane verticalSplit;
@@ -55,7 +55,7 @@ public class CreateSplitFrameGUI extends JFrame  implements UserInterface {
 	private String play1 = "Player1";
 	private String play2 = "Player2";
 
-	public CreateSplitFrameGUI() {
+	public SplitFrameGUI() {
 
 		setTitle("WELCOME TO RISK");
 		setBackground(Color.yellow);
@@ -201,7 +201,7 @@ public void assignName(String name, int i) {
 
 
 	public static void main(String[] args) {
-		CreateSplitFrameGUI interfaceFrame = new CreateSplitFrameGUI();
+		SplitFrameGUI interfaceFrame = new SplitFrameGUI();
 		interfaceFrame.pack();
 		interfaceFrame.setVisible(true);
 
