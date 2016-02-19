@@ -124,11 +124,10 @@ public class Map extends JPanel{
 				Graphics2D g2d = (Graphics2D) grphcs;
 				try {
 					
-					image = ImageIO.read(new File("scr/risk.jpg"));
-
+					image = ImageIO.read(new File("src/risk.jpg"));
 					
-					
-				} catch (IOException ioe) {
+				}
+				catch (IOException ioe) {
 					System.out.println("Could not read in the pic");
 				}
 				g2d.drawImage(image,0,0,this);

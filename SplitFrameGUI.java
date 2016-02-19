@@ -34,9 +34,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 
-
-
-
 @SuppressWarnings("serial")
 public class SplitFrameGUI extends JFrame  implements UserInterface {
 
@@ -141,7 +138,7 @@ public class SplitFrameGUI extends JFrame  implements UserInterface {
 		
 		
 		
-	S
+	
 
 	}
 	
