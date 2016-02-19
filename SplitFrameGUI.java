@@ -141,19 +141,7 @@ public class SplitFrameGUI extends JFrame  implements UserInterface {
 		
 		
 		
-	//	ImageIcon image = new ImageIcon("C:\\Users\\Jonathan\\Desktop\\AH3rB1M.jpg");																		
-	//	graphPanel.setBackground(new JLabel("Insert Graph Here:"), BorderLayout.NORTH);
-		/*	graphPanel.add(new JLabel("Insert Graph Here:"), BorderLayout.NORTH);
-=======
-		graphPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
-		graphPanel.add(new JLabel("Insert Graph Here:"), BorderLayout.NORTH);
->>>>>>> origin/HEAD
-		graphPanel.setBackground(Color.white);
-
-		JLabel imagelabel = new JLabel(image, JLabel.CENTER);
-		graphPanel.setBackground(imagelabel);
-	*/	
-
+	S
 
 	}
 	
