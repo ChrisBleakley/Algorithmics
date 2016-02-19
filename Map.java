@@ -123,12 +123,13 @@ public class Map extends JPanel{
 			super.paintComponent(grphcs);
 				Graphics2D g2d = (Graphics2D) grphcs;
 				try {
-					image = ImageIO.read(new File("risk.jpg"));
-
+					image = ImageIO.read(new File("/Users/Gavin/Google Drive/UCD/Second Year/Semester 2/COMP20050/RiskGit/src/risk.jpg"));
+					// Change file path to your own
 
 				} catch (IOException ioe) {
 					System.out.println("Could not read in the pic");
 				}
+				g2d.drawImage(image,0,0,this);
 				paintNodes(g2d);
 				paintConnectingLines(g2d);
 				showCountryNames(g2d);
