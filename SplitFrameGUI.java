@@ -7,7 +7,6 @@
  * 
  */
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -15,6 +14,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
@@ -30,15 +31,11 @@ public class SplitFrameGUI extends JFrame implements UserInterface {
 	private static final int FRAME_WIDTH = 1000; // must be even
 	private static final int FRAME_HEIGHT = 600;
 
-	
 	public SplitFrameGUI() {
 
 		setTitle("WELCOME TO RISK");
-		setBackground(Color.yellow);
-
 		JPanel upperPanel = new JPanel();
 		upperPanel.setLayout(new BorderLayout());
-
 		getContentPane().add(upperPanel);
 
 		createTextDisplay();
@@ -54,12 +51,9 @@ public class SplitFrameGUI extends JFrame implements UserInterface {
 		 */
 
 		upperPanel.add(verticalSplit, BorderLayout.CENTER);
-
 		horizontalSplit.setLeftComponent(textPanel);
-
 		horizontalSplit.setRightComponent(graphPanel);
 		verticalSplit.setLeftComponent(horizontalSplit);
-
 		verticalSplit.setRightComponent(userInputPanel);// sets the userInput
 														// panel as the
 														// horizontal split
@@ -71,29 +65,37 @@ public class SplitFrameGUI extends JFrame implements UserInterface {
 		}
 
 		);
-		
 		verticalSplit.setRightComponent(userInputPanel);
 	}
 
-
 	public void createTextDisplay() {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu gameMenu = new JMenu("Game");
+
+		menuBar.add(gameMenu);
+		setJMenuBar(menuBar);
+
+		JMenu gameMenu1 = new JMenu("Play Game");
+		gameMenu.add(gameMenu1);
+		JMenu gameMenu2 = new JMenu("Help");
+		gameMenu.add(gameMenu2);
+		JMenu gameMenu3 = new JMenu("ScoreBoard");
+		gameMenu.add(gameMenu3);
+		JMenu gameMenu4 = new JMenu("Exit Game");
+		gameMenu.add(gameMenu4);
 		textPanel = new OutputPanel();
 	}
 
 	public void createGraphPanel() {
 
 		graphPanel = new Map();
-
 		graphPanel.setLayout(new FlowLayout());
-
 		graphPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 
 	}
 
 	public void createUserInputDialog() {
-
 		userInputPanel = new InputPanel();
-
 	}
 
 	public String getCommand() {

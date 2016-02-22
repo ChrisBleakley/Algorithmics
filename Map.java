@@ -19,11 +19,7 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class Map extends JPanel{
-	Map(){
-		
-	}
-
-	public static final int[] CONTINENT_IDS = {0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,5,5};
+public static final int[] CONTINENT_IDS = {0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,5,5};
 	
 	public static final String[] COUNTRY_NAMES = {
 			"Ontario","Quebec","NW Territory","Alberta","Greenland","E United States","W United States","Central America","Alaska",
@@ -123,12 +119,17 @@ public class Map extends JPanel{
 				{586,545}
 			};
 		BufferedImage image;
+	
+		Map(){
+		
+		}
+
+	
 		public void paintComponent(Graphics grphcs) {
 			
 			super.paintComponent(grphcs);
 				Graphics2D g2d = (Graphics2D) grphcs;
 				try {
-					
 					image = ImageIO.read(new File("risk.jpg"));
 					
 				}
@@ -187,10 +188,7 @@ public class Map extends JPanel{
 			Font font = new Font("Serif", Font.BOLD, 16);
 		    g2d.setFont(font);
 			for(int i=0;i<42;i++){
-			
-				 g2d.drawString(COUNTRY_NAMES[i],COUNTRY_COORD[i][0] - (2*COUNTRY_NAMES[i].length() +10) ,COUNTRY_COORD[i][1] - 15 );	
-			
-
+				 g2d.drawString(COUNTRY_NAMES[i],COUNTRY_COORD[i][0] - (2*COUNTRY_NAMES[i].length() +10) ,COUNTRY_COORD[i][1] - 15 );
 			}
 		}
 		
@@ -244,7 +242,6 @@ public class Map extends JPanel{
 			}
 			String current_armies = Integer.toString(input_territory.getArmies());
 			g2d.drawString(current_armies ,COUNTRY_COORD[input_territory.getNode()][0] -3 ,COUNTRY_COORD[input_territory.getNode()][1] + 25 );	
-		
 		}
 
 		public void refresh() {
