@@ -1,3 +1,8 @@
+/* Algorithmics
+ * 14708689 Orla Cullen
+ * 05641349 Gavin Keaveney
+ * 14343826 Jonathan Sweeney 
+ */
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -124,7 +129,7 @@ public class Map extends JPanel{
 				Graphics2D g2d = (Graphics2D) grphcs;
 				try {
 					
-					image = ImageIO.read(new File("src/risk.jpg"));
+					image = ImageIO.read(new File("risk.jpg"));
 					
 				}
 				catch (IOException ioe) {
@@ -240,6 +245,12 @@ public class Map extends JPanel{
 			String current_armies = Integer.toString(input_territory.getArmies());
 			g2d.drawString(current_armies ,COUNTRY_COORD[input_territory.getNode()][0] -3 ,COUNTRY_COORD[input_territory.getNode()][1] + 25 );	
 		
+		}
+
+		public void refresh() {
+			revalidate();
+			repaint();
+			return;
 		}
 }
 
