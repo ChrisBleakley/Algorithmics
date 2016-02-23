@@ -29,15 +29,11 @@ public class SplitFrameGUI extends JFrame  {
 
 	public SplitFrameGUI() {
 
-		setTitle("RISKY WELCOME TO RISK");
+		setTitle("WELCOME TO RISK");
 		JPanel upperPanel = new JPanel();
-	
-		//graphPanel.setLayout(new FlowLayout());
 		graphPanel.setPreferredSize(new Dimension(GameData.FRAME_WIDTH, GameData.FRAME_HEIGHT));
 		upperPanel.setLayout(new BorderLayout());
 		getContentPane().add(upperPanel);
-
-		
 		verticalSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		horizontalSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
@@ -50,9 +46,10 @@ public class SplitFrameGUI extends JFrame  {
 		horizontalSplit.setLeftComponent(textPanel);
 		horizontalSplit.setRightComponent(graphPanel);
 		verticalSplit.setLeftComponent(horizontalSplit);
-		verticalSplit.setRightComponent(userInputPanel);// sets the userInput
-														// panel as the
-														// horizontal split
+		verticalSplit.setRightComponent(userInputPanel);
+		/*adds menu to Frame
+		 * 
+		 */
 		JMenuBar menuBar = new JMenuBar();
 		JMenu gameMenu = new JMenu("Game");
 

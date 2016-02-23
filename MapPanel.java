@@ -14,11 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-
 import javax.swing.JPanel;
 
-@SuppressWarnings("serial")
-public class Map extends JPanel{
+
+public class MapPanel extends JPanel{
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 public static final int[] CONTINENT_IDS = {0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,5,5};
 	
 	public static final String[] COUNTRY_NAMES = {
@@ -120,12 +124,15 @@ public static final int[] CONTINENT_IDS = {0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,2,2,2
 			};
 		BufferedImage image;
 	
-		Map(){
+			
 		
+		MapPanel () {
+			
 		}
 
 	
-		public void paintComponent(Graphics grphcs) {
+		
+public void paintComponent(Graphics grphcs) {
 			
 			super.paintComponent(grphcs);
 				Graphics2D g2d = (Graphics2D) grphcs;
@@ -249,7 +256,8 @@ public static final int[] CONTINENT_IDS = {0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,2,2,2
 			repaint();
 			return;
 		}
-}
+		}
+	
 
 	
 		
