@@ -7,7 +7,7 @@
 public class Main {
 
 	public static void main(String args[]) {
-		Territory territory = new Territory(0);
+		Territory territory = new Territory(1);
 		SplitFrameGUI interfaceFrame = new SplitFrameGUI();
 		interfaceFrame.pack();
 		interfaceFrame.setVisible(true);
@@ -41,8 +41,28 @@ public class Main {
 
 		// display map
 		interfaceFrame.displayMap();
-
+		Die die  = new Die();  
+		  
+        String word = null;
+    int die1;
+    int die2;
+        	
+   
+     interfaceFrame.displayString("To roll dice enter roll ");
+ 		word = interfaceFrame.getCommand();
+        //
+    while (word.equalsIgnoreCase("roll")){
+        	
+        	die.roll();
+        	interfaceFrame.displayString(" Player 1" + die.getDie());
+        	die1 = die.getDie();
+        	die.roll();
+        	interfaceFrame.displayString(" Player 2 " + die.getDie());
+        	die2 = die.getDie();
+        	
+    }
 		return;
 	}
 
-}
+	}
+	

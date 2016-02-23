@@ -193,7 +193,7 @@ public static final int[] CONTINENT_IDS = {0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,2,2,2
 		}
 		
 		public List<Territory> buildTerritories(Graphics2D g2d){
-			List<Territory> student_list= new ArrayList<Territory>();
+			List<Territory> territory_list= new ArrayList<Territory>();
 			int current_player = 0;
 			for(int i=0;i<42;i++){
 				Territory current_territory = new Territory(i);
@@ -216,9 +216,9 @@ public static final int[] CONTINENT_IDS = {0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,2,2,2
 				current_territory.setPlayer(current_player);
 				showArmyNumber(g2d, current_territory);
 					
-		        student_list.add(current_territory);
+		        territory_list.add(current_territory);
 			}
-			 return student_list;
+			 return territory_list;
 		}
 	        
 		
