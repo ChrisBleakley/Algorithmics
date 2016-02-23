@@ -8,40 +8,36 @@
  */
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-@SuppressWarnings("serial")
-public class SplitFrameGUI extends JFrame implements UserInterface {
+public class SplitFrameGUI extends JFrame  {
 
+	private static final long serialVersionUID = 1L;
 	private JSplitPane verticalSplit;
 	private JSplitPane horizontalSplit;
-	private JPanel textPanel;
-	private JPanel graphPanel;
-	private JPanel userInputPanel;
+	private JPanel textPanel= new OutputPanel();
+	private JPanel graphPanel= new MapPanel();
+	private JPanel userInputPanel= new InputPanel(); 
 
-	private static final int FRAME_WIDTH = 1000; // must be even
-	private static final int FRAME_HEIGHT = 600;
+	
 
 	public SplitFrameGUI() {
 
-		setTitle("WELCOME TO RISK");
+		setTitle("RISKY WELCOME TO RISK");
 		JPanel upperPanel = new JPanel();
+	
+		//graphPanel.setLayout(new FlowLayout());
+		graphPanel.setPreferredSize(new Dimension(GameData.FRAME_WIDTH, GameData.FRAME_HEIGHT));
 		upperPanel.setLayout(new BorderLayout());
 		getContentPane().add(upperPanel);
 
-		createTextDisplay();
-		createGraphPanel();
-		createUserInputDialog();
-
+		
 		verticalSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		horizontalSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
@@ -57,18 +53,6 @@ public class SplitFrameGUI extends JFrame implements UserInterface {
 		verticalSplit.setRightComponent(userInputPanel);// sets the userInput
 														// panel as the
 														// horizontal split
-
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			}
-		}
-
-		);
-		verticalSplit.setRightComponent(userInputPanel);
-	}
-
-	public void createTextDisplay() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu gameMenu = new JMenu("Game");
 
@@ -83,41 +67,31 @@ public class SplitFrameGUI extends JFrame implements UserInterface {
 		gameMenu.add(gameMenu3);
 		JMenu gameMenu4 = new JMenu("Exit Game");
 		gameMenu.add(gameMenu4);
-		textPanel = new OutputPanel();
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		}
+
+		);
+		verticalSplit.setRightComponent(userInputPanel);
 	}
 
-	public void createGraphPanel() {
-
-		graphPanel = new Map();
-		graphPanel.setLayout(new FlowLayout());
-		graphPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
-
-	}
-
-	public void createUserInputDialog() {
-		userInputPanel = new InputPanel();
-	}
 
 	public String getCommand() {
-		return ((InputPanel) userInputPanel).getCommand();
+		return  ((InputPanel) userInputPanel).getCommand();
 	}
 
 	public void displayMap() {
-		((Map) graphPanel).refresh();
+		((MapPanel) graphPanel).refresh();
 		return;
 	}
 
 	public void displayString(String string) {
-		((OutputPanel) textPanel).addText(string);
+		 ((OutputPanel) textPanel).addText(string);
 		return;
 	}
 
-	public static int getFrameHeight() {// getter for the frame height
-		return FRAME_HEIGHT;
-	}
-
-	public static int getFrameWidth() {// getter for the frame width
-		return FRAME_WIDTH;
-	}
 
 }
