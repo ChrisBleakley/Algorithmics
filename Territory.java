@@ -9,12 +9,13 @@ public class Territory {
 	public int node;
 	public int army_units;
 	
+	
 	Territory(int input_node){
 		node = input_node;
 	}
 	
 	void setArmies(int army_input){
-		army_units = army_input;
+		army_units += army_input;
 	}
 	
 	void setPlayer(int player_input){
@@ -31,5 +32,10 @@ public class Territory {
 	
 	int getNode(){
 		return node;
+	}
+
+	public int size() {
+		
+		return 0;
 	}
 }
