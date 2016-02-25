@@ -21,9 +21,9 @@ public class SplitFrameGUI extends JFrame  {
 	private static final long serialVersionUID = 1L;
 	private JSplitPane verticalSplit;
 	private JSplitPane horizontalSplit;
-	private JPanel textPanel= new OutputPanel();
+	private JPanel outputPanel= new OutputPanel();
 	private JPanel graphPanel= new MapPanel();
-	private JPanel userInputPanel= new InputPanel(); 
+	private JPanel inputPanel= new InputPanel(); 
 
 	
 
@@ -42,11 +42,11 @@ public class SplitFrameGUI extends JFrame  {
 		 * center
 		 */
 
-		upperPanel.add(verticalSplit, BorderLayout.CENTER);
-		horizontalSplit.setLeftComponent(textPanel);
+		upperPanel.add(verticalSplit, BorderLayout.EAST);
+		horizontalSplit.setLeftComponent(outputPanel);
 		horizontalSplit.setRightComponent(graphPanel);
 		verticalSplit.setLeftComponent(horizontalSplit);
-		verticalSplit.setRightComponent(userInputPanel);
+		verticalSplit.setRightComponent(inputPanel);
 		/*adds menu to Frame
 		 * 
 		 */
@@ -64,6 +64,7 @@ public class SplitFrameGUI extends JFrame  {
 		gameMenu.add(gameMenu3);
 		JMenu gameMenu4 = new JMenu("Exit Game");
 		gameMenu.add(gameMenu4);
+		setResizable(false);
 		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -72,12 +73,14 @@ public class SplitFrameGUI extends JFrame  {
 		}
 
 		);
-		verticalSplit.setRightComponent(userInputPanel);
+		verticalSplit.setRightComponent(inputPanel);
 	}
 
 
 	public String getCommand() {
-		return  ((InputPanel) userInputPanel).getCommand();
+		String last_input =((InputPanel) inputPanel).getCommand();
+		displayString("> " + last_input);
+		return  last_input;
 	}
 
 	public void displayMap() {
@@ -86,7 +89,7 @@ public class SplitFrameGUI extends JFrame  {
 	}
 
 	public void displayString(String string) {
-		 ((OutputPanel) textPanel).addText(string);
+		 ((OutputPanel) outputPanel).addText(string);
 		return;
 	}
 
