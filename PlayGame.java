@@ -40,8 +40,32 @@ public class PlayGame {
 
 		// display map
 		interfaceFrame.displayMap();
-
+	
+		interfaceFrame.displayString("Enter roll ");
+		rolling();
+	
+		
 	}
+	public  void rolling(){
+		do {
+			String loop = interfaceFrame.getCommand();
+			if (loop.equalsIgnoreCase("roll"))
+				rollDice();
+			else if (!(loop.equalsIgnoreCase("roll")))
+				interfaceFrame.displayString("WRONG INPUT ROLL AGAIN ");
+			interfaceFrame.displayString("WANT TO ROLL AGAIN ");
+			interfaceFrame.displayString("Enter Y for Yes or N for No ");
+			String word = interfaceFrame.getCommand();
+			if (word.equalsIgnoreCase("Y")) {
+				interfaceFrame.displayString("Enter: roll ");
+			} else if (word.equalsIgnoreCase("N")) {
+				interfaceFrame.displayString("Finished Roll ");
+				break;
+			}
+		} while (true);
+		
+	}
+	
 	public int rollDice() {
 		Die die = new Die();
 		die.roll();
@@ -59,9 +83,10 @@ public class PlayGame {
 			winner = 0;
 
 			interfaceFrame.displayString(" Player 2  wins");
-		} else
+		} else{
+			interfaceFrame.displayString(" DRAW RE Rolling");
 			winner = rollDice();
-
+		}
 		return winner;
 
 	}
