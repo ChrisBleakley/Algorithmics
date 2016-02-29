@@ -46,17 +46,17 @@ public void paintComponent(Graphics grphcs) {
 		public void paintNodes(Graphics2D g2d){
 			for(int i=0;i<42;i++){	
 				switch (GameData.CONTINENT_IDS[i]) {
-				case 0:  g2d.setColor(Color.yellow);
+				case 0:  g2d.setColor(GameData.MY_ORANGE);
                 		 break;
-	            case 1:  g2d.setColor(Color.blue);
+	            case 1:  g2d.setColor(GameData.MY_BLUE);
 	                     break;
-	            case 2:  g2d.setColor(Color.green);
+	            case 2:  g2d.setColor(GameData.MY_GREEN);
 	                     break;
-	            case 3:  g2d.setColor(Color.orange);
+	            case 3:  g2d.setColor(GameData.MY_PURPLE);
 	                     break;
-	            case 4:  g2d.setColor(Color.red);
+	            case 4:  g2d.setColor(GameData.MY_RED);
 	                     break;
-	            case 5:  g2d.setColor(Color.MAGENTA);
+	            case 5:  g2d.setColor(GameData.MY_BROWN);
 	                     break;
 				}
 					g2d.fillOval(GameData.COUNTRY_COORD[i][0] - 10,GameData.COUNTRY_COORD[i][1] - 10,20,20);
@@ -129,17 +129,17 @@ public void paintComponent(Graphics grphcs) {
 			Font font = new Font("Serif", Font.BOLD, 16);
 			g2d.setFont(font);
 			switch (input_territory.getPlayer()) {
-			case 0:  g2d.setColor(Color.pink);
+			case 0:  g2d.setColor(Color.BLUE);
             		 break;
-            case 1:  g2d.setColor(Color.cyan);
+            case 1:  g2d.setColor(Color.RED);
                      break;
-            case 2:  g2d.setColor(Color.gray);
+            case 2:  g2d.setColor(Color.YELLOW);
                      break;
-            case 3:  g2d.setColor(Color.black);
+            case 3:  g2d.setColor(Color.CYAN);
                      break;
-            case 4:  g2d.setColor(Color.darkGray);
+            case 4:  g2d.setColor(Color.GREEN);
                      break;
-            case 5:  g2d.setColor(Color.WHITE);
+            case 5:  g2d.setColor(Color.MAGENTA);
                      break;
 			}
 			String current_armies = Integer.toString(input_territory.getArmies());

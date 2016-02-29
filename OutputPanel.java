@@ -20,11 +20,11 @@ public class OutputPanel extends JPanel {
 	OutputPanel() {
 		textArea.setEditable(false);
 		textArea.setFont(new Font("Arial Black", Font.BOLD, FONT_SIZE));
-		textArea.setForeground(Color.YELLOW);
+		textArea.setForeground(GameData.MY_PURPLE);
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		textArea.setBackground(Color.BLACK);
+		textArea.setBackground(GameData.MY_CREAM);
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		setLayout(new BorderLayout());
 		add(scrollPane, BorderLayout.CENTER);

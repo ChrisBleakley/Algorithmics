@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 /* Algorithmics
  * 14708689 Orla Cullen
  * 05641349 Gavin Keaveney
@@ -14,11 +16,12 @@ public final class GameData {
 	public static final int INIT_COUNTRIES_NEUTRAL = 6;
 	public static final String[] COUNTRY_NAMES = {
 		"Ontario","Quebec","NW Territory","Alberta","Greenland","E United States","W United States","Central America","Alaska",
-		"Great Britain","W Europe","S Europe","Ukraine","N Europe","Iceland","Scandinavia",
+		"Ireland","W Europe","S Europe","Ukraine","N Europe","Iceland","Scandinavia",
 		"Afghanistan","India","Middle East","Japan","Ural","Yakutsk","Kamchatka","Siam","Irkutsk","Siberia","Mongolia","China",
 		"E Australia","New Guinea","W Australia","Indonesia",
 		"Venezuela","Peru","Brazil","Argentina",
 		"Congo","N Africa","S Africa","Egypt","E Africa","Madagascar"};  // for reference
+	
 	public static final int[][] ADJACENT = { 
 		{4,1,5,6,3,2},    // 0
 		{4,5,0},
@@ -110,7 +113,15 @@ public final class GameData {
 	public static final int NUM_CONTINENTS = 6;
 	public static final String[] CONTINENT_NAMES = {"N America","Europe","Asia","Australia","S America","Africa"};  // for reference 
 	public static final int[] CONTINENT_IDS = {0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,5,5};
-	
+	public static Color MY_CREAM = new Color(253,230,159);
+	public static Color MY_RED = new Color(157,0 ,0);
+	public static Color MY_GREEN = new Color(17,152 ,14);
+	public static Color MY_BROWN = new Color(128,64 ,0);
+	public static Color MY_BLUE = new Color(37,45 ,141);
+	public static Color MY_PURPLE = new Color(88,39 ,88);
+	public static Color MY_ORANGE = new Color(228,175 ,5);
+	public static Color MY_PINK = new Color(221,23 ,206);
+	public static Color MY_BORANGE = new Color(255,128 ,0);
     private GameData() {
 	    //this prevents even the native class from calling this constructor
 	    throw new AssertionError();

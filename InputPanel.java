@@ -37,7 +37,7 @@ public class InputPanel extends JPanel {
 		commandField.addActionListener(listener);
 		commandField.setFont(new Font("Times New Roman", Font.PLAIN, FONT_SIZE));
 		setLayout(new BorderLayout());
-		commandField.setBackground(Color.white);
+		commandField.setBackground(Color.WHITE);
 		add(commandField, BorderLayout.CENTER);
 		return;
 	}
