@@ -21,9 +21,9 @@ public class SplitFrameGUI extends JFrame  {
 	private static final long serialVersionUID = 1L;
 	private JSplitPane verticalSplit;
 	private JSplitPane horizontalSplit;
-	private JPanel outputPanel= new OutputPanel();
-	private JPanel mapPanel= new MapPanel();
-	private JPanel inputPanel= new InputPanel(); 
+	private JPanel outputPanel;
+	private JPanel mapPanel;
+	private JPanel inputPanel; 
 
 	
 
@@ -31,10 +31,14 @@ public class SplitFrameGUI extends JFrame  {
 
 		setTitle("WELCOME TO RISK");
 		JPanel upperPanel = new JPanel();
+		mapPanel=new MapPanel();
+		outputPanel= new OutputPanel();
+		inputPanel= new InputPanel();
 		mapPanel.setPreferredSize(new Dimension(GameData.FRAME_WIDTH, GameData.FRAME_HEIGHT));
 		inputPanel.setPreferredSize(new Dimension(GameData.FRAME_WIDTH, 50));
 		upperPanel.setLayout(new BorderLayout());
 		getContentPane().add(upperPanel);
+		
 		verticalSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		horizontalSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
