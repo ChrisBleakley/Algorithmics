@@ -8,11 +8,17 @@
  */
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
@@ -57,18 +63,42 @@ public class SplitFrameGUI extends JFrame  {
 		 */
 		JMenuBar menuBar = new JMenuBar();
 		JMenu gameMenu = new JMenu("Game");
-
 		menuBar.add(gameMenu);
 		setJMenuBar(menuBar);
-
-		JMenu gameMenu1 = new JMenu("Play Game");
-		gameMenu.add(gameMenu1);
-		JMenu gameMenu2 = new JMenu("Help");
-		gameMenu.add(gameMenu2);
-		JMenu gameMenu3 = new JMenu("ScoreBoard");
-		gameMenu.add(gameMenu3);
-		JMenu gameMenu4 = new JMenu("Exit Game");
-		gameMenu.add(gameMenu4);
+		JMenu about = new JMenu("About");
+        gameMenu.add(about);
+		JMenuItem help = new JMenu("Help");
+        gameMenu.add(help);
+		JMenuItem score = new JMenu("ScoreBoard");
+		gameMenu.add(score);
+        // Add an JMenuItem
+        JMenuItem exit = new JMenu("Exit");
+        gameMenu.add(exit);
+            
+        JButton aboutButton= new JButton("About");
+        about.add(aboutButton);
+        aboutButton.setSize(60,60);
+        aboutButton.addActionListener(new ActionListener() {
+        	 
+            public void actionPerformed(ActionEvent e)
+            {
+            	String message="This code was wriiten by the Algorithmics";
+               JOptionPane.showMessageDialog(null, message);
+            }
+        });  
+        
+        JButton exitButton= new JButton("Close");
+        exit.add(exitButton);
+        exitButton.setSize(40,40);
+        exitButton.addActionListener(new ActionListener() {
+        	 
+            public void actionPerformed(ActionEvent e)
+            {
+                
+                System.exit(0);
+            }
+        });    
+		
 		setResizable(false);
 		
 		addWindowListener(new WindowAdapter() {
