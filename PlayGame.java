@@ -26,6 +26,8 @@ public class PlayGame {
 	
 	PlayGame(){
 		
+		
+		
 		interfaceFrame.pack();
 		interfaceFrame.setVisible(true);
 		
@@ -37,7 +39,7 @@ public class PlayGame {
 		List<Player> player_list = buildPlayers(territory_list, player_1, player_2);
 		
 		//Draws territory cards and displays them to users.
-		draw(player_list);
+		draw(territory_list, player_list, arrayList);
 
 		interfaceFrame.displayString("Enter 'roll' to decide who places armies first.");
 		int winner = roll();
@@ -48,7 +50,7 @@ public class PlayGame {
 	}
 	
 	
-	public  void draw(List<Player> player_list){
+	public  void draw(List<Territory> territory_list, List<Player> player_list, List<Integer> arrayList){
 		String player_1 = player_list.get(0).getName();
 		String player_2 = player_list.get(1).getName();
 		
@@ -79,7 +81,7 @@ public class PlayGame {
 				}
 			}
 		} while (true);
-		
+		assignTerritories(territory_list, player_list, arrayList);
 		printNames(player_list);
 	}
 	
@@ -229,7 +231,7 @@ public class PlayGame {
 			Territory current_territory = new Territory(i, GameData.COUNTRY_NAMES[i], GameData.SHORT_COUNTRY_NAMES[i]);
 			current_territory.setArmies(1);
 		
-			current_territory.setPlayer(arrayList.get(i));
+			current_territory.setPlayer(-1);
 				
 	        territory_list.add(current_territory);
 		}
@@ -262,15 +264,26 @@ public class PlayGame {
 			Player current_player = new Player(i, player_name);
 			current_player.setArmies(armies);
 
-			for (int j=0;j<	42 ;j++){
-				if(current_player.getPlayer()==territory_list.get(j).getPlayer()){
-					current_player.addOwnedTerritory(territory_list.get(j).getNode());
-				}
-			}		
+					
 
 			player_list.add(current_player);
 		}
 		 return player_list;
+	}
+	
+	
+	public void assignTerritories(List<Territory> territory_list, List<Player> player_list, List<Integer> arrayList){
+		for(int i=0;i<42;i++){
+			territory_list.get(i).setPlayer(arrayList.get(i));
+		}
+		for(int i=0;i<6;i++){
+			for(int j=0;j<	42 ;j++){
+				if(player_list.get(i).getPlayer()==territory_list.get(j).getPlayer()){
+					player_list.get(i).addOwnedTerritory(territory_list.get(j).getNode());
+				}
+			}
+		}
+		mapPanel.refresh();
 	}
 	
 	

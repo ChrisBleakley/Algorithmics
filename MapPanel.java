@@ -113,6 +113,8 @@ public void paintComponent(Graphics grphcs) {
 		public void	showCountryOwnership(Graphics2D g2d, List<Territory> territories_list){
 			for(int i=0;i<GameData.NUM_COUNTRIES;i++){	
 				switch (territories_list.get(i).getPlayer()) {
+				case -1:  g2d.setColor(Color.WHITE);
+						 break;
 				case 0:  g2d.setColor(GameData.MY_ORANGE);
                 		 break;
 	            case 1:  g2d.setColor(GameData.MY_BLUE);
