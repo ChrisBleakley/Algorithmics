@@ -125,9 +125,9 @@ public final class GameData {
 	public static Color MY_RED = new Color(157,0 ,0);
 	public static Color MY_GREEN = new Color(17,152 ,14);
 	public static Color MY_BROWN = new Color(128,64 ,0);
-	public static Color MY_BLUE = new Color(37,45 ,141);
+	public static Color MY_BLUE = Color.blue;
 	public static Color MY_PURPLE = new Color(88,39 ,88);
-	public static Color MY_ORANGE = new Color(228,175 ,5);
+	public static Color MY_ORANGE = new Color(255,128,0);
 	public static Color MY_PINK = new Color(221,23 ,206);
 	public static Color MY_BORANGE = new Color(255,128 ,0);
     private GameData() {
