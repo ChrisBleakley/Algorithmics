@@ -32,7 +32,7 @@ public void paintComponent(Graphics grphcs) {
 			super.paintComponent(grphcs);
 				g2d = (Graphics2D) grphcs;
 				try {
-					image = ImageIO.read(new File("risk1.jpg"));
+					image = ImageIO.read(new File("risk.jpg"));
 					
 				}
 				catch (IOException ioe) {
@@ -114,6 +114,8 @@ public void paintComponent(Graphics grphcs) {
 		public void	showCountryOwnership(Graphics2D g2d, List<Territory> territories_list){
 			for(int i=0;i<GameData.NUM_COUNTRIES;i++){	
 				switch (territories_list.get(i).getPlayer()) {
+				case -1:  g2d.setColor(Color.WHITE);
+						 break;
 				case 0:  g2d.setColor(GameData.MY_ORANGE);
                 		 break;
 	            case 1:  g2d.setColor(GameData.MY_BLUE);
