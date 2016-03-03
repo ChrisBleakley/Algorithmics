@@ -15,7 +15,7 @@ public class PlayGame {
 	List<Integer> arrayList = deal();
 	
 	//Creates the territories, assigning them the owners as determined in arraylist.
-	List<Territory> territory_list = buildTerritories(arrayList);
+	List<Territory> territory_list = buildTerritories();
 	
 	//Creates the Game Board, to show all game developments.
 	MapPanel mapPanel=new MapPanel(territory_list);
@@ -51,8 +51,6 @@ public class PlayGame {
 	
 	
 	public  void draw(List<Territory> territory_list, List<Player> player_list, List<Integer> arrayList){
-		String player_1 = player_list.get(0).getName();
-		String player_2 = player_list.get(1).getName();
 		
 		do {
 			interfaceFrame.displayString("Enter 'draw' to draw territory cards");
@@ -224,7 +222,7 @@ public class PlayGame {
 	
 	
 	//Creates and initializes the list of territories.
-	public List<Territory> buildTerritories(List<Integer> arrayList){
+	public List<Territory> buildTerritories(){
 		List<Territory> territory_list= new ArrayList<Territory>();
 		
 		for(int i=0;i<42;i++){

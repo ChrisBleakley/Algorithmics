@@ -52,15 +52,15 @@ public void paintComponent(Graphics grphcs) {
 				switch (GameData.CONTINENT_IDS[i]) {
 				case 0:  g2d.setColor(Color.yellow);
 					break;
-				case 1:  g2d.setColor(Color.blue);
+				case 1:  g2d.setColor(Color.cyan);
                		break;
 				case 2:  g2d.setColor(Color.green);
                 	break;
-				case 3:  g2d.setColor(Color.orange);
+				case 3:  g2d.setColor(Color.magenta);
 					break;
 				case 4:  g2d.setColor(Color.red);
 					break;
-				case 5:  g2d.setColor(Color.MAGENTA);
+				case 5:  g2d.setColor(GameData.MY_PURPLE);
 					break;
 				}	
 					g2d.fillOval(GameData.COUNTRY_COORD[i][0] - 10,GameData.COUNTRY_COORD[i][1] - 10,20,20);
