@@ -10,7 +10,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -32,7 +31,7 @@ public void paintComponent(Graphics grphcs) {
 			super.paintComponent(grphcs);
 				g2d = (Graphics2D) grphcs;
 				try {
-					image = ImageIO.read(new File("risk1.jpg"));
+					image = ImageIO.read(new File("risk.jpg"));
 					
 				}
 				catch (IOException ioe) {
