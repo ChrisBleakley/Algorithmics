@@ -59,7 +59,7 @@ public void paintComponent(Graphics grphcs) {
 					break;
 				case 4:  g2d.setColor(Color.red);
 					break;
-				case 5:  g2d.setColor(GameData.MY_PURPLE);
+				case 5:  g2d.setColor(Color.lightGray);
 					break;
 				}	
 					g2d.fillOval(GameData.COUNTRY_COORD[i][0] - 10,GameData.COUNTRY_COORD[i][1] - 10,20,20);
