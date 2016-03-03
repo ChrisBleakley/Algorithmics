@@ -21,7 +21,15 @@ public final class GameData {
 		"E Australia","New Guinea","W Australia","Indonesia",
 		"Venezuela","Peru","Brazil","Argentina",
 		"Congo","N Africa","S Africa","Egypt","E Africa","Madagascar"};  // for reference
-	
+	public static final String[] SHORT_COUNTRY_NAMES = {
+			"Ont","Qbc","NWT","Alb","Grl","EUS","WUS","CAM","AlA",
+			"Irl","WEu","SEu","Ukr","NEu","Ice","Sca",
+			"Afg","Ind","MiE","Jap","Url","Yak","Kam","Sim","Irk","Sib","Mng","Chi",
+			"EAus","NGa","WAus","Ins",
+			"Ven","Per","Bra","Arg",
+			"Con","NAf","SAf","Egy","EAf","Mad"};
+	public static final String[] PLAYER_COLOURS = {
+			"Orange","Blue","Green","Purple","Red","Brown"};	
 	public static final int[][] ADJACENT = { 
 		{4,1,5,6,3,2},    // 0
 		{4,5,0},

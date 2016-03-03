@@ -18,19 +18,21 @@ import javax.swing.JPanel;
 
 
 public class MapPanel extends JPanel{
-
+	Graphics2D g2d;
+	public List<Territory> territories_list;
 	private static final long serialVersionUID = 1L;
 		BufferedImage image;
-		MapPanel () {
-			
+		 MapPanel (List<Territory> territory_list) {
+			 territories_list = territory_list;
+	
 		}
 	
 public void paintComponent(Graphics grphcs) {
 			
 			super.paintComponent(grphcs);
-				Graphics2D g2d = (Graphics2D) grphcs;
+				g2d = (Graphics2D) grphcs;
 				try {
-					image = ImageIO.read(new File("risk.jpg"));
+					image = ImageIO.read(new File("risk1.jpg"));
 					
 				}
 				catch (IOException ioe) {
@@ -40,33 +42,35 @@ public void paintComponent(Graphics grphcs) {
 				paintNodes(g2d);
 				paintConnectingLines(g2d);
 				showCountryNames(g2d);
-				buildTerritories(g2d);
+				showArmyNumber(g2d, territories_list);
+				showCountryOwnership(g2d, territories_list);
+		
 		}
 		
 		public void paintNodes(Graphics2D g2d){
-			for(int i=0;i<42;i++){	
+			for(int i=0;i<GameData.NUM_COUNTRIES;i++){	
 				switch (GameData.CONTINENT_IDS[i]) {
-				case 0:  g2d.setColor(GameData.MY_ORANGE);
-                		 break;
-	            case 1:  g2d.setColor(GameData.MY_BLUE);
-	                     break;
-	            case 2:  g2d.setColor(GameData.MY_GREEN);
-	                     break;
-	            case 3:  g2d.setColor(GameData.MY_PURPLE);
-	                     break;
-	            case 4:  g2d.setColor(GameData.MY_RED);
-	                     break;
-	            case 5:  g2d.setColor(GameData.MY_BROWN);
-	                     break;
-				}
+				case 0:  g2d.setColor(Color.yellow);
+					break;
+				case 1:  g2d.setColor(Color.blue);
+               		break;
+				case 2:  g2d.setColor(Color.green);
+                	break;
+				case 3:  g2d.setColor(Color.orange);
+					break;
+				case 4:  g2d.setColor(Color.red);
+					break;
+				case 5:  g2d.setColor(Color.MAGENTA);
+					break;
+				}	
 					g2d.fillOval(GameData.COUNTRY_COORD[i][0] - 10,GameData.COUNTRY_COORD[i][1] - 10,20,20);
-			}	
+			}
 		}
 		
 		
 		public void paintConnectingLines(Graphics2D g2d){
 			g2d.setColor(Color.black);
-			for(int i=0;i<42;i++){	
+			for(int i=0;i<GameData.NUM_COUNTRIES;i++){	
 				for(int j=0;j<6;j++){	
 					if((i!=8 || j!= 2)&& (i!=22 || j!= 0)){
 						try{
@@ -89,61 +93,43 @@ public void paintComponent(Graphics grphcs) {
 		public void showCountryNames(Graphics2D g2d){
 			Font font = new Font("Serif", Font.BOLD, 16);
 		    g2d.setFont(font);
-			for(int i=0;i<42;i++){
-				 g2d.drawString(GameData.COUNTRY_NAMES[i],GameData.COUNTRY_COORD[i][0] - (2*GameData.COUNTRY_NAMES[i].length() +10),GameData.COUNTRY_COORD[i][1] - 15 );
+			for(int i=0;i<GameData.NUM_COUNTRIES;i++){
+				String country_tag = GameData.COUNTRY_NAMES[i] + " (" + GameData.SHORT_COUNTRY_NAMES[i] + ") ";
+				 g2d.drawString(country_tag, GameData.COUNTRY_COORD[i][0] - (2*country_tag.length() +10),GameData.COUNTRY_COORD[i][1] - 15 );
 			}
 		}
 		
-		public List<Territory> buildTerritories(Graphics2D g2d){
-			List<Territory> territory_list= new ArrayList<Territory>();
-			int current_player = 0;
-			for(int i=0;i<42;i++){
-				Territory current_territory = new Territory(i);
-				current_territory.setArmies(1);
-				
-				switch (i) {
-				case 0:  current_player = 0;
+		
+		
+		public void showArmyNumber(Graphics2D g2d, List<Territory> territories_list){
+			Font font = new Font("Serif", Font.BOLD, 16);
+			g2d.setColor(Color.BLACK);
+			g2d.setFont(font);
+			for(int i=0;i<GameData.NUM_COUNTRIES;i++){
+				String current_armies = Integer.toString(territories_list.get(i).getArmies());
+				g2d.drawString(current_armies ,GameData.COUNTRY_COORD[territories_list.get(i).getNode()][0] -3 ,GameData.COUNTRY_COORD[territories_list.get(i).getNode()][1] + 25 );	
+			}
+		}
+		
+		public void	showCountryOwnership(Graphics2D g2d, List<Territory> territories_list){
+			for(int i=0;i<GameData.NUM_COUNTRIES;i++){	
+				switch (territories_list.get(i).getPlayer()) {
+				case 0:  g2d.setColor(GameData.MY_ORANGE);
                 		 break;
-	            case 9:  current_player = 1;
+	            case 1:  g2d.setColor(GameData.MY_BLUE);
 	                     break;
-	            case 18: current_player = 2;
-                		 break;
-	            case 24: current_player = 3;
-                		 break;
-	            case 30: current_player = 4;
+	            case 2:  g2d.setColor(GameData.MY_GREEN);
 	                     break;
-	            case 36: current_player = 5; 
+	            case 3:  g2d.setColor(GameData.MY_PURPLE);
+	                     break;
+	            case 4:  g2d.setColor(GameData.MY_RED);
+	                     break;
+	            case 5:  g2d.setColor(GameData.MY_BROWN);
 	                     break;
 				}
-				current_territory.setPlayer(current_player);
-				showArmyNumber(g2d, current_territory);
-					
-		        territory_list.add(current_territory);
+					g2d.fillOval(GameData.COUNTRY_COORD[i][0] - 6,GameData.COUNTRY_COORD[i][1] - 6,12,12);
 			}
-			 return territory_list;
-		}
-	        
-		
-		
-		public void showArmyNumber(Graphics2D g2d, Territory input_territory){
-			Font font = new Font("Serif", Font.BOLD, 16);
-			g2d.setFont(font);
-			switch (input_territory.getPlayer()) {
-			case 0:  g2d.setColor(Color.BLUE);
-            		 break;
-            case 1:  g2d.setColor(Color.RED);
-                     break;
-            case 2:  g2d.setColor(Color.YELLOW);
-                     break;
-            case 3:  g2d.setColor(Color.CYAN);
-                     break;
-            case 4:  g2d.setColor(Color.GREEN);
-                     break;
-            case 5:  g2d.setColor(Color.MAGENTA);
-                     break;
-			}
-			String current_armies = Integer.toString(input_territory.getArmies());
-			g2d.drawString(current_armies ,GameData.COUNTRY_COORD[input_territory.getNode()][0] -3 ,GameData.COUNTRY_COORD[input_territory.getNode()][1] + 25 );	
+			
 		}
 
 		public void refresh() {
@@ -151,7 +137,7 @@ public void paintComponent(Graphics grphcs) {
 			repaint();
 			return;
 		}
-		}
+	}
 	
 
 	

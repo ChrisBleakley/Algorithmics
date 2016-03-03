@@ -33,11 +33,11 @@ public class SplitFrameGUI extends JFrame  {
 
 	
 
-	public SplitFrameGUI() {
+	public SplitFrameGUI(MapPanel mapPanel) {
 
 		setTitle("WELCOME TO RISK");
 		JPanel upperPanel = new JPanel();
-		mapPanel=new MapPanel();
+		
 		outputPanel= new OutputPanel();
 		inputPanel= new InputPanel();
 		mapPanel.setPreferredSize(new Dimension(GameData.FRAME_WIDTH, GameData.FRAME_HEIGHT));

@@ -1,6 +1,8 @@
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /* Algorithmics
  * 14708689 Orla Cullen
@@ -8,59 +10,187 @@ import java.util.List;
  * 14343826 Jonathan Sweeney 
  */
 public class PlayGame {
-	SplitFrameGUI interfaceFrame = new SplitFrameGUI();
+
+	//arraylist represents the random ownership of the cards of a shuffled deck.
+	List<Integer> arrayList = deal();
+	
+	//Creates the territories, assigning them the owners as determined in arraylist.
+	List<Territory> territory_list = buildTerritories(arrayList);
+	
+	//Creates the Game Board, to show all game developments.
+	MapPanel mapPanel=new MapPanel(territory_list);
+	
+	//Creates the a Jframe split into 3 panels, one of which will hold the map.
+	SplitFrameGUI interfaceFrame = new SplitFrameGUI(mapPanel);
+
+	
 	PlayGame(){
-
-
+		
 		interfaceFrame.pack();
 		interfaceFrame.setVisible(true);
-//		int playerId;
-		String name1;
-		String name2;
-		List<Integer> arrayList = new ArrayList<Integer>();
-
-		// get player names
-		interfaceFrame.displayString("Enter the name of player 1");
-		name1 = interfaceFrame.getCommand();
-		interfaceFrame.displayString("Welcome --> " + name1);
-		interfaceFrame.displayString("Enter the name of player 2");
-		name2 = interfaceFrame.getCommand();
-		interfaceFrame.displayString("Welcome --> " + name2);
-
-		// allocates territories
-		arrayList = deal();
-		printNames(0,9,arrayList,name1);
-		printNames(9,18,arrayList,name2);
-		printNames(18,24,arrayList,"Neutral 1");
-		printNames(24,30,arrayList,"Neutral 2");
-		printNames(30,36,arrayList,"Nuetral 3");
-		printNames(36,42,arrayList,"Neutral 4");
 		
-		interfaceFrame.displayString("Enter roll ");
-		rolling();
+		//Gets player names from prompt
+		String player_1 = getNames(interfaceFrame, 1);
+		String player_2 = getNames(interfaceFrame, 2);
+		
+		//Creates list of players and syncs each one with their owned territories.
+		List<Player> player_list = buildPlayers(territory_list, player_1, player_2);
+		
+		//Draws territory cards and displays them to users.
+		draw(player_list);
 
-
+		interfaceFrame.displayString("Enter 'roll' to decide who places armies first.");
+		int winner = roll();
+		interfaceFrame.displayString(player_list.get(winner).getName() +" will place armies first.");
+		
+		//Method to allow players to set up the board, each player placing 27 armies on their own territories and 9 on each neutral.
+		placeArmies(winner, territory_list, player_list);
 	}
-	public  void rolling(){
+	
+	
+	public  void draw(List<Player> player_list){
+		String player_1 = player_list.get(0).getName();
+		String player_2 = player_list.get(1).getName();
+		
 		do {
+			interfaceFrame.displayString("Enter 'draw' to draw territory cards");
+			
 			String loop = interfaceFrame.getCommand();
-			if (loop.equalsIgnoreCase("roll"))
-				rollDice();
-			else if (!(loop.equalsIgnoreCase("roll")))
-				interfaceFrame.displayString("WRONG INPUT ROLL AGAIN ");
-			interfaceFrame.displayString("WANT TO ROLL AGAIN ");
-			interfaceFrame.displayString("Enter Y for Yes or N for No ");
-			String word = interfaceFrame.getCommand();
-			if (word.equalsIgnoreCase("Y")) {
-				interfaceFrame.displayString("Enter: roll ");
-			} else if (word.equalsIgnoreCase("N")) {
-				interfaceFrame.displayString("Finished Roll ");
+			if (loop.equalsIgnoreCase("draw")){
 				break;
 			}
+			else if (!(loop.equalsIgnoreCase("draw"))){
+				interfaceFrame.displayString("COMMAND NOT RECOGNISED");
+				interfaceFrame.displayString("Would you like to draw territory cards? ");
+				interfaceFrame.displayString("Enter Y for Yes or N for No ");
+				String word = interfaceFrame.getCommand();
+				
+				if (word.equalsIgnoreCase("Y")){
+					break;
+				}
+				else if (word.equalsIgnoreCase("N")){
+					interfaceFrame.displayString("Cannot continue, thank you for playing. ");
+					try {
+						TimeUnit.SECONDS.sleep(2);
+					} 
+					catch (InterruptedException e){
+					}
+					System.exit(0);
+				}
+			}
 		} while (true);
-
+		
+		printNames(player_list);
+	}
+	
+	
+	//
+	public int roll(){
+		int winner;
+		do {
+			String loop = interfaceFrame.getCommand();
+			if (loop.equalsIgnoreCase("roll")){
+				winner = rollDice();
+				break;
+			}
+			else if (!(loop.equalsIgnoreCase("roll"))){
+				interfaceFrame.displayString("COMMAND NOT RECOGNISED");
+				interfaceFrame.displayString("Would you like to roll dice? ");
+				interfaceFrame.displayString("Enter Y for Yes or N for No ");
+				String word = interfaceFrame.getCommand();
+				
+				if (word.equalsIgnoreCase("Y")){
+					winner = rollDice();
+					break;
+				}
+				else if (word.equalsIgnoreCase("N")){
+					interfaceFrame.displayString("Cannot continue, thank you for playing. ");
+					try {
+						TimeUnit.SECONDS.sleep(2);
+					} 
+					catch (InterruptedException e){
+					}
+					System.exit(0);
+				}
+			}
+		} while (true);
+	
+		return winner;
 	}
 
+	
+	//Lets both players set up the board by allocating the armies to their chosen territories.
+	public void placeArmies(int winner, List<Territory> territory_list, List<Player> player_list){
+		int current_player;
+		for(int i=0; i<9; i++){
+			if(i%2 == 0){
+				current_player = winner;
+			}
+			else{
+				current_player = (winner+1)%2;
+			}
+			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories to place 3 armies on.");
+			assignArmies(territory_list, player_list, current_player, 3);
+			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of Neutral Player 1's territories to place 1 army on.");
+			assignArmies(territory_list, player_list, 2, 1);
+			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of Neutral Player 2's territories to place 1 army on.");
+			assignArmies(territory_list, player_list, 3, 1);
+			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of Neutral Player 3's territories to place 1 army on.");
+			assignArmies(territory_list, player_list, 4, 1);
+			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of Neutral Player 4's territories to place 1 army on.");
+			assignArmies(territory_list, player_list, 5, 1);
+			
+		}
+	}
+	
+	
+	//Assigns armies to a chosen territory belonging to a given player.
+	public void assignArmies(List<Territory> territory_list, List<Player> player_list, int player, int armies){
+		do{	
+			boolean valid_choice = false;
+			int chosen_node = getTerritoryInput(territory_list);
+			for (int j=0; j < player_list.get(player).ownedTerritoriesSize() ; j++){
+				if(chosen_node == player_list.get(player).getOwnedTerritory(j)){
+					player_list.get(player).setArmies(armies);
+					territory_list.get(chosen_node).setArmies(armies);
+					mapPanel.refresh();
+					valid_choice = true;
+					break;
+				}
+			}
+			if(valid_choice==true){
+				break;
+			}
+			interfaceFrame.displayString(player_list.get(player).getName() + " does not own " + GameData.COUNTRY_NAMES[chosen_node]);
+			interfaceFrame.displayString("Please enter a territory owned by " + player_list.get(player).getName());
+		}while(true);
+		
+	}
+	
+	
+	//Reads the entered territory name from the prompt.
+	public int getTerritoryInput(List<Territory> territory_list){
+		int chosen_node = -1;
+		do {	
+			String loop = interfaceFrame.getCommand();
+			for(int i=0; i<42; i++){
+				if (loop.equalsIgnoreCase(GameData.COUNTRY_NAMES[i]) || loop.equalsIgnoreCase(GameData.SHORT_COUNTRY_NAMES[i])){
+					chosen_node = territory_list.get(i).getNode();
+					break;
+				}
+			}
+			if(chosen_node == -1){
+				interfaceFrame.displayString("NAME NOT RECOGNISED");
+				interfaceFrame.displayString("Please enter a valid name or shorthand. ");
+			}
+
+		} while (chosen_node == -1);
+		
+		return chosen_node;
+	}
+	
+	
+	//Rolls the dice and returns the winner when called.
 	public int rollDice() {
 		Die die = new Die();
 		die.roll();
@@ -72,27 +202,100 @@ public class PlayGame {
 
 		int winner = 0;
 		if (die1 > die2) {
-			winner = 1;
+			winner = 0;
 			interfaceFrame.displayString(" Player 1  wins");
 		} else if (die1 < die2) {
-			winner = 0;
+			winner = 1;
 
 			interfaceFrame.displayString(" Player 2  wins");
 		} else{
-			interfaceFrame.displayString(" DRAW RE Rolling");
+			interfaceFrame.displayString(" Draw, Re-Rolling");
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} 
+			catch (InterruptedException e){
+			}
 			winner = rollDice();
 		}
 		return winner;
-
 	}
+	
+	
+	//Creates and initializes the list of territories.
+	public List<Territory> buildTerritories(List<Integer> arrayList){
+		List<Territory> territory_list= new ArrayList<Territory>();
+		
+		for(int i=0;i<42;i++){
+			Territory current_territory = new Territory(i, GameData.COUNTRY_NAMES[i], GameData.SHORT_COUNTRY_NAMES[i]);
+			current_territory.setArmies(1);
+		
+			current_territory.setPlayer(arrayList.get(i));
+				
+	        territory_list.add(current_territory);
+		}
+		 return territory_list;
+	}
+	
+	
+	//Creates and initializes the list of 6 players.
+	public List<Player> buildPlayers(List<Territory> territory_list,  String player_1, String player_2){	
+		List<Player> player_list= new ArrayList<Player>();
+		String player_name = null;
+		int armies = 0;
+		for(int i=0;i<6;i++){
+			switch (i) {
+			case 0:  player_name = player_1;
+					 armies = 27;
+				break;
+			case 1:  player_name = player_2;
+           		break;
+			case 2:  player_name = "Neutral Player 1";
+					 armies = 18;
+            	break;
+			case 3:  player_name = "Neutral Player 2";
+				break;
+			case 4:  player_name = "Neutral Player 3";
+				break;
+			case 5:  player_name = "Neutral Player 4";
+				break;
+			}	
+			Player current_player = new Player(i, player_name);
+			current_player.setArmies(armies);
 
-	// creates number list 0-41 and randomises  
+			for (int j=0;j<	42 ;j++){
+				if(current_player.getPlayer()==territory_list.get(j).getPlayer()){
+					current_player.addOwnedTerritory(territory_list.get(j).getNode());
+				}
+			}		
+
+			player_list.add(current_player);
+		}
+		 return player_list;
+	}
+	
+	
+	//Creates a length 42 integer list of numbers 0-5 and randomizes it.
 	public List<Integer> deal() {
 		int i=0;
+		int current_player = 0;
 		List<Integer> arrayList = new ArrayList<Integer>();
-
+		
 		for (i=0;i<	42 ;i++){
-			arrayList.add(i);
+			switch (i) {
+			case 0:  current_player = 0;
+	        		 break;
+	        case 9:  current_player = 1;
+	                 break;
+	        case 18: current_player = 2;
+	        		 break;
+	        case 24: current_player = 3;
+	        		 break;
+	        case 30: current_player = 4;
+	                 break;
+	        case 36: current_player = 5; 
+	                 break;
+			}
+			arrayList.add(current_player);
 		}
 
 		Collections.shuffle(arrayList);
@@ -100,13 +303,27 @@ public class PlayGame {
 		return arrayList;
 	}
 	
-	public void printNames(int j, int k, List<Integer> arrayList, String name){
-		String nameList = "";
-		for (int i=j;i<k;i++){
-			nameList += (GameData.COUNTRY_NAMES[arrayList.get(i)] + ", ");
-		}
-		interfaceFrame.displayString(name +" has received " + nameList + "\n");
-
+	
+	//Get names from prompt.
+	public  String getNames(SplitFrameGUI interfaceFrame, int player_number){
+		interfaceFrame.displayString("Enter the name of player " + player_number);
+		String name = interfaceFrame.getCommand();
+		interfaceFrame.displayString("Welcome to risk " + name);
+		
+		return name;
 	}
+
+	
+	//Print each player's names and owned territories.
+	public void printNames(List<Player> player_list){
+		for(int j=0; j<6;j++){
+			String nameList = "";
+			for (int i=0; i < player_list.get(j).ownedTerritoriesSize() ; i++){
+				nameList += (GameData.COUNTRY_NAMES[player_list.get(j).getOwnedTerritory(i)] + ", ");
+			}
+			interfaceFrame.displayString(player_list.get(j).getName() + " (" + GameData.PLAYER_COLOURS[j] + ")" +" has received " + nameList + "\n");
+		}
+	}
+	
 }
 
