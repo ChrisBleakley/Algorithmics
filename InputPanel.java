@@ -9,7 +9,6 @@ import java.util.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.JTextField;
 
 public class InputPanel extends JPanel {
 
@@ -19,9 +18,32 @@ public class InputPanel extends JPanel {
 	private LinkedList<String> commandBuffer = new LinkedList<String>();
 
 	InputPanel() {
-		JLabel label = new JLabel("Welcome to Risk");
-		commandField.add(label, BorderLayout.NORTH);
-		commandField.setBackground(Color.yellow);
+		JButton rollButton= new JButton("Roll");
+	       rollButton.setSize(30,30);
+	        class RollActionListener implements ActionListener  {
+	        	public void actionPerformed(ActionEvent event) {
+					synchronized (commandBuffer) {
+						String command= "roll";
+						commandBuffer.add(command);
+						commandField.setText("");
+						commandBuffer.notify();
+					}
+					return;
+				}
+			}
+	        JButton drawButton= new JButton("draw");
+		       drawButton.setSize(30,30);
+		        class DrawActionListener implements ActionListener  {
+		        	public void actionPerformed(ActionEvent event) {
+						synchronized (commandBuffer) {
+							String draw="draw";
+							commandBuffer.add(draw);
+							commandField.setText("");
+							commandBuffer.notify();
+						}
+						return;
+					}
+				}
 		class AddActionListener implements ActionListener {
 			public void actionPerformed(ActionEvent event) {
 				synchronized (commandBuffer) {
@@ -34,11 +56,17 @@ public class InputPanel extends JPanel {
 		}
 
 		ActionListener listener = new AddActionListener();
+		ActionListener drawlisten = new DrawActionListener();
+		ActionListener rolllisten = new RollActionListener();
+		rollButton.addActionListener(rolllisten);
+		drawButton.addActionListener(drawlisten);
 		commandField.addActionListener(listener);
 		commandField.setFont(new Font("Times New Roman", Font.PLAIN, FONT_SIZE));
 		setLayout(new BorderLayout());
 		commandField.setBackground(Color.WHITE);
 		add(commandField, BorderLayout.CENTER);
+		add(rollButton, BorderLayout.NORTH);
+		add(drawButton,BorderLayout.WEST);
 		return;
 	}
 
