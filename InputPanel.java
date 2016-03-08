@@ -16,7 +16,7 @@ public class InputPanel extends JPanel {
 	private static final int FONT_SIZE = 14;
 	private JTextField commandField = new JTextField();
 	private LinkedList<String> commandBuffer = new LinkedList<String>();
-
+	private JPanel buttonPanel = new JPanel();
 	InputPanel() {
 		JButton rollButton= new JButton("Roll");
 	       rollButton.setSize(30,30);
@@ -65,8 +65,15 @@ public class InputPanel extends JPanel {
 		setLayout(new BorderLayout());
 		commandField.setBackground(Color.WHITE);
 		add(commandField, BorderLayout.CENTER);
-		add(rollButton, BorderLayout.NORTH);
-		add(drawButton,BorderLayout.WEST);
+		add(buttonPanel, BorderLayout.WEST);
+		
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+		buttonPanel.add(Box.createHorizontalGlue());
+		buttonPanel.add(rollButton);
+		buttonPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+		buttonPanel.add(drawButton);
+		
 		return;
 	}
 
