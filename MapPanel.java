@@ -55,9 +55,9 @@ public void paintComponent(Graphics grphcs) {
                		break;
 				case 2:  g2d.setColor(Color.green);
                 	break;
-				case 3:  g2d.setColor(Color.magenta);
+				case 3:  g2d.setColor(GameData.MY_LPURPLE);
 					break;
-				case 4:  g2d.setColor(Color.red);
+				case 4:  g2d.setColor(Color.pink);
 					break;
 				case 5:  g2d.setColor(Color.lightGray);
 					break;
@@ -117,15 +117,15 @@ public void paintComponent(Graphics grphcs) {
 						 break;
 				case 0:  g2d.setColor(GameData.MY_ORANGE);
                 		 break;
-	            case 1:  g2d.setColor(GameData.MY_BLUE);
+	            case 1:  g2d.setColor(Color.blue);
 	                     break;
 	            case 2:  g2d.setColor(GameData.MY_GREEN);
 	                     break;
 	            case 3:  g2d.setColor(GameData.MY_PURPLE);
 	                     break;
-	            case 4:  g2d.setColor(GameData.MY_RED);
+	            case 4:  g2d.setColor(Color.red);
 	                     break;
-	            case 5:  g2d.setColor(GameData.MY_BROWN);
+	            case 5:  g2d.setColor(GameData.MY_PINK);
 	                     break;
 				}
 					g2d.fillOval(GameData.COUNTRY_COORD[i][0] - 6,GameData.COUNTRY_COORD[i][1] - 6,12,12);

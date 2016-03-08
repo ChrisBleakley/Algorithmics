@@ -20,7 +20,7 @@ public class OutputPanel extends JPanel {
 	OutputPanel() {
 		textArea.setEditable(false);
 		textArea.setFont(new Font("Arial Black", Font.BOLD, FONT_SIZE));
-		textArea.setForeground(GameData.MY_PURPLE);
+		textArea.setForeground(Color.BLACK);
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

@@ -122,13 +122,11 @@ public final class GameData {
 	public static final String[] CONTINENT_NAMES = {"N America","Europe","Asia","Australia","S America","Africa"};  // for reference 
 	public static final int[] CONTINENT_IDS = {0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,5,5};
 	public static Color MY_CREAM = new Color(253,230,159);
-	public static Color MY_RED = new Color(157,0 ,0);
+	public static Color MY_LPURPLE = new Color(220,128 ,255);
 	public static Color MY_GREEN = new Color(17,152 ,14);
-	public static Color MY_BROWN = new Color(128,64 ,0);
-	public static Color MY_BLUE = Color.blue;
-	public static Color MY_PURPLE = new Color(88,39 ,88);
+	public static Color MY_PURPLE = new Color(169,0 ,125);
 	public static Color MY_ORANGE = new Color(255,128,0);
-	public static Color MY_PINK = new Color(221,23 ,206);
+	public static Color MY_PINK = new Color(255,0 ,128);
 	public static Color MY_BORANGE = new Color(255,128 ,0);
     private GameData() {
 	    //this prevents even the native class from calling this constructor

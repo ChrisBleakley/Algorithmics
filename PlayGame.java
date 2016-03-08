@@ -131,13 +131,13 @@ public class PlayGame {
 			}
 			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories to place 3 armies on.");
 			assignArmies(territory_list, player_list, current_player, 3);
-			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of Neutral Player 1's territories to place 1 army on.");
+			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of Neutral Player 1's territories" + "(" + GameData.PLAYER_COLOURS[2] + ")" +  "to place 1 army on.");
 			assignArmies(territory_list, player_list, 2, 1);
-			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of Neutral Player 2's territories to place 1 army on.");
+			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of Neutral Player 2's territories " + "(" + GameData.PLAYER_COLOURS[3] + ")" + "to place 1 army on.");
 			assignArmies(territory_list, player_list, 3, 1);
-			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of Neutral Player 3's territories to place 1 army on.");
+			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of Neutral Player 3's territories " + "(" + GameData.PLAYER_COLOURS[4] + ")" + "to place 1 army on.");
 			assignArmies(territory_list, player_list, 4, 1);
-			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of Neutral Player 4's territories to place 1 army on.");
+			interfaceFrame.displayString(player_list.get(current_player).getName()  + ", please choose one of Neutral Player 4's territories  " + "(" + GameData.PLAYER_COLOURS[5] + ")" + "to place 1 army on.");
 			assignArmies(territory_list, player_list, 5, 1);
 			
 		}
