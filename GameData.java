@@ -21,6 +21,7 @@ public final class GameData {
 		"E Australia","New Guinea","W Australia","Indonesia",
 		"Venezuela","Peru","Brazil","Argentina",
 		"Congo","N Africa","S Africa","Egypt","E Africa","Madagascar"};  // for reference
+	
 	public static final String[] SHORT_COUNTRY_NAMES = {
 			"Ont","Qbc","NWT","Alb","Grl","EUS","WUS","CAM","AlA",
 			"Irl","WEu","SEu","Ukr","NEu","Ice","Sca",
@@ -128,6 +129,20 @@ public final class GameData {
 	public static Color MY_ORANGE = new Color(255,128,0);
 	public static Color MY_PINK = new Color(255,0 ,128);
 	public static Color MY_BORANGE = new Color(255,128 ,0);
+	public static final String[] CARD_NAMES = {
+			"Ontario","Quebec","NW Territory","Alberta","Greenland","E United States","W United States","Central America","Alaska",
+			"Ireland","W Europe","S Europe","Ukraine","N Europe","Iceland","Scandinavia",
+			"Afghanistan","India","Middle East","Japan","Ural","Yakutsk","Kamchatka","Siam","Irkutsk","Siberia","Mongolia","China",
+			"E Australia","New Guinea","W Australia","Indonesia",
+			"Venezuela","Peru","Brazil","Argentina",
+			"Congo","N Africa","S Africa","Egypt","E Africa","Madagascar",null,null};  // for reference
+	public static final String[] INSIGNIA_TYPE = {
+			"Cavalry","Artillery","Artillery","Infantry","Cavalry","Artillery","Infantry","Cavalry","Infantry",
+			"Cavalry","Infantry","Cavalry","Artillery","Cavalry","Infantry","Artillery",
+			"Infantry","Infantry","Artillery","Infantry","Cavalry","Cavalry","Cavalry","Artillery","Infantry","Artillery","Artillery","Cavalry",
+			"Infantry","Cavalry","Artillery","Artillery",
+			"Artillery","Cavalry","Artillery","Infantry",
+			"Cavalry","Infantry","Artillery","Infantry","Artillery","Infantry","Wild","Wild"};
     private GameData() {
 	    //this prevents even the native class from calling this constructor
 	    throw new AssertionError();

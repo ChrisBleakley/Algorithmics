@@ -37,10 +37,11 @@ public class PlayGame {
 		
 		//Creates list of players and syncs each one with their owned territories.
 		List<Player> player_list = buildPlayers(territory_list, player_1, player_2);
+	
 		
 		//Draws territory cards and displays them to users.
 		draw(territory_list, player_list, arrayList);
-
+		calc_CountryArmies(player_list);
 		interfaceFrame.displayString("Enter 'roll' to decide who places armies first.");
 		int winner = roll();
 		interfaceFrame.displayString(player_list.get(winner).getName() +" will place armies first.");
@@ -334,6 +335,25 @@ public class PlayGame {
 			}
 			interfaceFrame.displayString(player_list.get(j).getName() + " (" + GameData.PLAYER_COLOURS[j] + ")" +" has received " + nameList + "\n");
 		}
+	}
+	public void calc_CountryArmies(List<Player> player_list) {
+		int reinforce = 0;
+		int i = 0;
+		while (i < GameData.NUM_PLAYERS) {
+			if (player_list.get(i).ownedTerritoriesSize() / 3 <= 3) {
+				reinforce = 3;
+				interfaceFrame.displayString(player_list.get(i).getName() + ", has " + reinforce + " reinforcements.");
+
+			} else if (player_list.get(i).ownedTerritoriesSize() / 3 > 3) {
+				reinforce = player_list.get(i).ownedTerritoriesSize() / 3;
+				interfaceFrame.displayString(player_list.get(i).getName() + ", has " + reinforce + " reinforcements.");
+
+			}
+
+			i++;
+
+		}
+	
 	}
 	
 }
