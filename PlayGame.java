@@ -121,29 +121,33 @@ public class PlayGame {
 
 	
 	//Lets both players set up the board by allocating the armies to their chosen territories.
-	public void placeArmies(int winner, List<Territory> territory_list, List<Player> player_list){
-		int current_player;
-		for(int i=0; i<9; i++){
-			if(i%2 == 0){
+	public void placeArmies(int winner, List<Territory> territory_list, List<Player> player_list) {
+		int current_player =0;
+		int i = 0;
+		for(i=0;i<18;i++) {
+			current_player=0;
+			
+			if (i % 2 == 0){
 				current_player = winner;
 			}
-			else{
-				current_player = (winner+1)%2;
+				else{
+					current_player = (winner + 1) % 2;
+				}
+			for (int j = 0; j < 3; j++) {
+				
+				interfaceFrame.displayString(player_list.get(current_player).getName()
+						+ ", please choose one of your territories to place  armies on.");
+				assignArmies(territory_list, player_list, current_player, 1);
+				}
+					
+			for (int k = 2; k < 6; k++) {
+				interfaceFrame.displayString(
+						player_list.get(current_player).getName() + ", please choose one of Neutral Player" + (k - 1)
+								+ " territories" + "(" + GameData.PLAYER_COLOURS[k] + ")" + "to place 1 army on.");
+				assignArmies(territory_list, player_list, k, 1);
 			}
-			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories to place 3 armies on.");
-			assignArmies(territory_list, player_list, current_player, 3);
-			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of Neutral Player 1's territories" + "(" + GameData.PLAYER_COLOURS[2] + ")" +  "to place 1 army on.");
-			assignArmies(territory_list, player_list, 2, 1);
-			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of Neutral Player 2's territories " + "(" + GameData.PLAYER_COLOURS[3] + ")" + "to place 1 army on.");
-			assignArmies(territory_list, player_list, 3, 1);
-			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of Neutral Player 3's territories " + "(" + GameData.PLAYER_COLOURS[4] + ")" + "to place 1 army on.");
-			assignArmies(territory_list, player_list, 4, 1);
-			interfaceFrame.displayString(player_list.get(current_player).getName()  + ", please choose one of Neutral Player 4's territories  " + "(" + GameData.PLAYER_COLOURS[5] + ")" + "to place 1 army on.");
-			assignArmies(territory_list, player_list, 5, 1);
-			
 		}
-	}
-	
+}
 	
 	//Assigns armies to a chosen territory belonging to a given player.
 	public void assignArmies(List<Territory> territory_list, List<Player> player_list, int player, int armies){
