@@ -51,4 +51,7 @@ public class Player {
 		return owned_territories_List.size();
 		 
 	}
+	int getPlayer(int i){
+		return player_index;
+	}	
 }

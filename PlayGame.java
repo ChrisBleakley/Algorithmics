@@ -41,7 +41,7 @@ public class PlayGame {
 		
 		//Draws territory cards and displays them to users.
 		draw(territory_list, player_list, arrayList);
-		calc_CountryArmies(player_list);
+		calc_TotalReinforcements(territory_list,player_list);
 		interfaceFrame.displayString("Enter 'roll' to decide who places armies first.");
 		int winner = roll();
 		interfaceFrame.displayString(player_list.get(winner).getName() +" will place armies first.");
@@ -336,25 +336,116 @@ public class PlayGame {
 			interfaceFrame.displayString(player_list.get(j).getName() + " (" + GameData.PLAYER_COLOURS[j] + ")" +" has received " + nameList + "\n");
 		}
 	}
-	public void calc_CountryArmies(List<Player> player_list) {
-		int reinforce = 0;
-		int i = 0;
-		while (i < GameData.NUM_PLAYERS) {
-			if (player_list.get(i).ownedTerritoriesSize() / 3 <= 3) {
-				reinforce = 3;
-				interfaceFrame.displayString(player_list.get(i).getName() + ", has " + reinforce + " reinforcements.");
+	
+	//Method  calcullates the  amount of territorys owned   and  also gives a bonus if continent is owned 
+		public void  calc_TotalReinforcements(List<Territory> territory_list, List<Player> player_list) {
+			for(int i=0;i<GameData.NUM_PLAYERS;i++){
+				int Namerica_size = 0;
+				int Euro_size = 0;
+				int Asia_size = 0;
+				int Aus_size = 0;
+				int Samerica_size = 0;
+				int Af_size = 0;
+				int nam_reinforce = 0;
+				int eu_reinforce = 0;
+				int as_reinforce = 0;
+				int aus_reinforce = 0;
+				int sam_reinforce = 0;
+				int af_reinforce=0;
+				int country_reinforce = 0;
+				if (player_list.get(i).ownedTerritoriesSize() / 3 <= 3) {
+					country_reinforce = 3;
+					} 
+				else if (player_list.get(i).ownedTerritoriesSize() / 3 > 3) {
+					country_reinforce = player_list.get(i).ownedTerritoriesSize() / 3;
+				}
+				for (int j = 0; j < 42; j++) {
+					
+					if (j < 9 && (player_list.get(i).getPlayer(i) == territory_list.get(j).getPlayer())) {
+						Namerica_size++;
+						if (Namerica_size==9){
+						nam_reinforce = GameData.north_america;
+						}
+						else{
+							nam_reinforce = 0;
+						}
+					}
+					if (j > 8 && j < 16 && (player_list.get(i).getPlayer(i) == territory_list.get(j).getPlayer())) {
+						Euro_size++;
+						if (Euro_size==7){
+							eu_reinforce = GameData.europe;
+							}
+							else{
+								eu_reinforce = 0;
+							}
+						
 
-			} else if (player_list.get(i).ownedTerritoriesSize() / 3 > 3) {
-				reinforce = player_list.get(i).ownedTerritoriesSize() / 3;
-				interfaceFrame.displayString(player_list.get(i).getName() + ", has " + reinforce + " reinforcements.");
+					}
+					if (j > 15 && j < 28 && (player_list.get(i).getPlayer(i) == territory_list.get(j).getPlayer())) {
+						Asia_size++;
+						if (Asia_size==12){
+							as_reinforce = GameData.asia;
+							}
+							else{
+								as_reinforce = 0;
+							}
+						
+					}
+					if (j > 27 && j < 32 && (player_list.get(i).getPlayer(i) == territory_list.get(j).getPlayer())) {
+						Aus_size++;
+						if (Aus_size==4){
+							aus_reinforce =  GameData.australia;
+							}
+							else{
+								aus_reinforce = 0;
+							}
+						
+					}
+					if (j > 31 && j < 36 && (player_list.get(i).getPlayer(i) == territory_list.get(j).getPlayer())) {
+						Samerica_size++;
+						if (Samerica_size==4){
+							sam_reinforce =  GameData.south_america;
+							}
+							else{
+								sam_reinforce = 0;
+							}
+						
 
+					}
+					if (j > 35 && j < 42 && (player_list.get(i).getPlayer(i) == territory_list.get(j).getPlayer())) {
+						Af_size++;
+						if (Af_size==6){
+							af_reinforce =  GameData.africa;
+							}
+							else{
+								af_reinforce = 0;
+							}
+						
+					}
+					
+				}
+				int continent_reinforce = 0;
+				continent_reinforce= nam_reinforce+eu_reinforce + as_reinforce + aus_reinforce +sam_reinforce+ af_reinforce;
+				int total_reinforcements=0;
+				 total_reinforcements=continent_reinforce+ country_reinforce;
+				//interfaceFrame.displayString(player_list.get(i).getName() + ", has " + Namerica_size + " size of america");
+				//interfaceFrame.displayString(player_list.get(i).getName() + ", has " + Euro_size + " size of europe");
+				//interfaceFrame.displayString(player_list.get(i).getName() + ", has " + Asia_size + " size of asia");
+				//interfaceFrame.displayString(player_list.get(i).getName() + ", has " + Aus_size + " size of austalia");
+				//interfaceFrame.displayString(player_list.get(i).getName() + ", has " + Samerica_size + " size of Southamerica");
+				//interfaceFrame.displayString(player_list.get(i).getName() + ", has " + Af_size + " size of Africa");
+				interfaceFrame.displayString(player_list.get(i).getName() + ", has " + continent_reinforce + " bonus reinforcements.");
+				interfaceFrame.displayString(player_list.get(i).getName() + ", has " + total_reinforcements + " total reinforcements.");
+			
 			}
-
-			i++;
-
+		
+			
+			
+			
 		}
-	
-	}
-	
+		
+
 }
+
+
 

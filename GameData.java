@@ -129,6 +129,13 @@ public final class GameData {
 	public static Color MY_ORANGE = new Color(255,128,0);
 	public static Color MY_PINK = new Color(255,0 ,128);
 	public static Color MY_BORANGE = new Color(255,128 ,0);
+	public static final int north_america=7;
+	public static final int europe= 5;
+	public static final int asia =3;
+	public static final int australia=4;
+	public static final int south_america=2;
+	public static final int africa =3;
+
 	public static final String[] CARD_NAMES = {
 			"Ontario","Quebec","NW Territory","Alberta","Greenland","E United States","W United States","Central America","Alaska",
 			"Ireland","W Europe","S Europe","Ukraine","N Europe","Iceland","Scandinavia",
