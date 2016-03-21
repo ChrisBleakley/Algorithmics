@@ -444,7 +444,33 @@ public class PlayGame {
 			
 		return total_reinforcements;}
 		
-
+		public  void check_HumanWinner(List<Player> player_list){
+			for (int i=0;i<GameData.NUM_PLAYERS;i++){
+			if (i==0 && player_list.get(i).ownedTerritoriesSize()==0){
+				interfaceFrame.displayString(player_list.get(i+1).getName() + " is the winner");
+				interfaceFrame.displayString( "GAME OVER");
+				try {
+					TimeUnit.SECONDS.sleep(5);
+				} 
+				catch (InterruptedException e){
+				}
+				System.exit(0);
+				
+			}
+			if (i==1 && player_list.get(i).ownedTerritoriesSize()==0){
+				interfaceFrame.displayString(player_list.get(i-1).getName() + " is the winner");
+				interfaceFrame.displayString( "GAME OVER");
+				try {
+					TimeUnit.SECONDS.sleep(5);
+				} 
+				catch (InterruptedException e){
+				}
+				System.exit(0);
+				
+			}
+			
+		}
+	}
 }
 
 
