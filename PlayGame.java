@@ -41,7 +41,9 @@ public class PlayGame {
 		
 		//Draws territory cards and displays them to users.
 		draw(territory_list, player_list, arrayList);
-		calc_TotalReinforcements(territory_list,player_list);
+		int  p0_reinforcements=calc_TotalReinforcements(territory_list,player_list,0);
+		int  p1_reinforcements=calc_TotalReinforcements(territory_list,player_list,1);
+		
 		interfaceFrame.displayString("Enter 'roll' to decide who places armies first.");
 		int winner = roll();
 		interfaceFrame.displayString(player_list.get(winner).getName() +" will place armies first.");
@@ -342,8 +344,7 @@ public class PlayGame {
 	}
 	
 	//Method  calcullates the  amount of territorys owned   and  also gives a bonus if continent is owned 
-		public void  calc_TotalReinforcements(List<Territory> territory_list, List<Player> player_list) {
-			for(int i=0;i<GameData.NUM_PLAYERS;i++){
+		public int  calc_TotalReinforcements(List<Territory> territory_list, List<Player> player_list, int i) {
 				int Namerica_size = 0;
 				int Euro_size = 0;
 				int Asia_size = 0;
@@ -441,12 +442,7 @@ public class PlayGame {
 				interfaceFrame.displayString(player_list.get(i).getName() + ", has " + continent_reinforce + " bonus reinforcements.");
 				interfaceFrame.displayString(player_list.get(i).getName() + ", has " + total_reinforcements + " total reinforcements.");
 			
-			}
-		
-			
-			
-			
-		}
+		return total_reinforcements;}
 		
 
 }
