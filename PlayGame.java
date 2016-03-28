@@ -10,6 +10,9 @@ import java.util.concurrent.TimeUnit;
  * 14343826 Jonathan Sweeney 
  */
 public class PlayGame {
+	
+	// Number of eliminated players
+	int num_eliminated = 0;
 
 	//arraylist represents the random ownership of the cards of a shuffled deck.
 	List<Integer> arrayList = deal();
@@ -142,7 +145,7 @@ public class PlayGame {
 				assignArmies(territory_list, player_list, current_player, 1);
 				}
 					
-			for (int k = 2; k < GameData.NUM_PLAYERS_PLUS_NEUTRALS; k++) { 
+			for (int k = 2; k < GameData.NUM_PLAYERS_PLUS_NEUTRALS-num_eliminated; k++) { 
 				interfaceFrame.displayString(
 						player_list.get(current_player).getName() + ", please choose one of " + player_list.get(k).getName()
 								+ " territories" + "(" + GameData.PLAYER_COLOURS[k] + ")" + "to place 1 army on.");
@@ -471,18 +474,13 @@ public class PlayGame {
 			
 		}
 	}
-		
+		// To check if a player has been eliminated and remove them from the player_list
 		public void removePlayer(List<Player> player_list){
-			for(int i=2;i<GameData.NUM_PLAYERS_PLUS_NEUTRALS;i++){
+			for(int i=2;i<GameData.NUM_PLAYERS_PLUS_NEUTRALS-num_eliminated;i++){
 				if (player_list.get(i).ownedTerritoriesSize()==0){
 					interfaceFrame.displayString(player_list.get(i).getName() + " has been eliminated");
 					player_list.remove(i);
-					GameData.NUM_NEUTRALS-=1; 
-					/* This modifies number of neutrals as declared in GamaData
-					 * If this causes issues we can have a variable in PLayGame
-					 * that starts at 0 and is incremented and subtracted in 
-					 * each for loop?
-					 */
+					num_eliminated+=1; 
 				}
 					
 			}
