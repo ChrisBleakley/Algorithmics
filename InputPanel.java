@@ -31,7 +31,7 @@ public class InputPanel extends JPanel {
 					return;
 				}
 			}
-	        JButton drawButton= new JButton("draw");
+	        JButton drawButton= new JButton("Draw");
 		       drawButton.setSize(30,30);
 		        class DrawActionListener implements ActionListener  {
 		        	public void actionPerformed(ActionEvent event) {
