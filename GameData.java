@@ -9,7 +9,7 @@ public final class GameData {
 	public static final int FRAME_WIDTH = 1000; // must be even
 	public static final int FRAME_HEIGHT = 600;
 	public static final int NUM_PLAYERS = 2;
-	public static final int NUM_NEUTRALS = 4;
+	public static int NUM_NEUTRALS = 4;
 	public static final int NUM_PLAYERS_PLUS_NEUTRALS = NUM_PLAYERS + NUM_NEUTRALS;
 	public static final int NUM_COUNTRIES = 42;
 	public static final int INIT_COUNTRIES_PLAYER = 9;
