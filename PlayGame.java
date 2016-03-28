@@ -44,7 +44,7 @@ public class PlayGame {
 		int  p0_reinforcements=calc_TotalReinforcements(territory_list,player_list,0);
 		int  p1_reinforcements=calc_TotalReinforcements(territory_list,player_list,1);
 		
-		interfaceFrame.displayString("Enter 'roll' to decide who places armies first.");
+		interfaceFrame.displayString("Enter 'Roll' to decide who places armies first.");
 		int winner = roll();
 		interfaceFrame.displayString(player_list.get(winner).getName() +" will place armies first.");
 		
@@ -56,7 +56,7 @@ public class PlayGame {
 	public  void draw(List<Territory> territory_list, List<Player> player_list, List<Integer> arrayList){
 		
 		do {
-			interfaceFrame.displayString("Enter 'draw' to draw territory cards");
+			interfaceFrame.displayString("Enter 'Draw' to draw territory cards");
 			
 			String loop = interfaceFrame.getCommand();
 			if (loop.equalsIgnoreCase("draw")){
@@ -142,9 +142,9 @@ public class PlayGame {
 				assignArmies(territory_list, player_list, current_player, 1);
 				}
 					
-			for (int k = 2; k < 6; k++) {
+			for (int k = 2; k < GameData.NUM_PLAYERS_PLUS_NEUTRALS; k++) { 
 				interfaceFrame.displayString(
-						player_list.get(current_player).getName() + ", please choose one of Neutral Player" + (k - 1)
+						player_list.get(current_player).getName() + ", please choose one of " + player_list.get(k).getName()
 								+ " territories" + "(" + GameData.PLAYER_COLOURS[k] + ")" + "to place 1 army on.");
 				assignArmies(territory_list, player_list, k, 1);
 			}
@@ -249,7 +249,7 @@ public class PlayGame {
 		List<Player> player_list= new ArrayList<Player>();
 		String player_name = null;
 		int armies = 0;
-		for(int i=0;i<6;i++){
+		for(int i=0;i<GameData.NUM_PLAYERS_PLUS_NEUTRALS;i++){
 			switch (i) {
 			case 0:  player_name = player_1;
 					 armies = 27;
@@ -281,7 +281,7 @@ public class PlayGame {
 		for(int i=0;i<42;i++){
 			territory_list.get(i).setPlayer(arrayList.get(i));
 		}
-		for(int i=0;i<6;i++){
+		for(int i=0;i<GameData.NUM_PLAYERS_PLUS_NEUTRALS;i++){ 
 			for(int j=0;j<	42 ;j++){
 				if(player_list.get(i).getPlayer()==territory_list.get(j).getPlayer()){
 					player_list.get(i).addOwnedTerritory(territory_list.get(j).getNode());
@@ -326,7 +326,7 @@ public class PlayGame {
 	public  String getNames(SplitFrameGUI interfaceFrame, int player_number){
 		interfaceFrame.displayString("Enter the name of player " + player_number);
 		String name = interfaceFrame.getCommand();
-		interfaceFrame.displayString("Welcome to risk " + name);
+		interfaceFrame.displayString("Welcome to Risk " + name);
 		
 		return name;
 	}
@@ -334,7 +334,7 @@ public class PlayGame {
 	
 	//Print each player's names and owned territories.
 	public void printNames(List<Player> player_list){
-		for(int j=0; j<6;j++){
+		for(int j=0; j<GameData.NUM_PLAYERS_PLUS_NEUTRALS;j++){
 			String nameList = "";
 			for (int i=0; i < player_list.get(j).ownedTerritoriesSize() ; i++){
 				nameList += (GameData.COUNTRY_NAMES[player_list.get(j).getOwnedTerritory(i)] + ", ");
@@ -471,6 +471,22 @@ public class PlayGame {
 			
 		}
 	}
+		
+		public void removePlayer(List<Player> player_list){
+			for(int i=2;i<GameData.NUM_PLAYERS_PLUS_NEUTRALS;i++){
+				if (player_list.get(i).ownedTerritoriesSize()==0){
+					interfaceFrame.displayString(player_list.get(i).getName() + " has been eliminated");
+					player_list.remove(i);
+					GameData.NUM_NEUTRALS-=1; 
+					/* This modifies number of neutrals as declared in GamaData
+					 * If this causes issues we can have a variable in PLayGame
+					 * that starts at 0 and is incremented and subtracted in 
+					 * each for loop?
+					 */
+				}
+					
+			}
+		}
 }
 
 
