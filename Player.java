@@ -11,7 +11,7 @@ public class Player {
 	public int player_index;
 	public int army_units;
 	public String name;
-	List<Integer> owned_territories_List = new ArrayList<Integer>();;
+	List<Integer> owned_territories_List = new ArrayList<Integer>();
 	
 	
 	Player(int input_player_index, String input_name){
@@ -28,7 +28,11 @@ public class Player {
 	}
 	
 	void removeOwnedTerritory(int territory_input){
-		owned_territories_List.remove(territory_input);
+		for(int i=0; i<owned_territories_List.size(); i++){
+			if(owned_territories_List.get(i) == territory_input){
+				owned_territories_List.remove(i);
+			}
+		}
 	}
 	
 	int getArmies(){
