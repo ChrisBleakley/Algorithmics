@@ -513,7 +513,7 @@ public class PlayGame {
 	public void placeArmies(int winner, List<Territory> territory_list, List<Player> player_list) {
 		int current_player =0;
 		int i = 0;
-		for(i=0;i<2;i++) { // **** Keep at i<18 (Change to 2 for quick start) ****
+		for(i=0;i<18;i++) { // **** Keep at i<18 (Change to 2 for quick start) ****
 			current_player=0;
 			
 			if (i % 2 == 0){
@@ -636,7 +636,7 @@ public class PlayGame {
 		for(int i=0;i<6;i++){
 			switch (i) {
 			case 0:  player_name = player_1;
-					 armies = 3; // **** Keep at 27 (Change to 3 for quick start) ****
+					 armies = 27; // **** Keep at 27 (Change to 3 for quick start) ****
 				break;
 			case 1:  player_name = player_2;
            		break;
@@ -853,11 +853,6 @@ public class PlayGame {
 				}
 			}
 		}
-		
-		/* Comment to test 
-		 * if my email has
-		 * registered
-		 */
 		
 		public void removePlayer(List<Player> player_list){
 			 try{		
