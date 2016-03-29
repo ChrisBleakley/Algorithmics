@@ -10,9 +10,6 @@ import java.util.concurrent.TimeUnit;
  * 14343826 Jonathan Sweeney 
  */
 public class PlayGame {
-	
-	// Number of eliminated players
-	int num_eliminated = 0;
 
 	//arraylist represents the random ownership of the cards of a shuffled deck.
 	List<Integer> arrayList = deal();
@@ -21,7 +18,7 @@ public class PlayGame {
 	List<Territory> territory_list = buildTerritories();
 	
 	//Creates the Game Board, to show all game developments.
-	MapPanel mapPanel=new MapPanel(territory_list);
+	MapPanel mapPanel = new MapPanel(territory_list);
 	
 	//Creates the a Jframe split into 3 panels, one of which will hold the map.
 	SplitFrameGUI interfaceFrame = new SplitFrameGUI(mapPanel);
@@ -44,22 +41,410 @@ public class PlayGame {
 		
 		//Draws territory cards and displays them to users.
 		draw(territory_list, player_list, arrayList);
-		int  p0_reinforcements=calc_TotalReinforcements(territory_list,player_list,0);
-		int  p1_reinforcements=calc_TotalReinforcements(territory_list,player_list,1);
 		
-		interfaceFrame.displayString("Enter 'Roll' to decide who places armies first.");
+		interfaceFrame.displayString("Enter 'roll' to decide who places armies first.");
 		int winner = roll();
 		interfaceFrame.displayString(player_list.get(winner).getName() +" will place armies first.");
 		
 		//Method to allow players to set up the board, each player placing 27 armies on their own territories and 9 on each neutral.
 		placeArmies(winner, territory_list, player_list);
+		
+		interfaceFrame.displayString("Enter 'roll' to decide who goes first.");
+		winner = roll();
+		interfaceFrame.displayString(player_list.get(winner).getName() +" has the first turn.");
+		
+		while(true){
+			int current_player = 0;
+			for(int i=0;i<2;i++){
+				
+				current_player=0;
+				
+				if (i % 2 == 0){
+					current_player = winner;
+				}
+				else{
+					current_player = (winner + 1) % 2;
+				}
+				
+				check_HumanWinner(player_list);
+				turn(current_player, territory_list, player_list);
+			}
+		}
 	}
 	
+	public void turn(int current_player, List<Territory> territory_list, List<Player> player_list){
+		
+		reinforceTerritories(current_player, territory_list, player_list);
+		combat(current_player, territory_list, player_list);
+		fortify(current_player, territory_list, player_list);
+		interfaceFrame.displayString("End of " + player_list.get(current_player).getName() + "'s turn.");	
+		interfaceFrame.displayString("Beginning " + player_list.get((current_player) % 2).getName() + "'s turn.");	
+	}
+
 	
-	public  void draw(List<Territory> territory_list, List<Player> player_list, List<Integer> arrayList){
+	public void reinforceTerritories(int current_player, List<Territory> territory_list, List<Player> player_list){
+		int reinforcements = calc_TotalReinforcements(territory_list, player_list, current_player);
+		player_list.get(current_player).setArmies(reinforcements);
+		
+		while(player_list.get(current_player).getArmies() > 0){
+			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories to place armies on.");
+			assignArmies(territory_list, player_list, current_player, 1);
+		}	
+	}
+	
+	public void combat(int current_player, List<Territory> territory_list, List<Player> player_list){
+		
+		interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories to launch an attack or enter 'skip' to end combat.");	
+		do{	
+			boolean valid_choice = false;
+			int chosen_node = getCombatInput(territory_list);
+			if(chosen_node == -2){
+				break;
+			}
+			for (int j=0; j < player_list.get(current_player).ownedTerritoriesSize() ; j++){
+				if(chosen_node == player_list.get(current_player).getOwnedTerritory(j)){
+					if(territory_list.get(chosen_node).getArmies() == 1){
+						interfaceFrame.displayString("You cannot attack from a territory with 1 army");	
+						valid_choice = true;
+						break;
+					}
+					battle(chosen_node, current_player, territory_list, player_list);
+					mapPanel.refresh();
+					valid_choice = true;
+					break;
+				}
+			}
+			
+			if(valid_choice==true){
+				interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories to launch an attack or enter 'skip' to end combat.");
+				continue;
+			}
+			
+			interfaceFrame.displayString(player_list.get(current_player).getName() + " does not own " + GameData.COUNTRY_NAMES[chosen_node]);
+			interfaceFrame.displayString("Please enter a territory owned by " + player_list.get(current_player).getName());
+		}while(true);
+		
+		interfaceFrame.displayString(player_list.get(current_player).getName() + " has ended combat.");
+	}
+	
+	public int getCombatInput(List<Territory> territory_list){
+		int chosen_node = -1;
+		do{	
+			String loop = interfaceFrame.getCommand();
+			
+			if(loop.equalsIgnoreCase("skip")){
+				chosen_node = -2;
+				break;
+			}
+			
+			for(int i=0; i<42; i++){
+				if (loop.equalsIgnoreCase(GameData.COUNTRY_NAMES[i]) || loop.equalsIgnoreCase(GameData.SHORT_COUNTRY_NAMES[i])){
+					chosen_node = territory_list.get(i).getNode();
+					break;
+				}
+			}
+			
+			if(chosen_node == -1){
+				interfaceFrame.displayString("NAME NOT RECOGNISED");
+				interfaceFrame.displayString("Please enter a valid name or shorthand. ");
+			}
+
+		}while(chosen_node == -1);
+		
+		return chosen_node;
+	}
+	
+	public void battle(int chosen_node, int current_player, List<Territory> territory_list, List<Player> player_list){
+		boolean attack_again = false;
+		interfaceFrame.displayString("Please choose a bordering opponant's territory to attack");	
+		do{
+			boolean valid_choice = true;
+			boolean valid_target = false;
+			int chosen_target = getCombatInput(territory_list);
+			if(chosen_node == -2){
+				break;
+			}
+			
+			for (int j=0; j < player_list.get(current_player).ownedTerritoriesSize() ; j++){
+				if(chosen_target == player_list.get(current_player).getOwnedTerritory(j)){
+					interfaceFrame.displayString("You cannot attack your own territory");	
+					valid_choice=false;
+					break;
+				}
+			}
+			
+			if(valid_choice==false){
+				interfaceFrame.displayString("Please choose a bordering opponant's territory to attack");
+				continue;
+			}
+			
+			for(int j=0;j<6;j++){	
+					try{
+						if(GameData.ADJACENT[chosen_node][j] == chosen_target){
+							valid_target = true;
+							break;
+						}
+					}
+					catch(ArrayIndexOutOfBoundsException e){
+						break;
+					}
+				}
+			
+			if(valid_target==false){
+				interfaceFrame.displayString(GameData.COUNTRY_NAMES[chosen_target] + " is not adjacent to " + GameData.COUNTRY_NAMES[chosen_node]);
+				interfaceFrame.displayString("Please choose a bordering opponant's territory to attack");
+				continue;
+			}
+		
+			
+			do{
+				interfaceFrame.displayString(player_list.get(current_player).getName() + ", with how many armies do you want to attack " + GameData.COUNTRY_NAMES[chosen_target]);	
+				int attack_number;
+				int defend_number;
+				do {	
+					String loop = interfaceFrame.getCommand();
+					
+					try{
+						attack_number = Integer.parseInt(loop);
+					}
+					catch(Exception e){
+						interfaceFrame.displayString("You must enter an integer value.");
+						continue;
+					}
+					
+					if (attack_number >= territory_list.get(chosen_node).getArmies() || attack_number <= 0){
+						interfaceFrame.displayString("You cannot attack with that many armies.");
+						continue;
+					}
+						
+					break;
+				} while(true);
+					
+				interfaceFrame.displayString(player_list.get((current_player + 1) % 2).getName() + ", would you like to defend " + GameData.COUNTRY_NAMES[chosen_target] + " with 1 or 2 armies?");	
+				do {	
+					String loop = interfaceFrame.getCommand();
+					
+					try{
+						defend_number = Integer.parseInt(loop);
+					}
+					catch(Exception e){
+						interfaceFrame.displayString("You must enter an integer value.");
+						continue;
+					}
+				
+					if (defend_number > territory_list.get(chosen_target).getArmies() || defend_number <= 0 || defend_number > 2){
+						interfaceFrame.displayString("You cannot attack with that many armies.");
+						continue;
+					}
+						
+					break;
+				} while(true);
+					
+				combatRoll(current_player, attack_number, defend_number, chosen_node, chosen_target, territory_list, player_list);
+				if(territory_list.get(chosen_target).getArmies()==0){
+					interfaceFrame.displayString(player_list.get(current_player).getName() + " has captured " + GameData.COUNTRY_NAMES[chosen_target]);	
+					
+					player_list.get(territory_list.get(chosen_target).getPlayer()).removeOwnedTerritory(chosen_target);
+					player_list.get(current_player).addOwnedTerritory(chosen_target);
+					territory_list.get(chosen_target).setPlayer(current_player);
+					territory_list.get(chosen_target).setArmies(1);
+					territory_list.get(chosen_node).setArmies(-1);
+					mapPanel.refresh();
+					removePlayer(player_list);
+					check_HumanWinner(player_list);
+					attack_again = false;
+					break;
+				}
+				else{
+					interfaceFrame.displayString(player_list.get(current_player).getName() + ", would you like to attack " + GameData.COUNTRY_NAMES[chosen_target] + " again? Y/N");	
+					do {	
+						String word = interfaceFrame.getCommand();
+						if (word.equalsIgnoreCase("Y")){
+							attack_again = true;
+							break;
+						}
+						else if (word.equalsIgnoreCase("N")){
+							attack_again = false;
+							break;
+						}
+						else{
+							interfaceFrame.displayString("COMMAND NOT RECOGNISED");
+							interfaceFrame.displayString("Please enter Y or N. ");
+						}
+					} while(true);
+				}	
+			}while(attack_again);	
+		}while(attack_again);
+	}
+	
+	public void combatRoll(int current_player, int attack_number, int defend_number, int chosen_node, int chosen_target, List<Territory> territory_list, List<Player> player_list){
+		List<Integer> attacking_rolls = new ArrayList<Integer>();
+		List<Integer> defending_rolls = new ArrayList<Integer>();
+		
+		interfaceFrame.displayString(player_list.get(current_player).getName() + " rolls:");
+		for(int j=0; j<attack_number; j++){
+			Die die = new Die();
+			die.roll();
+			attacking_rolls.add(die.value());
+			interfaceFrame.displayString("" + die.value());
+		}
+		
+		interfaceFrame.displayString(player_list.get((current_player + 1) % 2).getName() + " rolls:");
+		for(int j=0; j<defend_number; j++){
+			Die die = new Die();
+			die.roll();
+			defending_rolls.add(die.value());
+			interfaceFrame.displayString("" + die.value());
+		}
+		
+		Collections.sort(attacking_rolls);
+		Collections.sort(defending_rolls);
+		Collections.reverse(attacking_rolls);
+		Collections.reverse(defending_rolls);
+		
+		if(attacking_rolls.get(0) > defending_rolls.get(0)){
+			interfaceFrame.displayString(player_list.get(current_player).getName() + " wins a battle, defending player loses one army.");
+			territory_list.get(chosen_target).setArmies(-1);
+		}
+		else{
+			interfaceFrame.displayString(player_list.get(current_player).getName() + " loses a battle, attacking player loses one army.");	
+			territory_list.get(chosen_node).setArmies(-1);
+		}
+		mapPanel.refresh();
+		if(defend_number==2 && attack_number>=2){
+			if(attacking_rolls.get(1) > defending_rolls.get(1)){
+				interfaceFrame.displayString(player_list.get(current_player).getName() + " wins a battle, defending player loses one army.");
+				territory_list.get(chosen_target).setArmies(-1);
+			}
+			else{
+				interfaceFrame.displayString(player_list.get(current_player).getName() + " loses a battle, attacking player loses one army.");	
+				territory_list.get(chosen_node).setArmies(-1);
+			}
+			mapPanel.refresh();
+		}
+	}
+	
+	public void fortify(int current_player, List<Territory> territory_list, List<Player> player_list){
+		interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories to move armies from or enter 'skip'.");	
+		boolean valid_choice = false;
+		do{
+			boolean repeat = false;
+			boolean success = false;
+			int chosen_target = 0;
+			int chosen_node = getCombatInput(territory_list);
+			if(chosen_node == -2){
+				break;
+			}
+			for (int j=0; j < player_list.get(current_player).ownedTerritoriesSize() ; j++){
+				if(chosen_node == player_list.get(current_player).getOwnedTerritory(j)){
+					if(territory_list.get(chosen_node).getArmies() == 1){
+						interfaceFrame.displayString("You cannot move armies from a territory with 1 army");	
+						repeat = true;
+						break;
+					}
+					interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories fortify or enter 'skip'.");	
+					
+					do{
+						chosen_target = getCombatInput(territory_list);
+						if(chosen_target == -2){
+							break;
+						}
+						for (int i=0; i < player_list.get(current_player).ownedTerritoriesSize() ; i++){
+							if(chosen_node == player_list.get(current_player).getOwnedTerritory(i)){
+								success = moveArmies(chosen_node, chosen_target, current_player, territory_list, player_list);
+								mapPanel.refresh();
+								break;
+							}
+						}
+						
+						if(success==true){
+							break;
+						}
+						
+						interfaceFrame.displayString(player_list.get(current_player).getName() + " does not own " + GameData.COUNTRY_NAMES[chosen_target]);
+						interfaceFrame.displayString("Please enter a territory owned by " + player_list.get(current_player).getName());	
+					}while(true);
+					mapPanel.refresh();
+					valid_choice = true;
+					break;
+				}
+			}
+			
+			if(chosen_target == -2){
+				break;
+			}
+			
+			if(repeat = true){
+				interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories to move armies from or enter 'skip'.");	
+				continue;
+			}
+			
+			if(valid_choice==true){
+				break;
+			}
+			
+			interfaceFrame.displayString(player_list.get(current_player).getName() + " does not own " + GameData.COUNTRY_NAMES[chosen_node]);
+			interfaceFrame.displayString("Please enter a territory owned by " + player_list.get(current_player).getName());	
+		}while(true);
+	}
+	
+	public boolean moveArmies(int chosen_node, int chosen_target, int current_player, List<Territory> territory_list, List<Player> player_list){
+		interfaceFrame.displayString(player_list.get(current_player).getName() + ", how many armies would you like to move from " 
+										+ GameData.COUNTRY_NAMES[chosen_node] + " to " + GameData.COUNTRY_NAMES[chosen_target] + "?");
+			int move_number;
+			boolean success = false;
+			do {	
+				String loop = interfaceFrame.getCommand();
+				
+				try{
+					move_number = Integer.parseInt(loop);
+				}
+				catch(Exception e){
+					interfaceFrame.displayString("You must enter an integer value.");
+					continue;
+				}
+				
+				if (move_number >= territory_list.get(chosen_node).getArmies() || move_number <= 0){
+					interfaceFrame.displayString("You cannot move that many armies.");
+					continue;
+				}
+					
+				break;
+			}while(true);
+			
+			boolean valid_target = false;
+			for(int j=0;j<6;j++){	
+				try{
+					if(GameData.ADJACENT[chosen_node][j] == chosen_target){
+						valid_target = true;
+						break;
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e){
+					break;
+				}
+			}
+		
+		if(valid_target==false){
+			interfaceFrame.displayString(GameData.COUNTRY_NAMES[chosen_target] + " is not adjacent to " + GameData.COUNTRY_NAMES[chosen_node]);
+			interfaceFrame.displayString("Please choose a bordering territory to fortify");
+			success = false;
+		}
+		
+		else{
+			territory_list.get(chosen_target).setArmies(move_number);
+			territory_list.get(chosen_node).setArmies(-move_number);
+			mapPanel.refresh();
+			success = true;
+		}
+		
+		return success;
+	}
+	
+	public void draw(List<Territory> territory_list, List<Player> player_list, List<Integer> arrayList){
 		
 		do {
-			interfaceFrame.displayString("Enter 'Draw' to draw territory cards");
+			interfaceFrame.displayString("Enter 'draw' to draw territory cards");
 			
 			String loop = interfaceFrame.getCommand();
 			if (loop.equalsIgnoreCase("draw")){
@@ -88,7 +473,6 @@ public class PlayGame {
 		assignTerritories(territory_list, player_list, arrayList);
 		printNames(player_list);
 	}
-	
 	
 	//
 	public int roll(){
@@ -138,17 +522,14 @@ public class PlayGame {
 				else{
 					current_player = (winner + 1) % 2;
 				}
-			for (int j = 0; j < 3; j++) {
-				
-				interfaceFrame.displayString(player_list.get(current_player).getName()
-						+ ", please choose one of your territories to place  armies on.");
+			for(int j=0; j<3; j++){
+				interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories to place  armies on.");
 				assignArmies(territory_list, player_list, current_player, 1);
-				}
+			}
 					
-			for (int k = 2; k < GameData.NUM_PLAYERS_PLUS_NEUTRALS-num_eliminated; k++) { 
+			for (int k = 2; k < 6; k++) {
 				interfaceFrame.displayString(
-						player_list.get(current_player).getName() + ", please choose one of " + player_list.get(k).getName()
-								+ " territories" + "(" + GameData.PLAYER_COLOURS[k] + ")" + "to place 1 army on.");
+						player_list.get(current_player).getName() + ", please choose one of Neutral Player" + (k-1) + " territories" + "(" + GameData.PLAYER_COLOURS[k] + ")" + "to place 1 army on.");
 				assignArmies(territory_list, player_list, k, 1);
 			}
 		}
@@ -161,7 +542,7 @@ public class PlayGame {
 			int chosen_node = getTerritoryInput(territory_list);
 			for (int j=0; j < player_list.get(player).ownedTerritoriesSize() ; j++){
 				if(chosen_node == player_list.get(player).getOwnedTerritory(j)){
-					player_list.get(player).setArmies(armies);
+					player_list.get(player).setArmies(-armies);
 					territory_list.get(chosen_node).setArmies(armies);
 					mapPanel.refresh();
 					valid_choice = true;
@@ -252,7 +633,7 @@ public class PlayGame {
 		List<Player> player_list= new ArrayList<Player>();
 		String player_name = null;
 		int armies = 0;
-		for(int i=0;i<GameData.NUM_PLAYERS_PLUS_NEUTRALS;i++){
+		for(int i=0;i<6;i++){
 			switch (i) {
 			case 0:  player_name = player_1;
 					 armies = 27;
@@ -284,7 +665,7 @@ public class PlayGame {
 		for(int i=0;i<42;i++){
 			territory_list.get(i).setPlayer(arrayList.get(i));
 		}
-		for(int i=0;i<GameData.NUM_PLAYERS_PLUS_NEUTRALS;i++){ 
+		for(int i=0;i<6;i++){
 			for(int j=0;j<	42 ;j++){
 				if(player_list.get(i).getPlayer()==territory_list.get(j).getPlayer()){
 					player_list.get(i).addOwnedTerritory(territory_list.get(j).getNode());
@@ -329,7 +710,7 @@ public class PlayGame {
 	public  String getNames(SplitFrameGUI interfaceFrame, int player_number){
 		interfaceFrame.displayString("Enter the name of player " + player_number);
 		String name = interfaceFrame.getCommand();
-		interfaceFrame.displayString("Welcome to Risk " + name);
+		interfaceFrame.displayString("Welcome to risk " + name);
 		
 		return name;
 	}
@@ -337,7 +718,7 @@ public class PlayGame {
 	
 	//Print each player's names and owned territories.
 	public void printNames(List<Player> player_list){
-		for(int j=0; j<GameData.NUM_PLAYERS_PLUS_NEUTRALS;j++){
+		for(int j=0; j<6;j++){
 			String nameList = "";
 			for (int i=0; i < player_list.get(j).ownedTerritoriesSize() ; i++){
 				nameList += (GameData.COUNTRY_NAMES[player_list.get(j).getOwnedTerritory(i)] + ", ");
@@ -346,7 +727,7 @@ public class PlayGame {
 		}
 	}
 	
-	//Method  calcullates the  amount of territorys owned   and  also gives a bonus if continent is owned 
+	//Method  calculates the  amount of territories owned   and  also gives a bonus if continent is owned 
 		public int  calc_TotalReinforcements(List<Territory> territory_list, List<Player> player_list, int i) {
 				int Namerica_size = 0;
 				int Euro_size = 0;
@@ -449,43 +830,44 @@ public class PlayGame {
 		
 		public  void check_HumanWinner(List<Player> player_list){
 			for (int i=0;i<GameData.NUM_PLAYERS;i++){
-			if (i==0 && player_list.get(i).ownedTerritoriesSize()==0){
-				interfaceFrame.displayString(player_list.get(i+1).getName() + " is the winner");
-				interfaceFrame.displayString( "GAME OVER");
-				try {
-					TimeUnit.SECONDS.sleep(5);
-				} 
-				catch (InterruptedException e){
-				}
-				System.exit(0);
-				
-			}
-			if (i==1 && player_list.get(i).ownedTerritoriesSize()==0){
-				interfaceFrame.displayString(player_list.get(i-1).getName() + " is the winner");
-				interfaceFrame.displayString( "GAME OVER");
-				try {
-					TimeUnit.SECONDS.sleep(5);
-				} 
-				catch (InterruptedException e){
-				}
-				System.exit(0);
-				
-			}
-			
-		}
-	}
-		// To check if a player has been eliminated and remove them from the player_list
-		public void removePlayer(List<Player> player_list){
-			for(int i=2;i<GameData.NUM_PLAYERS_PLUS_NEUTRALS-num_eliminated;i++){
-				if (player_list.get(i).ownedTerritoriesSize()==0){
-					interfaceFrame.displayString(player_list.get(i).getName() + " has been eliminated");
-					player_list.remove(i);
-					num_eliminated+=1; 
-				}
+				if (i==0 && player_list.get(i).ownedTerritoriesSize()==0){
+					interfaceFrame.displayString(player_list.get(i+1).getName() + " is the winner!");
+					interfaceFrame.displayString( "GAME OVER");
+					try {
+						TimeUnit.SECONDS.sleep(5);
+					} 
+					catch (InterruptedException e){
+					}
+					System.exit(0);
 					
+				}
+				if (i==1 && player_list.get(i).ownedTerritoriesSize()==0){
+					interfaceFrame.displayString(player_list.get(i-1).getName() + " is the winner!");
+					interfaceFrame.displayString( "GAME OVER");
+					try {
+						TimeUnit.SECONDS.sleep(5);
+					} 
+					catch (InterruptedException e){
+					}
+					System.exit(0);
+				}
 			}
+		}
+		
+		public void removePlayer(List<Player> player_list){
+			 try{		
+				for(int i=2;i<GameData.NUM_PLAYERS_PLUS_NEUTRALS;i++){
+			 		if(player_list.get(i).ownedTerritoriesSize()==0){
+			 			interfaceFrame.displayString(player_list.get(i).getName() + " has been eliminated"); 
+			 			break;
+			 		}				
+			 	}
+			 }
+			catch(ArrayIndexOutOfBoundsException e){
+			} 			
 		}
 }
+
 
 
 
