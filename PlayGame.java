@@ -42,15 +42,15 @@ public class PlayGame {
 		//Draws territory cards and displays them to users.
 		draw(territory_list, player_list, arrayList);
 		
-		interfaceFrame.displayString("Enter 'roll' to decide who places armies first.");
-		int winner = roll();
+		interfaceFrame.displayString("Enter or press 'roll' to decide who places armies first.");
+		int winner = roll(player_1, player_2);
 		interfaceFrame.displayString(player_list.get(winner).getName() +" will place armies first.");
 		
 		//Method to allow players to set up the board, each player placing 27 armies on their own territories and 9 on each neutral.
 		placeArmies(winner, territory_list, player_list);
 		
-		interfaceFrame.displayString("Enter 'roll' to decide who goes first.");
-		winner = roll();
+		interfaceFrame.displayString("Enter or press 'roll' to decide who goes first.");
+		winner = roll(player_1, player_2);
 		interfaceFrame.displayString(player_list.get(winner).getName() +" has the first turn.");
 		
 		while(true){
@@ -156,7 +156,7 @@ public class PlayGame {
 	
 	public void battle(int chosen_node, int current_player, List<Territory> territory_list, List<Player> player_list){
 		boolean attack_again = false;
-		interfaceFrame.displayString("Please choose a bordering opponant's territory to attack");	
+		interfaceFrame.displayString("Please choose a bordering opponent's territory to attack");	
 		do{
 			boolean valid_choice = true;
 			boolean valid_target = false;
@@ -174,7 +174,7 @@ public class PlayGame {
 			}
 			
 			if(valid_choice==false){
-				interfaceFrame.displayString("Please choose a bordering opponant's territory to attack");
+				interfaceFrame.displayString("Please choose a bordering opponent's territory to attack");
 				continue;
 			}
 			
@@ -192,7 +192,7 @@ public class PlayGame {
 			
 			if(valid_target==false){
 				interfaceFrame.displayString(GameData.COUNTRY_NAMES[chosen_target] + " is not adjacent to " + GameData.COUNTRY_NAMES[chosen_node]);
-				interfaceFrame.displayString("Please choose a bordering opponant's territory to attack");
+				interfaceFrame.displayString("Please choose a bordering opponent's territory to attack");
 				continue;
 			}
 		
@@ -240,6 +240,8 @@ public class PlayGame {
 					break;
 				} while(true);
 					
+					
+				
 				combatRoll(current_player, attack_number, defend_number, chosen_node, chosen_target, territory_list, player_list);
 				if(territory_list.get(chosen_target).getArmies()==0){
 					interfaceFrame.displayString(player_list.get(current_player).getName() + " has captured " + GameData.COUNTRY_NAMES[chosen_target]);	
@@ -444,7 +446,7 @@ public class PlayGame {
 	public void draw(List<Territory> territory_list, List<Player> player_list, List<Integer> arrayList){
 		
 		do {
-			interfaceFrame.displayString("Enter 'draw' to draw territory cards");
+			interfaceFrame.displayString("Enter or press 'draw' to draw territory cards");
 			
 			String loop = interfaceFrame.getCommand();
 			if (loop.equalsIgnoreCase("draw")){
@@ -475,12 +477,12 @@ public class PlayGame {
 	}
 	
 	//
-	public int roll(){
+	public int roll(String player_1, String player_2){
 		int winner;
 		do {
 			String loop = interfaceFrame.getCommand();
 			if (loop.equalsIgnoreCase("roll")){
-				winner = rollDice();
+				winner = rollDice(player_1, player_2);
 				break;
 			}
 			else if (!(loop.equalsIgnoreCase("roll"))){
@@ -490,7 +492,7 @@ public class PlayGame {
 				String word = interfaceFrame.getCommand();
 				
 				if (word.equalsIgnoreCase("Y")){
-					winner = rollDice();
+					winner = rollDice(player_1, player_2);
 					break;
 				}
 				else if (word.equalsIgnoreCase("N")){
@@ -529,7 +531,7 @@ public class PlayGame {
 					
 			for (int k = 2; k < 6; k++) {
 				interfaceFrame.displayString(
-						player_list.get(current_player).getName() + ", please choose one of Neutral Player" + (k-1) + " territories" + "(" + GameData.PLAYER_COLOURS[k] + ")" + "to place 1 army on.");
+						player_list.get(current_player).getName() + ", please choose one of Neutral Player " + (k-1) + "'s territories" + " (" + GameData.PLAYER_COLOURS[k] + ") " + "to place 1 army on.");
 				assignArmies(territory_list, player_list, k, 1);
 			}
 		}
@@ -582,14 +584,14 @@ public class PlayGame {
 	
 	
 	//Rolls the dice and returns the winner when called.
-	public int rollDice() {
+	public int rollDice(String player_1, String player_2) {
 		Die die = new Die();
 		die.roll();
 		int die1 = die.value();
-		interfaceFrame.displayString(" Player 1 rolled: " + die.getDie());
+		interfaceFrame.displayString(player_1 + " (Player 1) rolled: " + die.getDie());
 		die.roll();
 		int die2 = die.value();
-		interfaceFrame.displayString(" Player 2 rolled: " + die.getDie());
+		interfaceFrame.displayString(player_2 + " (Player 2) rolled: " + die.getDie());
 
 		int winner = 0;
 		if (die1 > die2) {
@@ -606,7 +608,7 @@ public class PlayGame {
 			} 
 			catch (InterruptedException e){
 			}
-			winner = rollDice();
+			winner = rollDice(player_1, player_2);
 		}
 		return winner;
 	}
@@ -708,9 +710,9 @@ public class PlayGame {
 	
 	//Get names from prompt.
 	public  String getNames(SplitFrameGUI interfaceFrame, int player_number){
-		interfaceFrame.displayString("Enter the name of player " + player_number);
+		interfaceFrame.displayString("Enter the name of Player " + player_number);
 		String name = interfaceFrame.getCommand();
-		interfaceFrame.displayString("Welcome to risk " + name);
+		interfaceFrame.displayString("Welcome to Risk " + name);
 		
 		return name;
 	}
