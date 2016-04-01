@@ -729,9 +729,10 @@ public class PlayGame {
 	public void printNames(List<Player> player_list){
 		for(int j=0; j<6;j++){
 			String nameList = "";
-			for (int i=0; i < player_list.get(j).ownedTerritoriesSize() ; i++){
+			for (int i=0; i < player_list.get(j).ownedTerritoriesSize()-1 ; i++){
 				nameList += (GameData.COUNTRY_NAMES[player_list.get(j).getOwnedTerritory(i)] + ", ");
 			}
+			nameList += GameData.COUNTRY_NAMES[player_list.get(j).getOwnedTerritory(player_list.get(j).ownedTerritoriesSize()-1)] + ". ";
 			interfaceFrame.displayString(player_list.get(j).getName() + " (" + GameData.PLAYER_COLOURS[j] + ")" +" has received " + nameList + "\n");
 		}
 	}
