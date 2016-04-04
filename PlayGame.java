@@ -617,7 +617,7 @@ public class PlayGame {
 		List<Territory> territory_list= new ArrayList<Territory>();
 		
 		for(int i=0;i<42;i++){
-			Territory current_territory = new Territory(i, GameData.COUNTRY_NAMES[i], GameData.SHORT_COUNTRY_NAMES[i]);
+			Territory current_territory = new Territory(i, GameData.COUNTRY_NAMES[i], GameData.SHORT_COUNTRY_NAMES[i],null);
 			current_territory.setArmies(1);
 		
 			current_territory.setPlayer(-1);
