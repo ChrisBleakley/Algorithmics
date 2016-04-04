@@ -12,6 +12,7 @@ public class Territory {
 	public String shorthand;
 	private String insignia;
 	public int cardindex;
+	public String data;
 	
 	
 	Territory(int input_node, String input_name, String input_short, String input_insignia){
@@ -60,4 +61,11 @@ public class Territory {
 		
 		return cardindex;
 	}
+
+	public int getNode(int i) {
+		// TODO Auto-generated method stub
+		return node;
+	}
+
+	
 }

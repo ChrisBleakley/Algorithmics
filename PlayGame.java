@@ -949,7 +949,6 @@ public class PlayGame {
 			card_list.add(current_card);
 			i++;
 		}
-
 		return card_list;
 	}
 	public static List<Integer> shuffleTheDeck() {
