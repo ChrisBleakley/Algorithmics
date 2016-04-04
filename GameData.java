@@ -142,7 +142,7 @@ public final class GameData {
 			"Afghanistan","India","Middle East","Japan","Ural","Yakutsk","Kamchatka","Siam","Irkutsk","Siberia","Mongolia","China",
 			"E Australia","New Guinea","W Australia","Indonesia",
 			"Venezuela","Peru","Brazil","Argentina",
-			"Congo","N Africa","S Africa","Egypt","E Africa","Madagascar",null,null};  // for reference
+			"Congo","N Africa","S Africa","Egypt","E Africa","Madagascar","Wild","Wild"};  // for reference
 	public static final String[] INSIGNIA_TYPE = {
 			"Cavalry","Artillery","Artillery","Infantry","Cavalry","Artillery","Infantry","Cavalry","Infantry",
 			"Cavalry","Infantry","Cavalry","Artillery","Cavalry","Infantry","Artillery",
