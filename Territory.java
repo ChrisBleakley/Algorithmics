@@ -56,5 +56,8 @@ public class Territory {
 		
 		return 0;
 	}
-	
+	public int get(int i) {
+		
+		return cardindex;
+	}
 }
