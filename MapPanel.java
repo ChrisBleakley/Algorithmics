@@ -11,21 +11,27 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
 import java.awt.*;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 
-public class MapPanel extends JPanel{
+public class MapPanel extends JPanel {
+	MouseArea mouseArea;
+
 	Graphics2D g2d;
 	public List<Territory> territories_list;
 	public InputPanel input_panel;
 	private static final long serialVersionUID = 1L;
 	BufferedImage image;
 	
-	MapPanel (List<Territory> territory_list) {
+	MapPanel (List<Territory> territory_list, MouseArea mouseArea) {
 		 super(new GridLayout(0,1));
+
+	     add(mouseArea);
+	      
+	     //Register for mouse events on blankArea and the panel.
+	    
 	     setPreferredSize(new Dimension(GameData.FRAME_WIDTH, GameData.FRAME_HEIGHT));
 	     territories_list = territory_list;
 	     
@@ -143,5 +149,9 @@ public void paintComponent(Graphics grphcs) {
 			repaint();
 			return;
 		}
+
+	}
+	
+
+	
 		
-}
