@@ -17,7 +17,11 @@ public class PlayGame {
 
 	//Creates the territories, assigning them the owners as determined in arraylist.
 	List<Territory> territory_list = buildTerritories();
-
+	//Builds the deck of PlayingCards
+	List<Territory> card_list = buildCards();
+	//Shuffles the deck of PlayingCards
+	List<Integer> cardsList = shuffleTheDeck();
+	
 	//Creates the Game Board, to show all game developments.
 	MapPanel mapPanel = new MapPanel(territory_list);
 
@@ -875,6 +879,30 @@ public class PlayGame {
 		}
 		catch(ArrayIndexOutOfBoundsException e){
 		} 			
+	}
+	public static List<Territory> buildCards() {
+		List<Territory> card_list = new ArrayList<Territory>();
+		Territory current_card = null;
+		int i = 0;
+		while (i < 44) {
+			current_card = new Territory(i, GameData.CARD_NAMES[i], GameData.INSIGNIA_TYPE[i].substring(0, 1),
+					GameData.INSIGNIA_TYPE[i]);
+
+			card_list.add(current_card);
+			i++;
+		}
+
+		return card_list;
+	}
+	public static List<Integer> shuffleTheDeck() {
+		int i = 0;
+		List<Integer> deck = new ArrayList<Integer>();
+
+		for (i = 0; i < 44; i++) {
+			deck.add(i);
+		}
+		Collections.shuffle(deck);
+		return deck;
 	}
 }
 
