@@ -78,12 +78,78 @@ public class PlayGame {
 		
 		reinforceTerritories(current_player, territory_list, player_list);
 		combat(current_player, territory_list, player_list);
+		//		cardExchange();
 		fortify(current_player, territory_list, player_list);
 		interfaceFrame.displayString("End of " + player_list.get(current_player).getName() + "'s turn.");	
 		interfaceFrame.displayString("Beginning " + player_list.get((current_player) % 2).getName() + "'s turn.");	
 	}
 
-	
+
+	public int cardExchange() {
+		int golden_horse=-1;
+		// Create method for exchange of card and return number of armies
+		int traded_armies=0;
+
+		// Check whether cards in hand
+		// if Yes do below
+		// if No return
+
+		// Keep track of and increment number of armies, as per rules of Risk
+		golden_horse++;
+		switch(golden_horse){
+		case 0:
+			traded_armies=4;
+			break;
+		case 1:
+			traded_armies=6;
+			break;
+		case 2:
+			traded_armies=8;
+			break;
+		case 3:
+			traded_armies=10;
+			break;
+		case 4:
+			traded_armies=15;
+			break;
+		case 5:
+			traded_armies=20;
+			break;
+		case 6:
+			traded_armies=25;
+			break;
+		case 7:
+			traded_armies=30;
+			break;
+		case 8:
+			traded_armies=35;
+			break;
+		case 9:
+			traded_armies=40;
+			break;
+		case 10:
+			traded_armies=45;
+			break;
+		case 11:
+			traded_armies=50;
+			break;
+		case 12:
+			traded_armies=55;
+			break;
+		case 13:
+			traded_armies=60;
+			break;
+		default:
+			// Increment by MAX amount
+			traded_armies=60;
+
+			return traded_armies;
+		}
+
+
+		return 0;
+	}
+
 	public void reinforceTerritories(int current_player, List<Territory> territory_list, List<Player> player_list){
 		int reinforcements = calc_TotalReinforcements(territory_list, player_list, current_player);
 		player_list.get(current_player).setArmies(reinforcements);
@@ -613,7 +679,7 @@ public class PlayGame {
 		List<Territory> territory_list= new ArrayList<Territory>();
 		
 		for(int i=0;i<42;i++){
-			Territory current_territory = new Territory(i, GameData.COUNTRY_NAMES[i], GameData.SHORT_COUNTRY_NAMES[i]);
+			Territory current_territory = new Territory(i, GameData.COUNTRY_NAMES[i], GameData.SHORT_COUNTRY_NAMES[i],null);
 			current_territory.setArmies(1);
 		
 			current_territory.setPlayer(-1);
