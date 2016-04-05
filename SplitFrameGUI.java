@@ -84,6 +84,21 @@ public class SplitFrameGUI extends JFrame  {
             	String message="This code was wriiten by the Algorithmics";
                JOptionPane.showMessageDialog(null, message);
             }
+        }); 
+        JButton helpButton= new JButton("Help");
+        help.add(helpButton);
+        helpButton.setSize(60,60);
+        helpButton.addActionListener(new ActionListener() {
+        	 
+            public void actionPerformed(ActionEvent e)
+            {
+            	String message="For ease of use the map can be clicked on\n "
+            			+ "the nodes to input the select the countrys also \n"
+            			+ "incorporated is the roll and draw button when\n "
+            			+ "asked to enter these commands you can click \n"
+            			+ "the required button as an alternative\n";
+               JOptionPane.showMessageDialog(mapPanel, message);
+            }
         });  
         
         JButton exitButton= new JButton("Close");

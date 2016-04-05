@@ -22,7 +22,6 @@ public class PlayGame {
 	//Shuffles the deck of PlayingCards
 	List<Integer> cardsList = shuffleTheDeck();
 	
-
 	
 	MouseArea mouseArea = new MouseArea(null);
 	 
@@ -37,7 +36,7 @@ public class PlayGame {
 	PlayGame(){
 		
 		
-		
+	
 		interfaceFrame.pack();
 		interfaceFrame.setVisible(true);
 		
