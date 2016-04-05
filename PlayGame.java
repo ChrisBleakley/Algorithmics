@@ -22,6 +22,7 @@ public class PlayGame {
 	//Shuffles the deck of PlayingCards
 	List<Integer> cardsList = shuffleTheDeck();
 	
+
 	
 	MouseArea mouseArea = new MouseArea(null);
 	 
@@ -36,7 +37,7 @@ public class PlayGame {
 	PlayGame(){
 		
 		
-	
+		
 		interfaceFrame.pack();
 		interfaceFrame.setVisible(true);
 		
@@ -52,14 +53,14 @@ public class PlayGame {
 		draw(territory_list, player_list, arrayList);
 		
 		interfaceFrame.displayString("Enter or press 'roll' to decide who places armies first.");
-		int winner = roll();
+		int winner = roll(player_list);
 		interfaceFrame.displayString(player_list.get(winner).getName() +" will place armies first.");
 		
 		//Method to allow players to set up the board, each player placing 27 armies on their own territories and 9 on each neutral.
 		placeArmies(winner, territory_list, player_list);
 		
 		interfaceFrame.displayString("Enter or press 'roll' to decide who goes first.");
-		winner = roll();
+		winner = roll(player_list);
 		interfaceFrame.displayString(player_list.get(winner).getName() +" has the first turn.");
 		
 		while(true){
@@ -544,12 +545,12 @@ public class PlayGame {
 	}
 	
 	//
-	public int roll(){
+	public int roll(List<Player> player_list){
 		int winner;
 		do {
 			String loop = interfaceFrame.getCommand();
 			if (loop.equalsIgnoreCase("roll")){
-				winner = rollDice();
+				winner = rollDice(player_list);
 				break;
 			}
 			else if (!(loop.equalsIgnoreCase("roll"))){
@@ -559,7 +560,7 @@ public class PlayGame {
 				String word = interfaceFrame.getCommand();
 				
 				if (word.equalsIgnoreCase("Y")){
-					winner = rollDice();
+					winner = rollDice(player_list);
 					break;
 				}
 				else if (word.equalsIgnoreCase("N")){
@@ -651,23 +652,23 @@ public class PlayGame {
 	
 	
 	//Rolls the dice and returns the winner when called.
-	public int rollDice() {
+	public int rollDice(List<Player> player_list) {
 		Die die = new Die();
 		die.roll();
 		int die1 = die.value();
-		interfaceFrame.displayString(" Player 1 rolled: " + die.getDie());
+		interfaceFrame.displayString(player_list.get(0).getName() +" (Player 1) rolled: " + die.getDie());
 		die.roll();
 		int die2 = die.value();
-		interfaceFrame.displayString(" Player 2 rolled: " + die.getDie());
+		interfaceFrame.displayString(player_list.get(1).getName() +" (Player 2) rolled: " + die.getDie());
 
 		int winner = 0;
 		if (die1 > die2) {
 			winner = 0;
-			interfaceFrame.displayString(" Player 1  wins");
+			interfaceFrame.displayString(player_list.get(0).getName() +" wins");
 		} else if (die1 < die2) {
 			winner = 1;
 
-			interfaceFrame.displayString(" Player 2  wins");
+			interfaceFrame.displayString(player_list.get(1).getName() +" wins");
 		} else{
 			interfaceFrame.displayString(" Draw, Re-Rolling");
 			try {
@@ -675,7 +676,7 @@ public class PlayGame {
 			} 
 			catch (InterruptedException e){
 			}
-			winner = rollDice();
+			winner = rollDice(player_list);
 		}
 		return winner;
 	}
