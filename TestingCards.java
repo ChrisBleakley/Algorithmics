@@ -36,11 +36,17 @@ public class TestingCards {
 		
 		 i=0;
 		while(i<42){
+			i++;
 		if (i==2){
 		System.out.println("the shuffled card at postion  2");
-		System.out.println(card_territory.getNode(i)+" Card Country: " + card_territory.getName(i) + " Insignia Short Name: "
+		System.out.println(deck.get(2)+" Card Country: " + card_territory.getName(i) + " Insignia Short Name: "
 					+ card_territory.getShortName(i) + "  Insignia: " + card_territory.getInsigniaName(i));
-		}i++;
+		}
+		else{
+			
+			continue;
+			
+		}
 		}
 		
 		
