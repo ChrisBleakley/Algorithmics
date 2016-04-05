@@ -52,14 +52,14 @@ public class PlayGame {
 		//Draws territory cards and displays them to users.
 		draw(territory_list, player_list, arrayList);
 		
-		interfaceFrame.displayString("Enter 'roll' to decide who places armies first.");
+		interfaceFrame.displayString("Enter or press 'roll' to decide who places armies first.");
 		int winner = roll();
 		interfaceFrame.displayString(player_list.get(winner).getName() +" will place armies first.");
 		
 		//Method to allow players to set up the board, each player placing 27 armies on their own territories and 9 on each neutral.
 		placeArmies(winner, territory_list, player_list);
 		
-		interfaceFrame.displayString("Enter 'roll' to decide who goes first.");
+		interfaceFrame.displayString("Enter or press 'roll' to decide who goes first.");
 		winner = roll();
 		interfaceFrame.displayString(player_list.get(winner).getName() +" has the first turn.");
 		
@@ -514,7 +514,7 @@ public class PlayGame {
 	public void draw(List<Territory> territory_list, List<Player> player_list, List<Integer> arrayList){
 		
 		do {
-			interfaceFrame.displayString("Enter 'draw' to draw territory cards");
+			interfaceFrame.displayString("Enter or press 'draw' to draw territory cards");
 			
 			String loop = interfaceFrame.getCommand();
 			if (loop.equalsIgnoreCase("draw")){
@@ -790,9 +790,10 @@ public class PlayGame {
 	public void printNames(List<Player> player_list){
 		for(int j=0; j<6;j++){
 			String nameList = "";
-			for (int i=0; i < player_list.get(j).ownedTerritoriesSize() ; i++){
+			for (int i=0; i < player_list.get(j).ownedTerritoriesSize()-1 ; i++){
 				nameList += (GameData.COUNTRY_NAMES[player_list.get(j).getOwnedTerritory(i)] + ", ");
 			}
+			nameList += (GameData.COUNTRY_NAMES[player_list.get(j).getOwnedTerritory(player_list.get(j).ownedTerritoriesSize()-1)] + ".");
 			interfaceFrame.displayString(player_list.get(j).getName() + " (" + GameData.PLAYER_COLOURS[j] + ")" +" has received " + nameList + "\n");
 		}
 	}
