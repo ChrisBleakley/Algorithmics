@@ -3,6 +3,7 @@
  * 05641349 Gavin Keaveney
  * 14343826 Jonathan Sweeney 
  */
+
 public class Territory {
 
 	public int player;
@@ -12,60 +13,59 @@ public class Territory {
 	public String shorthand;
 	private String insignia;
 	public int cardindex;
-	public String data;
-	
-	
-	Territory(int input_node, String input_name, String input_short, String input_insignia){
+
+	Territory(int input_node, String input_name, String input_short, String input_insignia) {
 		node = input_node;
 		country_name = input_name;
 		shorthand = input_short;
 		insignia = input_insignia;
 	}
-	
-	void setArmies(int army_input){
+
+	void setArmies(int army_input) {
 		army_units += army_input;
 	}
-	
-	void setPlayer(int player_input){
+
+	void setPlayer(int player_input) {
 		player = player_input;
 	}
-	
-	int getArmies(){
+
+	int getArmies() {
 		return army_units;
 	}
-	
-	int getPlayer(){
+
+	int getPlayer() {
 		return player;
 	}
-	 public String getName(int i) {
+
+	public String getName() {
 		return country_name;
 	}
 
-	public String getShortName(int i) {
+	public String getShortName() {
 		return shorthand;
 	}
 
-	public String getInsigniaName(int i) {
+	public String getInsigniaName() {
 		return insignia;
 	}
-	
-	int getNode(){
+
+	int getNode() {
 		return node;
 	}
 
 	public int size() {
-		
+
 		return 0;
 	}
+
 	public int get(int i) {
-		
+
 		return cardindex;
 	}
 
 	public int getNode(int i) {
-		// TODO Auto-generated method stub
+
 		return node;
 	}
 
-	
 }

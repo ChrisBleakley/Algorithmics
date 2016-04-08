@@ -3,9 +3,9 @@ import java.util.List;
 public class TestingCards {
 	
 	//Creates the territories, assigning them the owners as determined in arraylist.
-	List<Territory> card_list = PlayGame.buildCards();
+	//List<Territory> card_list = PlayGame.buildCards();
 	//Shuffles the deck of PlayingCards
-	List<Integer> cardsList = PlayGame.shuffleTheDeck();
+	//List<Integer> cardsList = PlayGame.shuffleTheDeck();
 	
 	PlayGame play =new PlayGame();
 
@@ -16,8 +16,8 @@ public class TestingCards {
 		System.out.println("unshuffled deck;");
 		for (int i = 0; i < 44; i++) {
 			card_territory = PlayGame.buildCards().get(i);
-			System.out.println( i +" Card Country: " + card_territory.getName(i) + " Insignia Short Name: "
-					+ card_territory.getShortName(i) + "  Insignia: " + card_territory.getInsigniaName(i));
+			System.out.println( i +" Card Country: " + card_territory.getName() + " Insignia Short Name: "
+					+ card_territory.getShortName() + "  Insignia: " + card_territory.getInsigniaName());
 			
 		}
 		
@@ -39,14 +39,8 @@ public class TestingCards {
 			i++;
 		if (i==2){
 		System.out.println("the shuffled card at postion  2");
-		System.out.println(deck.get(2)+" Card Country: " + card_territory.getName(i) + " Insignia Short Name: "
-					+ card_territory.getShortName(i) + "  Insignia: " + card_territory.getInsigniaName(i));
-		}
-		else{
-			
-			continue;
-			
-		}
+		System.out.println(deck.get(i)+" is the card at postition 2  ")	;	}
+		
 		}
 		
 		
