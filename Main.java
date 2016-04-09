@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 /* Algorithmics
  * 14708689 Orla Cullen
  * 05641349 Gavin Keaveney
@@ -7,7 +9,7 @@
 public class Main {
 
 	
-	public static void main(String args[]) {
+	public static void main(String args[]) throws IOException {
 		@SuppressWarnings("unused")
 		PlayGame generateGame = new PlayGame();
 		
