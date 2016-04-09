@@ -1,4 +1,5 @@
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +35,7 @@ public class PlayGame {
 	SplitFrameGUI interfaceFrame = new SplitFrameGUI(mapPanel, mouseArea);
 
 
-	PlayGame(){
+	PlayGame() throws IOException{
 
 
 
@@ -586,54 +587,104 @@ public class PlayGame {
 
 
 		//Lets both players set up the board by allocating the armies to their chosen territories.
-		public void placeArmies(int winner, List<Territory> territory_list, List<Player> player_list) {
+		public void placeArmies(int winner, List<Territory> territory_list, List<Player> player_list) throws IOException {
 			int current_player =0;
+			int total_armies;
 			int i = 0;
 			for(i=0;i<18;i++) {
 				current_player=0;
-
+				total_armies=3;
 				if (i % 2 == 0){
 					current_player = winner;
 				}
-				else{
-					current_player = (winner + 1) % 2;
-				}
-				for(int j=0; j<3; j++){
+					else{
+						current_player = (winner + 1) % 2;
+					}
+				while (total_armies>0){
+					//int armies = 0;
 					interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories to place  armies on.");
-					assignArmies(territory_list, player_list, current_player, 1);
+					int remainarmies=assignArmies(territory_list, player_list, current_player,1 );
+					System.out.print("Armies Inputted " +remainarmies);
+					total_armies=total_armies-remainarmies;
+					System.out.print("Loop " +total_armies);
 				}
 
+
+						
 				for (int k = 2; k < 6; k++) {
 					interfaceFrame.displayString(
 							player_list.get(current_player).getName() + ", please choose one of Neutral Player" + (k-1) + " territories" + "(" + GameData.PLAYER_COLOURS[k] + ")" + "to place 1 army on.");
 					assignArmies(territory_list, player_list, k, 1);
 				}
 			}
-		}
+	}
+		
+	// Assigns armies to a chosen territory belonging to a given player.
+	public int assignArmies(List<Territory> territory_list, List<Player> player_list, int player, int armies) {
+		
+		do {
+			boolean valid_choice = false;
+			int thisarmies = 3;
+			int chosen_node = getTerritoryInput(territory_list);
+			for (int j = 0; j < player_list.get(player).ownedTerritoriesSize(); j++) {
+				
+				if (player < 2 && chosen_node == player_list.get(player).getOwnedTerritory(j)) {
+					
+					do {
+						interfaceFrame.displayString("You have 3 armies in total to place");
+						interfaceFrame.displayString("How many do you want to place");
+						String loop = interfaceFrame.getCommand();
 
-		//Assigns armies to a chosen territory belonging to a given player.
-		public void assignArmies(List<Territory> territory_list, List<Player> player_list, int player, int armies){
-			do{	
-				boolean valid_choice = false;
-				int chosen_node = getTerritoryInput(territory_list);
-				for (int j=0; j < player_list.get(player).ownedTerritoriesSize() ; j++){
-					if(chosen_node == player_list.get(player).getOwnedTerritory(j)){
+						try {
+							armies = Integer.parseInt(loop);
+						} catch (Exception e) {
+							interfaceFrame.displayString("You must enter an integer value.");
+							continue;
+							
+						}
+						
+						int temp_armies = 0;
+						
+						temp_armies = temp_armies + armies;
+						thisarmies -= armies;
+						if (thisarmies < 0 ||temp_armies > 3 || armies > 3 ) {
+							interfaceFrame.displayString("You cannot enter more than 3 armies.");
+							interfaceFrame.displayString("Please choose  a number <= 3.");
+							temp_armies = temp_armies - armies;
+							thisarmies += armies;
+							continue;
+						}
 						player_list.get(player).setArmies(-armies);
 						territory_list.get(chosen_node).setArmies(armies);
 						mapPanel.refresh();
 						valid_choice = true;
 						break;
-					}
+					} while (true);
+
 				}
-				if(valid_choice==true){
+
+				else if (player >= 2 && chosen_node == player_list.get(player).getOwnedTerritory(j)) {
+
+					int tarmies = 1;
+					player_list.get(player).setArmies(-tarmies);
+					territory_list.get(chosen_node).setArmies(tarmies);
+					mapPanel.refresh();
+					valid_choice = true;
 					break;
 				}
-				interfaceFrame.displayString(player_list.get(player).getName() + " does not own " + GameData.COUNTRY_NAMES[chosen_node]);
-				interfaceFrame.displayString("Please enter a territory owned by " + player_list.get(player).getName());
-			}while(true);
 
-		}
+			}
 
+			if (valid_choice == true) {
+				break;
+			}
+			interfaceFrame.displayString(
+					player_list.get(player).getName() + " does not own " + GameData.COUNTRY_NAMES[chosen_node]);
+			interfaceFrame.displayString("Please enter a territory owned by " + player_list.get(player).getName());
+		} while (true);
+
+		return armies;
+	}
 
 		//Reads the entered territory name from the prompt.
 		public int getTerritoryInput(List<Territory> territory_list){
