@@ -804,7 +804,7 @@ public class PlayGame {
 
 	//Get names from prompt.
 	public  String getNames(SplitFrameGUI interfaceFrame, int player_number){
-		interfaceFrame.displayString("Enter the name of player " + player_number);
+		interfaceFrame.displayString("Enter the name of Player " + player_number);
 		String name = interfaceFrame.getCommand();
 		interfaceFrame.displayString("Welcome to risk " + name);
 
