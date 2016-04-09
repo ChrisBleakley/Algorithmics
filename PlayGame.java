@@ -87,13 +87,13 @@ public class PlayGame {
 
 		reinforceTerritories(current_player, territory_list, player_list);
 		combat(current_player, territory_list, player_list);
-		cardExchange(current_player, player_list, card_list);
+//		cardExchange(current_player, player_list, card_list);
 		fortify(current_player, territory_list, player_list);
 		interfaceFrame.displayString("End of " + player_list.get(current_player).getName() + "'s turn.");	
 		interfaceFrame.displayString("Beginning " + player_list.get((current_player) % 2).getName() + "'s turn.");	
 	}
 
-
+/*
 	public int cardExchange(int current_player, List<Player> player_list, List<Territory> card_list) {
 		int golden_horse=-1;
 		int traded_armies=0;
@@ -177,7 +177,7 @@ public class PlayGame {
 		return traded_armies;
 	}
 
-
+*/
 
 	public void reinforceTerritories(int current_player, List<Territory> territory_list, List<Player> player_list){
 		int reinforcements = calc_TotalReinforcements(territory_list, player_list, current_player);
