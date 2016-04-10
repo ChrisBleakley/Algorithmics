@@ -20,7 +20,7 @@ public final class GameData {
 		"Afghanistan","India","Middle East","Japan","Ural","Yakutsk","Kamchatka","Siam","Irkutsk","Siberia","Mongolia","China",
 		"E Australia","New Guinea","W Australia","Indonesia",
 		"Venezuela","Peru","Brazil","Argentina",
-		"Congo","N Africa","S Africa","Egypt","E Africa","Madagascar"};  // for reference
+		"Congo","N Africa","S Africa","Egypt","E Africa","Madagascar"};
 	
 	public static final String[] SHORT_COUNTRY_NAMES = {
 			"Ont","Qbc","NWT","Alb","Grl","EUS","WUS","CAM","AlA",

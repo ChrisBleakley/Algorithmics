@@ -17,7 +17,7 @@ public class TestingCards {
 		for (int i = 0; i < 44; i++) {
 			card_territory = PlayGame.buildCards().get(i);
 			System.out.println(i + " Card Country: " + card_territory.getName() + " Insignia Short Name: "
-					+ card_territory.getShortName() + "  Insignia: " + card_territory.getInsigniaName());
+					+ card_territory.getShortName() + "  Insignia: " + card_territory.getInsignia());
 
 		}
 

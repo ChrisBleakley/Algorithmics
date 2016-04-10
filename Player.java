@@ -11,8 +11,8 @@ public class Player {
 	public int player_index;
 	public int army_units;
 	public String name;
-	List<Integer> owned_territories_List = new ArrayList<Integer>();
-	List<Integer> owned_cards_List = new ArrayList<Integer>();
+	List<Integer> owned_territories_list = new ArrayList<Integer>();
+	List<Integer> owned_cards_list = new ArrayList<Integer>();
 	
 	Player(int input_player_index, String input_name){
 		player_index = input_player_index;
@@ -24,13 +24,13 @@ public class Player {
 	}
 	
 	void addOwnedTerritory(int territory_input){
-		owned_territories_List.add(territory_input);
+		owned_territories_list.add(territory_input);
 	}
 	
 	void removeOwnedTerritory(int territory_input){
-		for(int i=0; i<owned_territories_List.size(); i++){
-			if(owned_territories_List.get(i) == territory_input){
-				owned_territories_List.remove(i);
+		for(int i=0; i<owned_territories_list.size(); i++){
+			if(owned_territories_list.get(i) == territory_input){
+				owned_territories_list.remove(i);
 			}
 		}
 	}
@@ -40,7 +40,7 @@ public class Player {
 	}
 	
 	int getOwnedTerritory(int i){
-		return owned_territories_List.get(i);
+		return owned_territories_list.get(i);
 	}
 	
 	int getPlayer(){
@@ -52,28 +52,27 @@ public class Player {
 	}
 
 	public int ownedTerritoriesSize() {
-		return owned_territories_List.size();
-		 
-	}
-	int getPlayer(int i){
-		return player_index;
+		return owned_territories_list.size();
 	}	
+	
 	void addOwnedCard(int card_input){
-		owned_cards_List.add(card_input);
+		owned_cards_list.add(card_input);
 	}
 	
 	void removeOwnedCard(int card_input){
-		for(int i=0; i<owned_cards_List.size(); i++){
-			if(owned_cards_List.get(i) == card_input){
-				owned_cards_List.remove(i);
+		for(int i=0; i<owned_cards_list.size(); i++){
+			if(owned_cards_list.get(i) == card_input){
+				owned_cards_list.remove(i);
 			}
 		}
 	}
+	
 	int getOwnedCard(int i){
-		return owned_cards_List.get(i);
+		return owned_cards_list.get(i);
 	}
+	
 	public int ownedCardsSize() {
-		return owned_cards_List.size();
+		return owned_cards_list.size();
 		 
 	}
 }

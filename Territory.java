@@ -12,15 +12,17 @@ public class Territory {
 	public String country_name;
 	public String shorthand;
 	private String insignia;
-	public int cardindex;
 
-	Territory(int input_node, String input_name, String input_short, String input_insignia) {
+	Territory(int input_node, String input_name, String input_short) {
 		node = input_node;
 		country_name = input_name;
 		shorthand = input_short;
-		insignia = input_insignia;
 	}
 
+	void setInsignia(String insignia_input){
+		insignia = insignia_input;
+	}
+	
 	void setArmies(int army_input) {
 		army_units += army_input;
 	}
@@ -45,26 +47,11 @@ public class Territory {
 		return shorthand;
 	}
 
-	public String getInsigniaName() {
+	public String getInsignia() {
 		return insignia;
 	}
 
 	int getNode() {
-		return node;
-	}
-
-	public int size() {
-
-		return 0;
-	}
-
-	public int get(int i) {
-
-		return cardindex;
-	}
-
-	public int getNode(int i) {
-
 		return node;
 	}
 

@@ -57,7 +57,7 @@ public class PlayGame {
 		interfaceFrame.displayString(player_list.get(winner).getName() +" will place armies first.");
 
 		//Method to allow players to set up the board, each player placing 27 armies on their own territories and 9 on each neutral.
-		placeArmies(winner, territory_list, player_list);
+		//placeArmies(winner, territory_list, player_list);
 
 		interfaceFrame.displayString("Enter or press 'roll' to decide who goes first.");
 		winner = roll(player_list);
@@ -445,7 +445,7 @@ public class PlayGame {
 
 						break;
 					}
-					interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories fortify or enter 'skip'.");	
+					interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories to fortify or enter 'skip'.");	
 
 					do{
 						chosen_target = getCombatInput(territory_list);
@@ -640,13 +640,8 @@ public class PlayGame {
 			int chosen_node = getTerritoryInput(territory_list);
 			for (int j=0; j < player_list.get(player).ownedTerritoriesSize() ; j++){
 				if(chosen_node == player_list.get(player).getOwnedTerritory(j)){
-					if(player < 2){
-						if(armies==1){
-							interfaceFrame.displayString(player_list.get(player).getName() + " has " + armies + " army available");
-						}
-						else{
-							interfaceFrame.displayString(player_list.get(player).getName() + " has " + armies + " armies available");
-						}
+					if(armies > 1){
+						interfaceFrame.displayString(player_list.get(player).getName() + " has " + armies + " armies available");
 						interfaceFrame.displayString("How many would you like to place on " + GameData.COUNTRY_NAMES[chosen_node] + "?");
 						do {	
 							String armies_input = interfaceFrame.getCommand();
@@ -746,7 +741,7 @@ public class PlayGame {
 		List<Territory> territory_list= new ArrayList<Territory>();
 
 		for(int i=0;i<42;i++){
-			Territory current_territory = new Territory(i, GameData.COUNTRY_NAMES[i], GameData.SHORT_COUNTRY_NAMES[i],null);
+			Territory current_territory = new Territory(i, GameData.COUNTRY_NAMES[i], GameData.SHORT_COUNTRY_NAMES[i]);
 			current_territory.setArmies(1);
 
 			current_territory.setPlayer(-1);
@@ -793,8 +788,8 @@ public class PlayGame {
 			territory_list.get(i).setPlayer(arrayList.get(i));
 		}
 		for(int i=0;i<6;i++){
-			for(int j=0;j<	42 ;j++){
-				if(player_list.get(i).getPlayer()==territory_list.get(j).getPlayer()){
+			for(int j=0 ;j<42 ;j++){
+				if(i==territory_list.get(j).getPlayer()){
 					player_list.get(i).addOwnedTerritory(territory_list.get(j).getNode());
 				}
 			}
@@ -873,8 +868,8 @@ public class PlayGame {
 			country_reinforce = player_list.get(current_player).ownedTerritoriesSize() / 3;
 		}
 		for (int j = 0; j < 42; j++) {
-
-			if (j < 9 && (player_list.get(current_player).getPlayer(current_player) == territory_list.get(j).getPlayer())) {
+			
+			if (j < 9 && (current_player == territory_list.get(j).getPlayer())) {
 				Namerica_size++;
 				if (Namerica_size==9){
 					nam_reinforce = GameData.north_america;
@@ -883,7 +878,7 @@ public class PlayGame {
 					nam_reinforce = 0;
 				}
 			}
-			if (j > 8 && j < 16 && (player_list.get(current_player).getPlayer(current_player) == territory_list.get(j).getPlayer())) {
+			if (j > 8 && j < 16 && (current_player == territory_list.get(j).getPlayer())) {
 				Euro_size++;
 				if (Euro_size==7){
 					eu_reinforce = GameData.europe;
@@ -894,7 +889,7 @@ public class PlayGame {
 
 
 			}
-			if (j > 15 && j < 28 && (player_list.get(current_player).getPlayer(current_player) == territory_list.get(j).getPlayer())) {
+			if (j > 15 && j < 28 && (current_player == territory_list.get(j).getPlayer())) {
 				Asia_size++;
 				if (Asia_size==12){
 					as_reinforce = GameData.asia;
@@ -904,7 +899,7 @@ public class PlayGame {
 				}
 
 			}
-			if (j > 27 && j < 32 && (player_list.get(current_player).getPlayer(current_player) == territory_list.get(j).getPlayer())) {
+			if (j > 27 && j < 32 && (current_player == territory_list.get(j).getPlayer())) {
 				Aus_size++;
 				if (Aus_size==4){
 					aus_reinforce =  GameData.australia;
@@ -914,7 +909,7 @@ public class PlayGame {
 				}
 
 			}
-			if (j > 31 && j < 36 && (player_list.get(current_player).getPlayer(current_player) == territory_list.get(j).getPlayer())) {
+			if (j > 31 && j < 36 && (current_player == territory_list.get(j).getPlayer())) {
 				Samerica_size++;
 				if (Samerica_size==4){
 					sam_reinforce =  GameData.south_america;
@@ -925,7 +920,7 @@ public class PlayGame {
 
 
 			}
-			if (j > 35 && j < 42 && (player_list.get(current_player).getPlayer(current_player) == territory_list.get(j).getPlayer())) {
+			if (j > 35 && j < 42 && (current_player == territory_list.get(j).getPlayer())) {
 				Af_size++;
 				if (Af_size==6){
 					af_reinforce =  GameData.africa;
@@ -996,8 +991,8 @@ public class PlayGame {
 		Territory current_card = null;
 		int i = 0;
 		while (i < 44) {
-			current_card = new Territory(i, GameData.CARD_NAMES[i], GameData.INSIGNIA_TYPE[i].substring(0, 1),
-					GameData.INSIGNIA_TYPE[i]);
+	//		current_card = new Territory(i, GameData.CARD_NAMES[i], GameData.INSIGNIA_TYPE[i].substring(0, 1),
+	//				GameData.INSIGNIA_TYPE[i]);
 
 			card_list.add(current_card);
 			i++;
