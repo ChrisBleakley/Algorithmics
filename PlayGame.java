@@ -1,5 +1,4 @@
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +34,7 @@ public class PlayGame {
 	SplitFrameGUI interfaceFrame = new SplitFrameGUI(mapPanel, mouseArea);
 
 
-	PlayGame() throws IOException{
+	PlayGame() {
 
 
 
@@ -183,6 +182,8 @@ public class PlayGame {
 		int reinforcements = calc_TotalReinforcements(territory_list, player_list, current_player);
 		player_list.get(current_player).setArmies(reinforcements);
 
+		interfaceFrame.displayString(player_list.get(current_player).getName() + ", has " + player_list.get(current_player).getArmies() + " total reinforcements.");
+		
 		while(player_list.get(current_player).getArmies() > 0){
 			interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories to place armies on.");
 			assignArmies(territory_list, player_list, current_player, 1);
@@ -295,14 +296,14 @@ public class PlayGame {
 
 
 			do{
-				interfaceFrame.displayString(player_list.get(current_player).getName() + ", with how many armies do you want to attack " + GameData.COUNTRY_NAMES[chosen_target]);	
+				interfaceFrame.displayString(player_list.get(current_player).getName() + ", with how many armies do you want to attack " + GameData.COUNTRY_NAMES[chosen_target] + "?");	
 				int attack_number;
 				int defend_number;
 				do {	
-					String loop = interfaceFrame.getCommand();
+					String attack_input = interfaceFrame.getCommand();
 
 					try{
-						attack_number = Integer.parseInt(loop);
+						attack_number = Integer.parseInt(attack_input);
 					}
 					catch(Exception e){
 						interfaceFrame.displayString("You must enter an integer value.");
@@ -571,7 +572,7 @@ public class PlayGame {
 		printNames(player_list);
 	}
 
-	//
+	
 	public int roll(List<Player> player_list){
 		int winner;
 		do {
@@ -605,107 +606,89 @@ public class PlayGame {
 		return winner;
 	}
 
-
-	//Lets both players set up the board by allocating the armies to their chosen territories.
-			public void placeArmies(int winner, List<Territory> territory_list, List<Player> player_list) throws IOException {
-				int current_player =0;
-				int total_armies;
-				int i = 0;
-				for(i=0;i<18;i++) {
-					current_player=0;
-					total_armies=3;
-					if (i % 2 == 0){
-						current_player = winner;
-					}
-						else{
-							current_player = (winner + 1) % 2;
-						}
-					while (total_armies>0){
-						//int armies = 0;
-						interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories to place  armies on.");
-						int remainarmies=assignArmies(territory_list, player_list, current_player,1 );
-						System.out.print("Armies Inputted " +remainarmies);
-						total_armies=total_armies-remainarmies;
-						System.out.print("Loop " +total_armies);
-					}
-
-
-							
-					for (int k = 2; k < 6; k++) {
-						interfaceFrame.displayString(
-								player_list.get(current_player).getName() + ", please choose one of Neutral Player" + (k-1) + " territories" + "(" + GameData.PLAYER_COLOURS[k] + ")" + "to place 1 army on.");
-						assignArmies(territory_list, player_list, k, 1);
-					}
+	
+	public void placeArmies(int winner, List<Territory> territory_list, List<Player> player_list) {		
+		for(int i=0;i<18;i++) {
+			int current_player = 0;
+			int armies_placed = 0;
+			
+			if (i % 2 == 0){
+				current_player = winner;
+			}
+			else{
+					current_player = (winner + 1) % 2;
+			}
+			while(armies_placed < 3){
+				interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of your territories to place  armies on.");
+				armies_placed += assignArmies(territory_list, player_list, current_player, 3-armies_placed);
 				}
-		}
-			
-		// Assigns armies to a chosen territory belonging to a given player.
-		public int assignArmies(List<Territory> territory_list, List<Player> player_list, int player, int armies) {
-			
-			do {
-				boolean valid_choice = false;
-				int thisarmies = 3;
-				int chosen_node = getTerritoryInput(territory_list);
-				for (int j = 0; j < player_list.get(player).ownedTerritoriesSize(); j++) {
 					
-					if (player < 2 && chosen_node == player_list.get(player).getOwnedTerritory(j)) {
-						
-						do {
-							interfaceFrame.displayString("You have 3 armies in total to place");
-							interfaceFrame.displayString("How many do you want to place");
-							String loop = interfaceFrame.getCommand();
+			for (int k=2; k < GameData.NUM_PLAYERS_PLUS_NEUTRALS; k++) { 
+				interfaceFrame.displayString(player_list.get(current_player).getName() + ", please choose one of " + player_list.get(k).getName()
+												+ " territories" + "(" + GameData.PLAYER_COLOURS[k] + ")" + "to place 1 army on.");
+				assignArmies(territory_list, player_list, k, 1);
+			}
+		}
+	}
 
-							try {
-								armies = Integer.parseInt(loop);
-							} catch (Exception e) {
+	// Assigns armies to a chosen territory belonging to a given player.
+	
+	public int assignArmies(List<Territory> territory_list, List<Player> player_list, int player, int armies){
+		int chosen_armies = 0;
+		do{	
+			boolean valid_choice = false;
+			int chosen_node = getTerritoryInput(territory_list);
+			for (int j=0; j < player_list.get(player).ownedTerritoriesSize() ; j++){
+				if(chosen_node == player_list.get(player).getOwnedTerritory(j)){
+					if(player < 2){
+						if(armies==1){
+							interfaceFrame.displayString(player_list.get(player).getName() + " has " + armies + " army available");
+						}
+						else{
+							interfaceFrame.displayString(player_list.get(player).getName() + " has " + armies + " armies available");
+						}
+						interfaceFrame.displayString("How many would you like to place on " + GameData.COUNTRY_NAMES[chosen_node] + "?");
+						do {	
+							String armies_input = interfaceFrame.getCommand();
+	
+							try{
+								chosen_armies = Integer.parseInt(armies_input);
+							}
+							catch(Exception e){
 								interfaceFrame.displayString("You must enter an integer value.");
 								continue;
-								
 							}
-							
-							int temp_armies = 0;
-							
-							temp_armies = temp_armies + armies;
-							thisarmies -= armies;
-							if (thisarmies < 0 ||temp_armies > 3 || armies > 3 ) {
-								interfaceFrame.displayString("You cannot enter more than 3 armies.");
-								interfaceFrame.displayString("Please choose  a number <= 3.");
-								temp_armies = temp_armies - armies;
-								thisarmies += armies;
+	
+							if (chosen_armies > armies || chosen_armies < 0){
+								interfaceFrame.displayString("You cannot place that many armies.");
 								continue;
 							}
-							player_list.get(player).setArmies(-armies);
-							territory_list.get(chosen_node).setArmies(armies);
-							mapPanel.refresh();
-							valid_choice = true;
+	
 							break;
-						} while (true);
-
+						} while(true);
 					}
-
-					else if (player >= 2 && chosen_node == player_list.get(player).getOwnedTerritory(j)) {
-
-						int tarmies = 1;
-						player_list.get(player).setArmies(-tarmies);
-						territory_list.get(chosen_node).setArmies(tarmies);
-						mapPanel.refresh();
-						valid_choice = true;
-						break;
+					else{
+						chosen_armies = armies;
 					}
-
-				}
-
-				if (valid_choice == true) {
+					player_list.get(player).setArmies(-chosen_armies);
+					territory_list.get(chosen_node).setArmies(chosen_armies);
+					mapPanel.refresh();
+					valid_choice = true;
 					break;
 				}
-				interfaceFrame.displayString(
-						player_list.get(player).getName() + " does not own " + GameData.COUNTRY_NAMES[chosen_node]);
-				interfaceFrame.displayString("Please enter a territory owned by " + player_list.get(player).getName());
-			} while (true);
-
-			return armies;
-		}
+			}
+			if(valid_choice==true){
+				break;
+			}
+			interfaceFrame.displayString(player_list.get(player).getName() + " does not own " + GameData.COUNTRY_NAMES[chosen_node]);
+			interfaceFrame.displayString("Please enter a territory owned by " + player_list.get(player).getName());
+		}while(true);
+		
+		return chosen_armies;
+	}
+	
 	//Reads the entered territory name from the prompt.
+	
 	public int getTerritoryInput(List<Territory> territory_list){
 		int chosen_node = -1;
 		do {	
@@ -728,6 +711,7 @@ public class PlayGame {
 
 
 	//Rolls the dice and returns the winner when called.
+	
 	public int rollDice(List<Player> player_list) {
 		Die die = new Die();
 		die.roll();
@@ -757,7 +741,6 @@ public class PlayGame {
 		return winner;
 	}
 
-
 	//Creates and initializes the list of territories.
 	public List<Territory> buildTerritories(){
 		List<Territory> territory_list= new ArrayList<Territory>();
@@ -772,7 +755,6 @@ public class PlayGame {
 		}
 		return territory_list;
 	}
-
 
 	//Creates and initializes the list of 6 players.
 	public List<Player> buildPlayers(List<Territory> territory_list,  String player_1, String player_2){	
@@ -806,7 +788,6 @@ public class PlayGame {
 		return player_list;
 	}
 
-
 	public void assignTerritories(List<Territory> territory_list, List<Player> player_list, List<Integer> arrayList){
 		for(int i=0;i<42;i++){
 			territory_list.get(i).setPlayer(arrayList.get(i));
@@ -820,7 +801,6 @@ public class PlayGame {
 		}
 		mapPanel.refresh();
 	}
-
 
 	//Creates a length 42 integer list of numbers 0-5 and randomizes it.
 	public List<Integer> deal() {
@@ -851,7 +831,6 @@ public class PlayGame {
 		return arrayList;
 	}
 
-
 	//Get names from prompt.
 	public  String getNames(SplitFrameGUI interfaceFrame, int player_number){
 		interfaceFrame.displayString("Enter the name of Player " + player_number);
@@ -860,7 +839,6 @@ public class PlayGame {
 
 		return name;
 	}
-
 
 	//Print each player's names and owned territories.
 	public void printNames(List<Player> player_list){
@@ -874,8 +852,7 @@ public class PlayGame {
 		}
 	}
 
-	//Method  calculates the  amount of territories owned   and  also gives a bonus if continent is owned 
-	public int  calc_TotalReinforcements(List<Territory> territory_list, List<Player> player_list, int i) {
+	public int  calc_TotalReinforcements(List<Territory> territory_list, List<Player> player_list, int current_player) {
 		int Namerica_size = 0;
 		int Euro_size = 0;
 		int Asia_size = 0;
@@ -889,15 +866,15 @@ public class PlayGame {
 		int sam_reinforce = 0;
 		int af_reinforce=0;
 		int country_reinforce = 0;
-		if (player_list.get(i).ownedTerritoriesSize() / 3 <= 3) {
+		if (player_list.get(current_player).ownedTerritoriesSize() / 3 <= 3) {
 			country_reinforce = 3;
 		} 
-		else if (player_list.get(i).ownedTerritoriesSize() / 3 > 3) {
-			country_reinforce = player_list.get(i).ownedTerritoriesSize() / 3;
+		else if (player_list.get(current_player).ownedTerritoriesSize() / 3 > 3) {
+			country_reinforce = player_list.get(current_player).ownedTerritoriesSize() / 3;
 		}
 		for (int j = 0; j < 42; j++) {
 
-			if (j < 9 && (player_list.get(i).getPlayer(i) == territory_list.get(j).getPlayer())) {
+			if (j < 9 && (player_list.get(current_player).getPlayer(current_player) == territory_list.get(j).getPlayer())) {
 				Namerica_size++;
 				if (Namerica_size==9){
 					nam_reinforce = GameData.north_america;
@@ -906,7 +883,7 @@ public class PlayGame {
 					nam_reinforce = 0;
 				}
 			}
-			if (j > 8 && j < 16 && (player_list.get(i).getPlayer(i) == territory_list.get(j).getPlayer())) {
+			if (j > 8 && j < 16 && (player_list.get(current_player).getPlayer(current_player) == territory_list.get(j).getPlayer())) {
 				Euro_size++;
 				if (Euro_size==7){
 					eu_reinforce = GameData.europe;
@@ -917,7 +894,7 @@ public class PlayGame {
 
 
 			}
-			if (j > 15 && j < 28 && (player_list.get(i).getPlayer(i) == territory_list.get(j).getPlayer())) {
+			if (j > 15 && j < 28 && (player_list.get(current_player).getPlayer(current_player) == territory_list.get(j).getPlayer())) {
 				Asia_size++;
 				if (Asia_size==12){
 					as_reinforce = GameData.asia;
@@ -927,7 +904,7 @@ public class PlayGame {
 				}
 
 			}
-			if (j > 27 && j < 32 && (player_list.get(i).getPlayer(i) == territory_list.get(j).getPlayer())) {
+			if (j > 27 && j < 32 && (player_list.get(current_player).getPlayer(current_player) == territory_list.get(j).getPlayer())) {
 				Aus_size++;
 				if (Aus_size==4){
 					aus_reinforce =  GameData.australia;
@@ -937,7 +914,7 @@ public class PlayGame {
 				}
 
 			}
-			if (j > 31 && j < 36 && (player_list.get(i).getPlayer(i) == territory_list.get(j).getPlayer())) {
+			if (j > 31 && j < 36 && (player_list.get(current_player).getPlayer(current_player) == territory_list.get(j).getPlayer())) {
 				Samerica_size++;
 				if (Samerica_size==4){
 					sam_reinforce =  GameData.south_america;
@@ -948,7 +925,7 @@ public class PlayGame {
 
 
 			}
-			if (j > 35 && j < 42 && (player_list.get(i).getPlayer(i) == territory_list.get(j).getPlayer())) {
+			if (j > 35 && j < 42 && (player_list.get(current_player).getPlayer(current_player) == territory_list.get(j).getPlayer())) {
 				Af_size++;
 				if (Af_size==6){
 					af_reinforce =  GameData.africa;
@@ -960,20 +937,20 @@ public class PlayGame {
 			}
 
 		}
-		int continent_reinforce = 0;
-		continent_reinforce= nam_reinforce+eu_reinforce + as_reinforce + aus_reinforce +sam_reinforce+ af_reinforce;
-		int total_reinforcements=0;
-		total_reinforcements=continent_reinforce+ country_reinforce;
+		
+		int continent_reinforce= nam_reinforce+eu_reinforce + as_reinforce + aus_reinforce +sam_reinforce+ af_reinforce;
+		
+		int total_reinforcements=continent_reinforce+ country_reinforce;
 		//interfaceFrame.displayString(player_list.get(i).getName() + ", has " + Namerica_size + " size of america");
 		//interfaceFrame.displayString(player_list.get(i).getName() + ", has " + Euro_size + " size of europe");
 		//interfaceFrame.displayString(player_list.get(i).getName() + ", has " + Asia_size + " size of asia");
 		//interfaceFrame.displayString(player_list.get(i).getName() + ", has " + Aus_size + " size of austalia");
 		//interfaceFrame.displayString(player_list.get(i).getName() + ", has " + Samerica_size + " size of Southamerica");
 		//interfaceFrame.displayString(player_list.get(i).getName() + ", has " + Af_size + " size of Africa");
-		interfaceFrame.displayString(player_list.get(i).getName() + ", has " + continent_reinforce + " bonus reinforcements.");
-		interfaceFrame.displayString(player_list.get(i).getName() + ", has " + total_reinforcements + " total reinforcements.");
 
-		return total_reinforcements;}
+		interfaceFrame.displayString(player_list.get(current_player).getName() + ", has " + continent_reinforce + " bonus reinforcements.");
+		return total_reinforcements;
+	}
 
 	public  void check_HumanWinner(List<Player> player_list){
 		for (int i=0;i<GameData.NUM_PLAYERS;i++){
@@ -1014,7 +991,6 @@ public class PlayGame {
 		} 			
 	}
 
-
 	public static List<Territory> buildCards() {
 		List<Territory> card_list = new ArrayList<Territory>();
 		Territory current_card = null;
@@ -1028,6 +1004,7 @@ public class PlayGame {
 		}
 		return card_list;
 	}
+	
 	public static List<Integer> shuffleTheDeck() {
 		int i = 0;
 		List<Integer> deck = new ArrayList<Integer>();
