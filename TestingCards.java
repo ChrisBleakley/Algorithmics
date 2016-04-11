@@ -1,7 +1,8 @@
+
 import java.util.List;
 
 public class TestingCards {
-
+/*
 	// Creates the territories, assigning them the owners as determined in
 	// arraylist.
 	// List<Territory> card_list = PlayGame.buildCards();
@@ -45,5 +46,5 @@ public class TestingCards {
 		}
 
 	}
-
+*/
 }

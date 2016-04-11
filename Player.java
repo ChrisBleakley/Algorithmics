@@ -12,7 +12,7 @@ public class Player {
 	public int army_units;
 	public String name;
 	List<Integer> owned_territories_list = new ArrayList<Integer>();
-	List<Integer> owned_cards_list = new ArrayList<Integer>();
+	List<Territory> owned_cards_list = new ArrayList<Territory>();
 	
 	Player(int input_player_index, String input_name){
 		player_index = input_player_index;
@@ -55,19 +55,15 @@ public class Player {
 		return owned_territories_list.size();
 	}	
 	
-	void addOwnedCard(int card_input){
+	void addOwnedCard(Territory card_input){
 		owned_cards_list.add(card_input);
 	}
 	
 	void removeOwnedCard(int card_input){
-		for(int i=0; i<owned_cards_list.size(); i++){
-			if(owned_cards_list.get(i) == card_input){
-				owned_cards_list.remove(i);
-			}
-		}
+		owned_cards_list.remove(card_input);
 	}
 	
-	int getOwnedCard(int i){
+	Territory getOwnedCard(int i){
 		return owned_cards_list.get(i);
 	}
 	
