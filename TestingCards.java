@@ -2,7 +2,7 @@
 import java.util.List;
 
 public class TestingCards {
-/*
+
 	// Creates the territories, assigning them the owners as determined in
 	// arraylist.
 	// List<Territory> card_list = PlayGame.buildCards();
@@ -16,7 +16,7 @@ public class TestingCards {
 		Territory card_territory = null;
 		System.out.println("unshuffled deck;");
 		for (int i = 0; i < 44; i++) {
-			card_territory = PlayGame.buildCards().get(i);
+			card_territory = PlayGame.buildCards(null).get(i);
 			System.out.println(i + " Card Country: " + card_territory.getName() + " Insignia Short Name: "
 					+ card_territory.getShortName() + "  Insignia: " + card_territory.getInsignia());
 
@@ -24,7 +24,7 @@ public class TestingCards {
 
 		System.out.println("the shuffled");
 
-		List<Integer> deck = PlayGame.shuffleTheDeck();
+		List<Integer> deck = PlayGame.shuffleDeck();
 
 		int i = 0;
 		while (i < 44) {
@@ -46,5 +46,5 @@ public class TestingCards {
 		}
 
 	}
-*/
+
 }
