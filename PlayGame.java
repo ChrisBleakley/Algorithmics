@@ -128,8 +128,8 @@ public class PlayGame {
 				} else if (check.equalsIgnoreCase("W")) {
 					flagW++;
 				}
-				System.out.println(player_list.get(current_player).getOwnedCard(i).getShortName());
 			}
+
 
 			System.out.println(flagI + " ," + flagA + " ," + flagC + " ," + flagW);
 			interfaceFrame.displayString(player_list.get(current_player).getName() + " has " + flagI + " Infantry, "
@@ -137,6 +137,13 @@ public class PlayGame {
 
 			interfaceFrame.displayString(
 					"Please enter the insignias of the card set you wish to swap (III, AAA, CCC, or IAC), or enter 'skip' to keep cards");
+
+			
+			interfaceFrame.displayString(player_list.get(current_player).getName() + " has " + flagI +" Infantry, " + flagA +" Artillery, " 
+												+ flagC +" Cavalry, and " + flagW +" Wild Cards.");
+	
+			interfaceFrame.displayString("Please enter the insignias of the card set you wish to swap (III, AAA, CCC, or IAC), or enter 'skip' to keep cards");
+
 			boolean cards_traded = false;
 			do {
 				String loop = interfaceFrame.getCommand();
