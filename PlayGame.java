@@ -135,10 +135,8 @@ public class PlayGame {
 				else if (check.equalsIgnoreCase("W")){
 					flagW++;
 				}
-				System.out.println(player_list.get(current_player).getOwnedCard(i).getShortName());
 			}
 			
-			System.out.println(flagI +" ,"+flagA+" ,"+flagC+" ,"+flagW);
 			interfaceFrame.displayString(player_list.get(current_player).getName() + " has " + flagI +" Infantry, " + flagA +" Artillery, " 
 												+ flagC +" Cavalry, and " + flagW +" Wild Cards.");
 	
