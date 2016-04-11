@@ -7,7 +7,6 @@ import java.io.IOException;
  */
 
 public class Main {
-
 	
 	public static void main(String args[]) throws IOException {
 		@SuppressWarnings("unused")
@@ -15,6 +14,5 @@ public class Main {
 		
 		return;
 	}
-
-	}
+}
 	
