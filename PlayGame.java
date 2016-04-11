@@ -161,9 +161,10 @@ public class PlayGame {
 
 				if (loop.equalsIgnoreCase("III")) {
 					if (flagI + flagW >= 3) {
-						int removed_cards = 0;
+						int removed_cards = 0; 
 						for (int i = 0; i <= player_list.get(current_player).ownedCardsSize()
 								&& removed_cards < 3; i++) {
+							System.out.println("list size"+player_list.get(current_player).ownedCardsSize());
 							if (player_list.get(current_player).getOwnedCard(i).getShortName().equalsIgnoreCase("I")) {
 								player_list.get(current_player).removeOwnedCard(i);
 								removed_cards++;
@@ -174,7 +175,7 @@ public class PlayGame {
 							for (int i = 0; i <= player_list.get(current_player).ownedCardsSize()
 									&& removed_cards < 3; i++) {
 								if (player_list.get(current_player).getOwnedCard(i).getShortName()
-										.equalsIgnoreCase("W")) {
+										.equalsIgnoreCase("I")) {
 									player_list.get(current_player).removeOwnedCard(i);
 									removed_cards++;
 								}
@@ -191,9 +192,10 @@ public class PlayGame {
 
 				if (loop.equalsIgnoreCase("AAA")) {
 					if (flagA + flagW >= 3) {
-						int removed_cards = 0;
+						int removed_cards = 0; 
 						for (int i = 0; i <= player_list.get(current_player).ownedCardsSize()
 								&& removed_cards < 3; i++) {
+							System.out.println("list size"+player_list.get(current_player).ownedCardsSize());
 							if (player_list.get(current_player).getOwnedCard(i).getShortName().equalsIgnoreCase("A")) {
 								player_list.get(current_player).removeOwnedCard(i);
 								removed_cards++;
@@ -204,7 +206,7 @@ public class PlayGame {
 							for (int i = 0; i <= player_list.get(current_player).ownedCardsSize()
 									&& removed_cards < 3; i++) {
 								if (player_list.get(current_player).getOwnedCard(i).getShortName()
-										.equalsIgnoreCase("W")) {
+										.equalsIgnoreCase("A")) {
 									player_list.get(current_player).removeOwnedCard(i);
 									removed_cards++;
 								}
@@ -221,9 +223,10 @@ public class PlayGame {
 
 				if (loop.equalsIgnoreCase("CCC")) {
 					if (flagC + flagW >= 3) {
-						int removed_cards = 0;
+						int removed_cards = 0; 
 						for (int i = 0; i <= player_list.get(current_player).ownedCardsSize()
 								&& removed_cards < 3; i++) {
+							System.out.println("list size"+player_list.get(current_player).ownedCardsSize());
 							if (player_list.get(current_player).getOwnedCard(i).getShortName().equalsIgnoreCase("C")) {
 								player_list.get(current_player).removeOwnedCard(i);
 								removed_cards++;
@@ -234,7 +237,7 @@ public class PlayGame {
 							for (int i = 0; i <= player_list.get(current_player).ownedCardsSize()
 									&& removed_cards < 3; i++) {
 								if (player_list.get(current_player).getOwnedCard(i).getShortName()
-										.equalsIgnoreCase("W")) {
+										.equalsIgnoreCase("C")) {
 									player_list.get(current_player).removeOwnedCard(i);
 									removed_cards++;
 								}
@@ -806,7 +809,7 @@ public class PlayGame {
 	}
 
 	public void placeArmies(int winner, List<Territory> territory_list, List<Player> player_list) {
-		for (int i = 0; i < 18; i++) {
+		for (int i = 0; i < 18; i++) { // Keep at 18, 2 for quick start
 			int current_player = 0;
 			int armies_placed = 0;
 
@@ -958,8 +961,7 @@ public class PlayGame {
 			switch (i) {
 			case 0:
 				player_name = player_1;
-				armies = 27; // **** Keep at 27 (Change to 3 for quick start)
-								// ****
+				armies = 27; // **** Keep at 27 (Change to 3 for quick start)****
 				break;
 			case 1:
 				player_name = player_2;
