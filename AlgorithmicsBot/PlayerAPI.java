@@ -1,3 +1,4 @@
+package AlgorithmicsBot;
 import java.util.*;
 
 public interface PlayerAPI {

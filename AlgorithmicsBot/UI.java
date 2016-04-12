@@ -1,3 +1,4 @@
+package AlgorithmicsBot;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;

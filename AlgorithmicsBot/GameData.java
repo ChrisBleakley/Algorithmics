@@ -1,4 +1,4 @@
-
+package AlgorithmicsBot;
 public final class GameData {
 
 	public static final int NUM_PLAYERS = 2;
