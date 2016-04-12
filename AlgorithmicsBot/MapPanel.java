@@ -1,4 +1,5 @@
 package AlgorithmicsBot;
+
 import javax.swing.*;
 
 import java.awt.*;

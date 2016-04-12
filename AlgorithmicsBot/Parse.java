@@ -1,4 +1,5 @@
 package AlgorithmicsBot;
+
 public class Parse {
 	
 	private String[] countryCodes = new String[GameData.NUM_COUNTRIES];
