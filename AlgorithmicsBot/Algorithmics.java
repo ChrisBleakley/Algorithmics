@@ -1,4 +1,5 @@
 package AlgorithmicsBot;
+// Testing
 // put your code here
 
 public class Algorithmics implements Bot {
