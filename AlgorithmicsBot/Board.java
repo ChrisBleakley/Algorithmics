@@ -1,3 +1,4 @@
+package AlgorithmicsBot;
 
 public class Board implements BoardAPI {
 	
