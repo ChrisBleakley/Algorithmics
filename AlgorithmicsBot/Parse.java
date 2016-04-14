@@ -1,4 +1,3 @@
-package AlgorithmicsBot;
 
 public class Parse {
 	

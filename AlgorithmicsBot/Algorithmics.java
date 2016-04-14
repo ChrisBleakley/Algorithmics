@@ -1,5 +1,4 @@
 package AlgorithmicsBot;
-// Testing
 // put your code here
 
 public class Algorithmics implements Bot {
@@ -21,11 +20,10 @@ public class Algorithmics implements Bot {
 	
 	public String getName () {
 		String command = "";
-		// put your code here
-		command = "BOT";
+		command = "Algorthmics";
 		return(command);
 	}
-
+// Orla
 	public String getReinforcement () {
 		String command = "";
 		// put your code here
@@ -34,7 +32,7 @@ public class Algorithmics implements Bot {
 		command += " 1";
 		return(command);
 	}
-	
+	// Orla
 	public String getPlacement (int forPlayer) {
 		String command = "";
 		// put your code here
@@ -49,28 +47,28 @@ public class Algorithmics implements Bot {
 		command = "skip";
 		return(command);
 	}
-
+// Jon
 	public String getBattle () {
 		String command = "";
 		// put your code here
 		command = "skip";
 		return(command);
 	}
-
+// Jon
 	public String getDefence (int countryId) {
 		String command = "";
 		// put your code here
 		command = "1";
 		return(command);
 	}
-
+// Gavin
 	public String getMoveIn (int attackCountryId) {
 		String command = "";
 		// put your code here
 		command = "0";
 		return(command);
 	}
-
+// Gavin
 	public String getFortify () {
 		String command = "";
 		// put code here

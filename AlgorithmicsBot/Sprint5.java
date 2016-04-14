@@ -1,4 +1,3 @@
-package AlgorithmicsBot;
 import java.util.ArrayList;
 
 public class Sprint5 {
@@ -20,7 +19,7 @@ public class Sprint5 {
 		for (playerId=0; playerId<GameData.NUM_PLAYERS_PLUS_NEUTRALS; playerId++) {
 			players[playerId] = new Player (playerId);
 			if (playerId == 1) {
-				players[playerId].setBot(new Algorithmics(board,players[playerId]));
+				players[playerId].setBot(new YourTeamName(board,players[playerId]));
 			}
 			if (playerId < GameData.NUM_PLAYERS) {
 				name = ui.inputName(players[playerId]);
@@ -101,8 +100,9 @@ public class Sprint5 {
 		currPlayer = players[playerId];
 		ui.displayRollWinner(currPlayer);
 		
+		deck = new Deck(Deck.WILD_CARD_DECK);		
+		
 		// TEST CODE TO GIVE PLAYERS 6 CARDS TO START WITH
-//		deck = new Deck(Deck.WILD_CARD_DECK);		
 //		for (int i=0; i<GameData.NUM_PLAYERS; i++) {
 //			for (int j=0; j<6; j++) {
 //				card = deck.getCard();
