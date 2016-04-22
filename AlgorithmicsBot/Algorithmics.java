@@ -80,12 +80,32 @@ public class Algorithmics implements Bot {
 		return (command);
 	}
 	// Orla
-	public String getPlacement (int forPlayer) {
+	public String getPlacement(int forPlayer) {
 		String command = "";
-		
-		command = GameData.COUNTRY_NAMES[(int)(Math.random() * GameData.NUM_COUNTRIES)];
-		command = command.replaceAll("\\s", "");
-		return(command);
+		int myId = 0;
+
+		for (int i = 0; i < 42; i++) {
+			if (forPlayer > 1) {
+				if ((board.getOccupier(i) == forPlayer) && (i < 42)) {
+
+					if (GameData.CONTINENT_IDS[i] < 6 && board.getNumUnits(i) < 5) {
+						command = GameData.COUNTRY_NAMES[(int) (Math.random() * GameData.NUM_COUNTRIES)];
+						command = command.replaceAll("\\s", "");
+						command += " 1";
+
+					} else if (GameData.CONTINENT_IDS[i] < 6 && board.getNumUnits(i) > 5) {
+						command = GameData.COUNTRY_NAMES[(int) (Math.random() * GameData.NUM_COUNTRIES)];
+						command = command.replaceAll("\\s", "");
+						command += " 0";
+
+					}
+
+				}
+			}
+
+		}
+		return (command);
+
 	}
 	
 	public String getCardExchange () {
