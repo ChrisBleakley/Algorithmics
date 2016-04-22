@@ -1,6 +1,8 @@
 package AlgorithmicsBot;
 // put your code here
 
+import java.util.Random;
+
 public class Algorithmics implements Bot {
 	// The public API of YourTeamName must not change
 	// You cannot change any other classes
@@ -26,56 +28,58 @@ public class Algorithmics implements Bot {
 // Orla
 	public String getReinforcement() {
 		String command = "";
-		int myId = 0;
-
-		for (int i = 0; i < 42; i++) {
-			myId = player.getId();
-			if ((board.getOccupier(i) == 0 || board.getOccupier(i) == 1) && (i > 27)) {
-
-				if (GameData.CONTINENT_IDS[i] > 2 && board.getNumUnits(i) < 7) {
-					command = GameData.COUNTRY_NAMES[(int) (Math.random() * 41 - 27) + 27];
+		Random rn = new Random();
+		int myId = rn.nextInt(6 - 1 + 1) + 0;
+		
+		if (board.getNumUnits(myId)<8){
+			
+				if (myId == 3 && board.getNumUnits(myId)<7&& player.getNumUnits()==3) {
+					command = GameData.COUNTRY_NAMES[(int) (rn.nextInt(31-28+1)) + 28];
 					command = command.replaceAll("\\s", "");
-					command += " 3";
-
+					command += " 3";}
+				if (myId == 3 && board.getNumUnits(myId)<7&& player.getNumUnits()==2) {
+					command = GameData.COUNTRY_NAMES[(int) (rn.nextInt(31-28+1)) + 28];
+					command = command.replaceAll("\\s", "");
+					command += " 2";}
+				if (myId == 3 && board.getNumUnits(myId)<7&& player.getNumUnits()==1) {
+					command = GameData.COUNTRY_NAMES[(int) (rn.nextInt(31-28+1)) + 28];
+					command = command.replaceAll("\\s", "");
+					command += " 1";}
+				if (myId == 4 && board.getNumUnits(myId)<7&& player.getNumUnits()==3) {
+					command = GameData.COUNTRY_NAMES[(int) (rn.nextInt( 35 - 32+1) )+ 32];
+					command = command.replaceAll("\\s", "");
+					command += " 3";}
+				if (myId == 4 && board.getNumUnits(myId)<7&& player.getNumUnits()==2) {
+					command = GameData.COUNTRY_NAMES[(int) (rn.nextInt( 35 - 32+1) )+ 32];
+					command = command.replaceAll("\\s", "");
+					command += " 2";}
+				if (myId == 4 && board.getNumUnits(myId)<7&& player.getNumUnits()==1) {
+					command = GameData.COUNTRY_NAMES[(int) (rn.nextInt( 35 - 32+1) )+ 32];
+					command = command.replaceAll("\\s", "");
+					command += " 1";}
+				if (myId == 5 && board.getNumUnits(myId)<7&& player.getNumUnits()==3) {
+					command = GameData.COUNTRY_NAMES[(int) (rn.nextInt( 41 - 36) )+ 36];
+					command = command.replaceAll("\\s", "");
+					command += " 3";}
+				if (myId == 5 && board.getNumUnits(myId)<7&& player.getNumUnits()==2) {
+					command = GameData.COUNTRY_NAMES[(int) (rn.nextInt( 41 - 36) )+ 36];
+					command = command.replaceAll("\\s", "");
+					command += " 2";}
+				if (myId == 5 && board.getNumUnits(myId)<7&& player.getNumUnits()==1) {
+					command = GameData.COUNTRY_NAMES[(int) (rn.nextInt( 41 - 36) )+ 36];
+					command = command.replaceAll("\\s", "");
+					command += " 1";}
+							
+				if (myId< 3 ) {
+					command = GameData.COUNTRY_NAMES[(int) (rn.nextInt( 41 - 0)) + 0];
+					command = command.replaceAll("\\s", "");
+					command += " 1";
+					
 				}
-
-				else if (GameData.CONTINENT_IDS[i] < 2 && board.getNumUnits(i) >= 1 && board.getNumUnits(i) < 7) {
-					command = command.replaceAll("\\s", "");
-					command += " 1";
-
-				} else {
-					command = "";
-					command = GameData.COUNTRY_NAMES[(int) (Math.random() * GameData.NUM_COUNTRIES)];
-					command = command.replaceAll("\\s", "");
-					command += " 1";
-				}
-			}
-			if ((board.getOccupier(i) == 0 || board.getOccupier(i) == 1) && (i < 27)) {
-
-				if (GameData.CONTINENT_IDS[i] < 7 && board.getNumUnits(i) > 3) {
-					command = GameData.COUNTRY_NAMES[i];
-					command = command.replaceAll("\\s", "");
-					command += " 1";
-
-				} else if (GameData.CONTINENT_IDS[i] < 7 && board.getNumUnits(i) <= 3) {
-					command = GameData.COUNTRY_NAMES[i];
-					command = command.replaceAll("\\s", "");
-					command += " 1";
-				} else {
-					command = "";
-					command = GameData.COUNTRY_NAMES[(int) (Math.random() * GameData.NUM_COUNTRIES)];
-					command = command.replaceAll("\\s", "");
-					command += " 1";
-				}
-			} else if ((board.getOccupier(i) != myId) && (i < 42)) {
-				command = "";
-				command = GameData.COUNTRY_NAMES[(int) (Math.random() * GameData.NUM_COUNTRIES)];
-				command = command.replaceAll("\\s", "");
-				command += " 1";
-
-			}
-
+	
 		}
+		else
+			getReinforcement();
 
 		return (command);
 	}
