@@ -274,12 +274,8 @@ public class Algorithmics implements Bot {
 		}
 
 		numberToMove=board.getNumUnits(fortifyFromCountry)-1;
-		
-		System.out.println("from " + fortifyFromCountry);
-		System.out.println("to " + fortifyToCountry);
 
 		if (fortifyToCountry == fortifyFromCountry || !board.isConnected(fortifyFromCountry, fortifyToCountry)){
-			System.out.println("skip 1");
 			command = "skip";
 			return command;
 		}
