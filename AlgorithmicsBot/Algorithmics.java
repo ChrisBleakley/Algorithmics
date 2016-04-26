@@ -132,18 +132,45 @@ public class Algorithmics implements Bot {
 		command = "1";
 		return(command);
 	}
-// Gavin
+// Gavin 
 	public String getMoveIn (int attackCountryId) {
 		String command = "";
-		// put your code here
-		command = "0";
+		command = Integer.toString((board.getNumUnits(attackCountryId)/2)+1);
 		return(command);
 	}
 // Gavin
 	public String getFortify () {
 		String command = "";
-		// put code here
-		command = "skip";
+		int fortifyToCountry=0;
+		int fortifyFromCountry=0;
+		int largestAdjArmy=0;
+		int smallestAdjArmy = 0;
+		int numberToMove=0;
+		// Check adjacent countries for large opposing armies
+		for (int i=0; i<player.getCards().size();i++){
+			int checkId=player.getCards().get(i).getCountryId();
+			for (int j=0;j<GameData.ADJACENT[checkId].length; j++){
+				if (board.getNumUnits(GameData.ADJACENT[checkId][j])>largestAdjArmy){ // Add check that country is not ours
+					largestAdjArmy=board.getNumUnits(GameData.ADJACENT[checkId][j]);
+					fortifyToCountry=checkId;
+				}
+			}
+		}
+
+		// From country // Lowest surrounding armies? Compare to already stationed?
+		for (int i=0; i<player.getCards().size(); i++){
+			int checkId=player.getCards().get(i).getCountryId();
+			for (int j=0;j<GameData.ADJACENT[checkId].length; j++){
+				if ((board.getNumUnits(GameData.ADJACENT[checkId][j])-(board.getNumUnits(i))<smallestAdjArmy)){ // Add check that country is not ours
+					smallestAdjArmy=board.getNumUnits(GameData.ADJACENT[checkId][j]);
+					fortifyFromCountry=checkId;
+				}
+			}
+			
+		}
+		numberToMove=board.getNumUnits(fortifyFromCountry)-1;
+		
+		command = GameData.COUNTRY_NAMES[fortifyToCountry] + GameData.COUNTRY_NAMES[fortifyFromCountry] + numberToMove;
 		return(command);
 	}
 
