@@ -80,7 +80,7 @@ public class Algorithmics implements Bot {
 		}
 		else
 			getReinforcement();
-
+		
 		return (command);
 	}
 	// Orla
