@@ -64,35 +64,29 @@ public class Algorithmics implements Bot {
 
 	public String getPlacement(int forPlayer) {
 		String command = "";
-		ArrayList<Integer> owned_territories = new ArrayList<Integer>();
-		for (int i = 0; i < GameData.NUM_COUNTRIES; i++) {
-			if (board.getOccupier(i) == forPlayer) {
-				owned_territories.add(i);
-			}
-		}
-		Collections.shuffle(owned_territories);
-		for (int i = 0; i < owned_territories.size(); i++) {
+		//int myId = 0;
 
-			try {
-				while (true) {
-					if (board.getOccupier(owned_territories.get(i)) != forPlayer) {
-						String target = GameData.COUNTRY_NAMES[owned_territories.get(i)];
-						target = target.replaceAll("\\s", "");
-						command = target + " " + 1;
+		for (int i = 0; i < 42; i++) {
+			if (forPlayer > 1) {
+				if ((board.getOccupier(i) == forPlayer) && (i < 42)) {
+
+					if (GameData.CONTINENT_IDS[i] < 6 && board.getNumUnits(i) < 5) {
+						command = GameData.COUNTRY_NAMES[(int) (Math.random() * GameData.NUM_COUNTRIES)];
+						command = command.replaceAll("\\s", "");
+						command += " 1";
+
+					} else if (GameData.CONTINENT_IDS[i] < 6 && board.getNumUnits(i) > 5) {
+						command = GameData.COUNTRY_NAMES[(int) (Math.random() * GameData.NUM_COUNTRIES)];
+						command = command.replaceAll("\\s", "");
+						command += " 0";
+
 					}
 
 				}
-			} catch (Exception e) {
-				if (command != "") {
-					break;
-				} else {
-					continue;
-				}
 			}
+
 		}
-
-		return command;
-
+		return (command);
 	}
 
 	public String getCardExchange() {
