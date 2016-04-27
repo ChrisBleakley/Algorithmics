@@ -18,7 +18,6 @@ public class Algorithmics implements Bot {
 	Algorithmics (BoardAPI inBoard, PlayerAPI inPlayer) {
 		board = inBoard;	
 		player = inPlayer;
-		// put your code here
 		return;
 	}
 
@@ -334,14 +333,15 @@ public class Algorithmics implements Bot {
 	
 	public String getFortify() {
 		String command = "";
+		/*
 		int fortifyToCountry=-1;
 		int fortifyFromCountry=-1;
 		int largestAdjArmy=0;
 		int smallestAdjArmy = 0;
 		int numberToMove=0;
+		*/
 		command = "skip";
 		//return command;
-		// Check adjacent countries for large opposing armies		
 	
 		ArrayList<Integer> owned_territories = new ArrayList<Integer>();
 		ArrayList<Integer> owned_interior_territories = new ArrayList<Integer>();
@@ -432,11 +432,11 @@ public class Algorithmics implements Bot {
 
 		numberToMove=board.getNumUnits(fortifyFromCountry)-1;
 
-<<<<<<< HEAD
+
 		if (fortifyToCountry == fortifyFromCountry || !board.isConnected(fortifyFromCountry, fortifyToCountry) || numberToMove == 0){
-=======
+
 		if (fortifyToCountry == fortifyFromCountry || !board.isConnected(fortifyFromCountry, fortifyToCountry) || fortifyFromCountry == -1 || fortifyToCountry == -1){
->>>>>>> 0c19e5d6c67e40aca655adb3d69415fecdfcfc9f
+
 			command = "skip";
 			return command;
 		}
@@ -447,26 +447,7 @@ public class Algorithmics implements Bot {
 		*/
 	}
 	
-	
-	public boolean getContintent(int continent){
-		int[] countryIds;
-		boolean allOccupied = true;
-		countryIds = GameData.CONTINENT_COUNTRIES[continent];
-			
-		for (int j=0; (j<countryIds.length) && (allOccupied); j++) {
-			if (board.getOccupier(countryIds[j]) != player.getId()) {
-				allOccupied = false;
-			}
-		}
-		
-		return allOccupied;
-	}
-	
-	
-	
-	
-	
-	
+
 	private boolean checkI(){
 		int[] infantry;
 		infantry = new int[] {0,0,0};
