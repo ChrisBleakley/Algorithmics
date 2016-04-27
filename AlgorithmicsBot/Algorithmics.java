@@ -400,19 +400,20 @@ public class Algorithmics implements Bot {
 		return command;
 	/*	
 		for (int i=0; i<42;i++){
-			if (player.getId() ==  board.getOccupier(i)){
+			if (player.getId() == board.getOccupier(i)){
 				for (int j=0;j<GameData.ADJACENT[i].length; j++){
-					if (board.getNumUnits(GameData.ADJACENT[i][j])>largestAdjArmy){ // Add check that country is not ours
+					if (board.getNumUnits(GameData.ADJACENT[i][j])>largestAdjArmy && board.getOccupier(i) != board.getOccupier(GameData.ADJACENT[i][j])){
 						largestAdjArmy=board.getNumUnits(GameData.ADJACENT[i][j]);
 						fortifyToCountry=i;
 					}
+					
 				}
 			}
 		}
 
 		// From country
 		for (int i=0; i<42;i++){
-			if (player.getId() ==  board.getOccupier(i)){
+			if (player.getId() == board.getOccupier(i)){
 				for (int j=0;j<GameData.ADJACENT[i].length; j++){
 					if ((board.getNumUnits(GameData.ADJACENT[i][j])-(board.getNumUnits(i))<smallestAdjArmy)  && board.getNumUnits(GameData.ADJACENT[i][j])!=1){ // Add check that country is not ours
 						smallestAdjArmy=board.getNumUnits(GameData.ADJACENT[i][j]);
@@ -431,7 +432,11 @@ public class Algorithmics implements Bot {
 
 		numberToMove=board.getNumUnits(fortifyFromCountry)-1;
 
+<<<<<<< HEAD
 		if (fortifyToCountry == fortifyFromCountry || !board.isConnected(fortifyFromCountry, fortifyToCountry) || numberToMove == 0){
+=======
+		if (fortifyToCountry == fortifyFromCountry || !board.isConnected(fortifyFromCountry, fortifyToCountry) || fortifyFromCountry == -1 || fortifyToCountry == -1){
+>>>>>>> 0c19e5d6c67e40aca655adb3d69415fecdfcfc9f
 			command = "skip";
 			return command;
 		}
