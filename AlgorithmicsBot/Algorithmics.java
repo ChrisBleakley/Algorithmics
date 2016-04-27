@@ -1,6 +1,7 @@
 package AlgorithmicsBot;
 // put your code here
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -21,15 +22,49 @@ public class Algorithmics implements Bot {
 		return;
 	}
 
+	
 	public String getName () {
 		String command = "";
 		command = "Algorthmics";
 		return(command);
 	}
-	// Orla
+	
+	
 	public String getReinforcement() {
 		String command = "";
-		Random rn = new Random();
+		ArrayList<Integer> owned_territories = new ArrayList<Integer>();
+		for(int i=0; i<GameData.NUM_COUNTRIES; i++){
+			if(board.getOccupier(i) == player.getId()){
+				owned_territories.add(i);
+			}
+		}
+		
+		for(int i=0; i<owned_territories.size(); i++){
+			int j=0;
+			try{
+				while(true){
+					if(board.getOccupier(GameData.ADJACENT[owned_territories.get(i)][j]) != player.getId()){
+						String target = GameData.COUNTRY_NAMES[owned_territories.get(i)];
+						target = target.replaceAll("\\s", "");
+						command = target  + " " + 1;
+					}
+					j++;
+				}
+			}
+			catch(Exception e){
+				if(command != ""){
+					break;
+				}
+				else{
+					continue;
+				}
+			}
+		}
+		
+		return command;
+		
+		
+		/*Random rn = new Random();
 		int myId = rn.nextInt(6 - 1 + 1) + 0;
 
 		if (board.getNumUnits(myId)<8){
@@ -83,15 +118,16 @@ public class Algorithmics implements Bot {
 			getReinforcement();
 		
 		return (command);
+		*/
 	}
-	// Orla
+	
+	
 	public String getPlacement(int forPlayer) {
 		String command = "";
-		int myId = 0;
 
 		for (int i = 0; i < 42; i++) {
 			if (forPlayer > 1) {
-				if ((board.getOccupier(i) == forPlayer) && (i < 42)) {
+				if ((board.getOccupier(i) == forPlayer)) {
 
 					if (GameData.CONTINENT_IDS[i] < 6 && board.getNumUnits(i) < 5) {
 						command = GameData.COUNTRY_NAMES[(int) (Math.random() * GameData.NUM_COUNTRIES)];
@@ -113,6 +149,7 @@ public class Algorithmics implements Bot {
 
 	}
 
+	
 	public String getCardExchange () {
 		boolean flagI= checkI();
 		boolean flagA = checkA();
@@ -127,8 +164,9 @@ public class Algorithmics implements Bot {
 		boolean flagCAW=checkCAW();
 		boolean flagIAW= checkIAW();
 		boolean flagICW= checkICW();
-		String command = "";
-		if (player.isOptionalExchange()){
+		String command = "skip";
+		
+		/*if (player.isOptionalExchange()){
 				
 			
 			if (flagI){
@@ -172,7 +210,7 @@ public class Algorithmics implements Bot {
 			}
 			
 		}
-	
+	*/
 		if (player.isForcedExchange ()){
 				
 			
@@ -219,35 +257,148 @@ public class Algorithmics implements Bot {
 		}
 		return(command);
 	}
-	// Jon
+	
+	
 	public String getBattle () {
 		String command = "";
-		// put your code here
-		command = "skip";
+		Boolean success=false;
+		ArrayList<Integer> owned_territories = new ArrayList<Integer>();
+		for(int i=0; i<GameData.NUM_COUNTRIES; i++){
+			if(board.getOccupier(i) == player.getId()){
+				owned_territories.add(i);
+			}
+		}
+		for(int i=0; i<owned_territories.size(); i++){
+			int j=0;
+			try{
+				while(true){
+					if(board.getOccupier(GameData.ADJACENT[owned_territories.get(i)][j]) != player.getId()){
+						if((double) (board.getNumUnits(GameData.ADJACENT[owned_territories.get(i)][j]))/((double) board.getNumUnits(owned_territories.get(i))) < 0.6){
+							int armies;
+							String source = GameData.COUNTRY_NAMES[owned_territories.get(i)];
+							String target = GameData.COUNTRY_NAMES[GameData.ADJACENT[owned_territories.get(i)][j]];
+														
+							source = source.replaceAll("\\s", "");
+							target = target.replaceAll("\\s", "");
+							
+							if(board.getNumUnits(owned_territories.get(i)) > 4){
+								 armies = 3;
+							}
+							else{
+								 armies = board.getNumUnits(owned_territories.get(i))-1;
+							}
+							
+							command = source + " " + target + " " + armies;
+						}
+					}
+					j++;
+				}
+			}
+			catch(Exception e){
+				if(command != ""){
+					success=true;
+					break;
+				}
+				else{
+					continue;
+				}
+			}
+		}
+		
+		if(!success){
+			command = "skip";
+		}
 		return(command);
 	}
-	// Jon
+
+	
+
 	public String getDefence (int countryId) {
 		String command = "";
-		// put your code here
-		command = "1";
+		if(board.getNumUnits(countryId) > 1){
+			command = "2";
+		}
+		else{
+			command = "1";
+		}
 		return(command);
 	}
-	// Gavin 
+	
+
 	public String getMoveIn (int attackCountryId) {
 		String command = "";
-		command = Integer.toString((board.getNumUnits(attackCountryId)/2)+1);
+		command = Integer.toString(board.getNumUnits(attackCountryId)-1);
 		return(command);
 	}
-	// Gavin
-	public String getFortify () {
+
+	
+	public String getFortify() {
 		String command = "";
 		int fortifyToCountry=-1;
 		int fortifyFromCountry=-1;
 		int largestAdjArmy=0;
 		int smallestAdjArmy = 0;
 		int numberToMove=0;
+		command = "skip";
+		//return command;
 		// Check adjacent countries for large opposing armies		
+	
+		ArrayList<Integer> owned_territories = new ArrayList<Integer>();
+		ArrayList<Integer> owned_interior_territories = new ArrayList<Integer>();
+		ArrayList<Integer> owned_border_territories = new ArrayList<Integer>();
+				
+		for(int i=0; i<GameData.NUM_COUNTRIES; i++){
+			if(board.getOccupier(i) == player.getId()){
+				owned_territories.add(i);
+			}
+		}
+		
+		
+		for(int i=0; i<owned_territories.size(); i++){
+			int j=0;
+			try{
+				while(true){
+					if(board.getOccupier(GameData.ADJACENT[owned_territories.get(i)][j]) != player.getId()){
+						owned_border_territories.add(owned_territories.get(i));
+						break;
+					}
+					j++;
+				}
+			}
+			catch(Exception e){
+				if(board.getNumUnits(owned_territories.get(i)) > 1){
+					owned_interior_territories.add(owned_territories.get(i));
+				}
+				continue;
+			}
+		}
+		
+		if(owned_interior_territories.size() == 0){
+			command = "skip";
+		}
+		else{
+			for(int i=0; i<owned_border_territories.size(); i++){
+				if(board.isConnected(owned_interior_territories.get(0), owned_border_territories.get(i))){
+					String source = GameData.COUNTRY_NAMES[owned_interior_territories.get(0)];
+					String target = GameData.COUNTRY_NAMES[owned_border_territories.get(i)];
+												
+					source = source.replaceAll("\\s", "");
+					target = target.replaceAll("\\s", "");
+					
+					int armies = board.getNumUnits(owned_interior_territories.get(0))-1;
+					
+					
+					command = source + " " + target + " " + armies;
+				}
+			}
+		}
+		
+		
+		
+		
+		
+		return command;
+	/*	
 		for (int i=0; i<42;i++){
 			if (player.getId() ==  board.getOccupier(i)){
 				for (int j=0;j<GameData.ADJACENT[i].length; j++){
@@ -272,10 +423,15 @@ public class Algorithmics implements Bot {
 
 			}
 		}
+		
+		if (fortifyToCountry == -1 || fortifyFromCountry == -1){
+			command = "skip";
+			return command;
+		}
 
 		numberToMove=board.getNumUnits(fortifyFromCountry)-1;
 
-		if (fortifyToCountry == fortifyFromCountry || !board.isConnected(fortifyFromCountry, fortifyToCountry)){
+		if (fortifyToCountry == fortifyFromCountry || !board.isConnected(fortifyFromCountry, fortifyToCountry) || numberToMove == 0){
 			command = "skip";
 			return command;
 		}
@@ -283,7 +439,29 @@ public class Algorithmics implements Bot {
 			command = GameData.COUNTRY_NAMES[fortifyFromCountry].replaceAll("\\s", "") + " " + GameData.COUNTRY_NAMES[fortifyToCountry].replaceAll("\\s", "") + " " + numberToMove;
 			return(command);
 		}
+		*/
 	}
+	
+	
+	public boolean getContintent(int continent){
+		int[] countryIds;
+		boolean allOccupied = true;
+		countryIds = GameData.CONTINENT_COUNTRIES[continent];
+			
+		for (int j=0; (j<countryIds.length) && (allOccupied); j++) {
+			if (board.getOccupier(countryIds[j]) != player.getId()) {
+				allOccupied = false;
+			}
+		}
+		
+		return allOccupied;
+	}
+	
+	
+	
+	
+	
+	
 	private boolean checkI(){
 		int[] infantry;
 		infantry = new int[] {0,0,0};
@@ -294,7 +472,9 @@ public class Algorithmics implements Bot {
 		else
 			return flagI;
 	}
-		private boolean checkC(){
+	
+	
+	private boolean checkC(){
 			int[] cavalry;
 			cavalry = new int[] {1,1,1};
 			
@@ -305,7 +485,8 @@ public class Algorithmics implements Bot {
 				return flagC;
 		}
 		
-		private boolean checkA(){
+	
+	private boolean checkA(){
 		int[] art;
 		art = new int[] {2,2,2};
 		
@@ -315,7 +496,9 @@ public class Algorithmics implements Bot {
 		else
 			return flagA;
 	}
-		private boolean checkFullset(){
+	
+	
+	private boolean checkFullset(){
 			int[] full;
 			full = new int[] {0,1,2};
 			
@@ -325,7 +508,9 @@ public class Algorithmics implements Bot {
 			else
 				return flagF;
 		}
-		private boolean checkIW(){
+		
+	
+	private boolean checkIW(){
 			int[] infw1;
 			infw1= new int[] {0,0,3};
 			
@@ -335,7 +520,9 @@ public class Algorithmics implements Bot {
 			else
 				return flagIW;
 		}
-		private boolean checkIWW(){
+	
+	
+	private boolean checkIWW(){
 			int[] infw1;
 			infw1= new int[] {0,3,3};
 			
@@ -345,7 +532,9 @@ public class Algorithmics implements Bot {
 			else
 				return flagIWW;
 		}
-		private boolean checkAW(){
+		
+	
+	private boolean checkAW(){
 			int[] infw1;
 			infw1= new int[] {2,2,3};
 			
@@ -355,7 +544,9 @@ public class Algorithmics implements Bot {
 			else
 				return flagAW;
 		}
-		private boolean checkAWW(){
+	
+	
+	private boolean checkAWW(){
 			int[] infw1;
 			infw1= new int[] {2,3,3};
 			
@@ -365,7 +556,9 @@ public class Algorithmics implements Bot {
 			else
 				return flagAWW;
 		}
-		private boolean checkCW(){
+	
+	
+	private boolean checkCW(){
 			int[] infw1;
 			infw1= new int[] {1,1,3};
 			
@@ -375,7 +568,9 @@ public class Algorithmics implements Bot {
 			else
 				return flagCW;
 		}
-		private boolean checkCWW(){
+	
+	
+	private boolean checkCWW(){
 			int[] infw1;
 			infw1= new int[] {1,3,3};
 			
@@ -385,7 +580,9 @@ public class Algorithmics implements Bot {
 			else
 				return flagCWW;
 		}
-		private boolean checkCAW(){
+	
+	
+	private boolean checkCAW(){
 			int[] infw1;
 			infw1= new int[] {1,2,3};
 			
@@ -395,7 +592,9 @@ public class Algorithmics implements Bot {
 			else
 				return flagCAW;
 		}
-		private boolean checkIAW(){
+	
+	
+	private boolean checkIAW(){
 			int[] infw1;
 			infw1= new int[] {0,2,3};
 			
@@ -405,7 +604,9 @@ public class Algorithmics implements Bot {
 			else
 				return flagIAW;
 		}
-		private boolean checkICW(){
+	
+	
+	private boolean checkICW(){
 			int[] infw1;
 			infw1= new int[] {0,1,3};
 			
