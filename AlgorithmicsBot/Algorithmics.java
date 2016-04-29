@@ -1,9 +1,9 @@
-package AlgorithmicsBot;
-// put your code here
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 
 
 public class Algorithmics implements Bot {
@@ -29,63 +29,156 @@ public class Algorithmics implements Bot {
 		return (command);
 	}
 
+	
+	private class Continent {
+		protected double proportion;
+		private int continent;
+		
+		Continent(double input_proportion, int input_continent){
+			proportion = input_proportion;
+			input_continent = input_continent;
+		}
+		
+		private double getProportion(){
+			return proportion;
+		}
+		
+		private int getContinent(){
+			return continent;
+		}
+	}
+	
+	
+	
 	public String getReinforcement() {
 		String command = "";
+		int territory_ownership[] = new int[6];
+		int continent_contents[] = {9, 7, 12, 4, 4, 6};
+		ArrayList<Continent> territory_proportion = new ArrayList<Continent>();
 		ArrayList<Integer> owned_territories = new ArrayList<Integer>();
+				
 		for (int i = 0; i < GameData.NUM_COUNTRIES; i++) {
 			if (board.getOccupier(i) == player.getId()) {
 				owned_territories.add(i);
+				territory_ownership[GameData.CONTINENT_IDS[i]]++;
 			}
 		}
+		
+		for(int i=0; i<5; i++){
+			Continent temp_continent = new Continent((double) territory_ownership[i] / continent_contents[i], i);
+			territory_proportion.add(temp_continent);
+		}
+		
+		
+		for(int i=0; i<territory_proportion.size(); i++){
+			if(territory_proportion.get(i).getProportion() == 0 ||territory_proportion.get(i).getProportion() == 1){
+				territory_proportion.remove(i);
+			}
+		}
+		
+		
+		for (int i = 0; i < territory_proportion.size() - 1; i++) {
+	        for (int j=i+1; j < territory_proportion.size(); j++) {
+	            if (territory_proportion.get(i).getProportion() < (territory_proportion.get(j).getProportion())) {
 
-		for (int i = 0; i < owned_territories.size(); i++) {
+	            	Continent temp = territory_proportion.get(i);
+	            	territory_proportion.set(i, territory_proportion.get(j));
+	            	territory_proportion.set(j, temp);
+	            }
+	        }
+	    }
+		/*
+		for(int i=0; i<territory_proportion.size(); i++){
+			command +=(territory_proportion.get(i).getProportion()) + " ";}
+		*/
+		int k=0;
+		for (int i = 0; i<owned_territories.size(); i++) {
 			int j = 0;
+			
 			try {
-				while (true) {
-					if (board.getOccupier(GameData.ADJACENT[owned_territories.get(i)][j]) != player.getId()) {
-						String target = GameData.COUNTRY_NAMES[owned_territories.get(i)];
-						target = target.replaceAll("\\s", "");
-						command = target + " " + 1;
+				if(GameData.CONTINENT_IDS[i] == territory_proportion.get(k).getContinent()){
+					while (true) {
+						if (board.getOccupier(GameData.ADJACENT[owned_territories.get(i)][j]) != player.getId()) {
+							String target = GameData.COUNTRY_NAMES[owned_territories.get(i)];
+							target = target.replaceAll("\\s", "");
+							command = target + " " + 1;
+						}
+						j++;
 					}
-					j++;
 				}
-			} catch (Exception e) {
-				if (command != "") {
-					break;
-				} else {
-					continue;
+			} 
+			catch (Exception e) {
+				//if (command == "") {}
+				k++;
+				continue;
+			}
+		}
+		if (command == ""){
+			for (int i = 0; i < owned_territories.size(); i++) {
+				int j = 0;
+				try {
+					while (true) {
+						if (board.getOccupier(GameData.ADJACENT[owned_territories.get(i)][j]) != player.getId()) {
+							String target = GameData.COUNTRY_NAMES[owned_territories.get(i)];
+							target = target.replaceAll("\\s", "");
+							command = target + " " + 1;
+						}
+						j++;
+					}
+				} catch (Exception e) {
+					if (command != "") {
+						break;
+					} else {
+						continue;
+					}
 				}
 			}
 		}
-
 		return command;
 
 	}
 
 	public String getPlacement(int forPlayer) {
 		String command = "";
-		//int myId = 0;
-
-		for (int i = 0; i < 42; i++) {
-			if (forPlayer > 1) {
-				if ((board.getOccupier(i) == forPlayer) && (i < 42)) {
-
-					if (GameData.CONTINENT_IDS[i] < 6 && board.getNumUnits(i) < 5) {
-						command = GameData.COUNTRY_NAMES[(int) (Math.random() * GameData.NUM_COUNTRIES)];
-						command = command.replaceAll("\\s", "");
-						command += " 1";
-
-					} else if (GameData.CONTINENT_IDS[i] < 6 && board.getNumUnits(i) > 5) {
-						command = GameData.COUNTRY_NAMES[(int) (Math.random() * GameData.NUM_COUNTRIES)];
-						command = command.replaceAll("\\s", "");
-						command += " 0";
-
-					}
-
-				}
+		int opponentID = (player.getId()+1)%2;
+		ArrayList<Integer> neutral_territories = new ArrayList<Integer>();
+		
+		for (int i = 0; i < GameData.NUM_COUNTRIES; i++) {
+			if (board.getOccupier(i) == forPlayer) {
+				neutral_territories.add(i);
 			}
-
 		}
+		
+		int current_best = 0, current_score = 0, previous_score = 0;
+		boolean success = false;
+		
+		for (int i=0; i<neutral_territories.size(); i++) {
+			int j=0;
+			
+			current_score = 0;
+			try {
+				while (true) {
+					if (board.getOccupier(GameData.ADJACENT[neutral_territories.get(i)][j]) == opponentID) {
+						current_score++;
+					}
+					j++;
+				}
+			} 
+			catch (Exception e) {	
+				if(previous_score<current_score){
+					current_best = neutral_territories.get(i);
+					previous_score=current_score;
+					success = true;
+				}
+				continue;
+			}
+		}
+
+		if(!success){
+			current_best = neutral_territories.get(0);
+		}
+		
+		command = GameData.COUNTRY_NAMES[current_best].replaceAll("\\s", "") + " " + 1;
 		return (command);
 	}
 
@@ -199,53 +292,115 @@ public class Algorithmics implements Bot {
 		return (command);
 	}
 
+	private class Battle {
+		private int target;
+		private int source;
+		
+		Battle(int input_target, int input_source){
+			target = input_target;
+			source = input_source;
+		}
+		
+		private int getTarget(){
+			return target;
+		}
+		
+		private int getSource(){
+			return source;
+		}
+	}
+	
 	public String getBattle() {
 		String command = "";
+		int opponentID = (player.getId()+1)%2;
 		Boolean success = false;
 		ArrayList<Integer> owned_territories = new ArrayList<Integer>();
+		ArrayList<Battle> opponent_targets = new ArrayList<Battle>();
+		ArrayList<Battle> neutral_targets = new ArrayList<Battle>();
+		ArrayList<Battle> outside_targets = new ArrayList<Battle>();
+		
+		
 		for (int i = 0; i < GameData.NUM_COUNTRIES; i++) {
 			if (board.getOccupier(i) == player.getId()) {
 				owned_territories.add(i);
 			}
 		}
+		
 		for (int i = 0; i < owned_territories.size(); i++) {
 			int j = 0;
 			try {
 				while (true) {
 					if (board.getOccupier(GameData.ADJACENT[owned_territories.get(i)][j]) != player.getId()) {
-						if ((double) (board.getNumUnits(GameData.ADJACENT[owned_territories.get(i)][j]))
-								/ ((double) board.getNumUnits(owned_territories.get(i))) < 0.6) {
-							int armies;
-							String source = GameData.COUNTRY_NAMES[owned_territories.get(i)];
-							String target = GameData.COUNTRY_NAMES[GameData.ADJACENT[owned_territories.get(i)][j]];
-
-							source = source.replaceAll("\\s", "");
-							target = target.replaceAll("\\s", "");
-
-							if (board.getNumUnits(owned_territories.get(i)) > 4) {
-								armies = 3;
-							} else {
-								armies = board.getNumUnits(owned_territories.get(i)) - 1;
+						if ((double) (board.getNumUnits(GameData.ADJACENT[owned_territories.get(i)][j])) / ((double) board.getNumUnits(owned_territories.get(i))) < 0.6) {
+							if(GameData.CONTINENT_IDS[owned_territories.get(i)] == GameData.CONTINENT_IDS[GameData.ADJACENT[owned_territories.get(i)][j]]){
+								if(board.getOccupier(GameData.ADJACENT[owned_territories.get(i)][j]) == opponentID){
+									Battle temp_battle = new Battle(GameData.ADJACENT[owned_territories.get(i)][j], owned_territories.get(i));
+									opponent_targets.add(temp_battle);
+								}
+								else{
+									Battle temp_battle = new Battle(GameData.ADJACENT[owned_territories.get(i)][j], owned_territories.get(i));
+									neutral_targets.add(temp_battle);
+								}
 							}
-
-							command = source + " " + target + " " + armies;
+							else{
+								Battle temp_battle = new Battle(GameData.ADJACENT[owned_territories.get(i)][j], owned_territories.get(i));
+								outside_targets.add(temp_battle);
+							}	
 						}
 					}
 					j++;
 				}
-			} catch (Exception e) {
-				if (command != "") {
-					success = true;
-					break;
-				} else {
-					continue;
-				}
+			} 
+			catch (Exception e) {
+				continue;	
 			}
 		}
 
-		if (!success) {
+		String source = "";
+		String target = "";
+		int armies;
+		
+		if(!opponent_targets.isEmpty()){
+			target = GameData.COUNTRY_NAMES[opponent_targets.get(0).getTarget()].replaceAll("\\s", "");
+			source = GameData.COUNTRY_NAMES[opponent_targets.get(0).getSource()].replaceAll("\\s", "");
+			
+			if (board.getNumUnits(opponent_targets.get(0).getSource()) > 4) {
+				armies = 3;
+			} else {
+				armies = board.getNumUnits(opponent_targets.get(0).getSource()) - 1;
+			}
+
+			command = source + " " + target + " " + armies;			
+		}
+		
+		else if(!neutral_targets.isEmpty()){
+			target = GameData.COUNTRY_NAMES[neutral_targets.get(0).getTarget()].replaceAll("\\s", "");
+			source = GameData.COUNTRY_NAMES[neutral_targets.get(0).getSource()].replaceAll("\\s", "");
+			
+			if (board.getNumUnits(neutral_targets.get(0).getSource()) > 4) {
+				armies = 3;
+			} else {
+				armies = board.getNumUnits(neutral_targets.get(0).getSource()) - 1;
+			}
+
+			command = source + " " + target + " " + armies;		
+		}
+		else if(!outside_targets.isEmpty()){
+			target = GameData.COUNTRY_NAMES[outside_targets.get(0).getTarget()].replaceAll("\\s", "");
+			source = GameData.COUNTRY_NAMES[outside_targets.get(0).getSource()].replaceAll("\\s", "");
+			
+			if (board.getNumUnits(outside_targets.get(0).getSource()) > 4) {
+				armies = 3;
+			} else {
+				armies = board.getNumUnits(outside_targets.get(0).getSource()) - 1;
+			}
+
+			command = source + " " + target + " " + armies;		
+		}
+		else{
 			command = "skip";
 		}
+		
 		return (command);
 	}
 
@@ -261,18 +416,31 @@ public class Algorithmics implements Bot {
 
 	public String getMoveIn(int attackCountryId) {
 		String command = "";
-		command = Integer.toString(board.getNumUnits(attackCountryId) - 1);
+		int j=0, armies=0;
+		boolean success = false;
+		try {	
+			while (true) {
+				if (GameData.CONTINENT_IDS[(GameData.ADJACENT[attackCountryId][j])] != GameData.CONTINENT_IDS[attackCountryId]) {
+					armies = board.getNumUnits(attackCountryId) / 2;
+					success = true;
+					break;
+				}
+				j++;
+			}
+		} 
+		catch (Exception e) {	
+			if(!success){
+				armies = board.getNumUnits(attackCountryId) - 1;
+			}
+		}
+		
+		command = Integer.toString(armies);
 		return (command);
 	}
 
 	public String getFortify() {
 		String command = "";
-		/*
-		 * int fortifyToCountry=-1; int fortifyFromCountry=-1; int
-		 * largestAdjArmy=0; int smallestAdjArmy = 0; int numberToMove=0;
-		 */
 		command = "skip";
-		// return command;
 
 		ArrayList<Integer> owned_territories = new ArrayList<Integer>();
 		ArrayList<Integer> owned_interior_territories = new ArrayList<Integer>();
